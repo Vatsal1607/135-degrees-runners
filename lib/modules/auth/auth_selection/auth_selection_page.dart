@@ -21,7 +21,7 @@ class AuthSelectionPage extends StatelessWidget {
           ),
           Positioned.fill(
             child: Padding(
-              padding: EdgeInsets.only(left: 34.w, right: 34.w, top: 130.h),
+              padding: EdgeInsets.only(left: 33.w, right: 33.w, top: 130.h),
               child: Column(
                 children: [
                   Image.asset(
@@ -34,7 +34,7 @@ class AuthSelectionPage extends StatelessWidget {
           Positioned.fill(
             bottom: 90.h,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 34.0),
+              padding: EdgeInsets.symmetric(horizontal: 33.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -47,12 +47,12 @@ class AuthSelectionPage extends StatelessWidget {
                   ),
                   SizedBox(height: 13.h),
                   Text(
-                    'login or register to continue'.toUpperCase(),
+                    'login with your credentials to continue'.toUpperCase(),
                     style: GoogleFonts.publicSans(
                       fontSize: 15.sp,
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 10.h),
                   CustomButton(
                     height: 48.h,
                     onTap: () {
@@ -60,16 +60,17 @@ class AuthSelectionPage extends StatelessWidget {
                     },
                     text: 'login',
                   ),
-                  SizedBox(height: 20.h),
-                  CustomButton(
-                    height: 48.h,
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.register);
-                    },
-                    bgColor: AppColors.seaShell,
-                    text: 'register',
-                    textColor: AppColors.black,
-                  ),
+                  // * Register will do manager
+                  // SizedBox(height: 20.h),
+                  // CustomButton(
+                  //   height: 48.h,
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, Routes.register);
+                  //   },
+                  //   bgColor: AppColors.seaShell,
+                  //   text: 'register',
+                  //   textColor: AppColors.black,
+                  // ),
                   SizedBox(height: 16.h),
                   RichText(
                     text: TextSpan(

@@ -16,4 +16,8 @@ class AppColors {
   static const ironStone = Color(0XFF7F4A37);
   static const darkGreenGrey = Color(0XFF253C36);
   static const mineralGreen = Color(0XFF315950);
+  static const grey = Color(0XFF999999);
+  static const denimBlue = Color(0XFF83B4FF);
+  static const davyGrey = Color(0XFF545456);
+  static const doveGrey = Color(0XFF6D6D6D);
 }
