@@ -10,6 +10,7 @@ import '../../../core/app_colors.dart';
 import '../../../core/constants/strings.dart';
 import 'widgets/order_card_widget.dart';
 
+// ! Todo Design confirm dialog of Active status (code reformat)
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});
 
@@ -53,13 +54,20 @@ class OrdersPage extends StatelessWidget {
                                 ),
                                 SizedBox(width: 10.w),
                                 Consumer<OrderProvider>(
-                                  builder: (context, value, child) => Switch(
+                                  builder: (context, _, child) => Switch(
                                     value: provider.isActive,
-                                    onChanged: provider.onChangeIsActive,
+                                    // onChanged: provider.onChangeIsActive,
+                                    onChanged: (value) {
+                                      // * showDialog
+                                      showConfirmDialog(
+                                          context: context,
+                                          newValue: value,
+                                          provider: provider);
+                                    },
                                     activeColor: AppColors.seaShell,
                                     activeTrackColor: AppColors.lightGreen,
                                     inactiveThumbColor: AppColors.seaShell,
-                                    inactiveTrackColor: AppColors.grey,
+                                    inactiveTrackColor: AppColors.coralRed,
                                   ),
                                 ),
                               ],
@@ -120,5 +128,39 @@ class OrdersPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // * Method to show the confirmation dialog
+  Future<void> showConfirmDialog({
+    required BuildContext context,
+    required bool newValue,
+    required OrderProvider provider,
+  }) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirm Action'),
+        content: Text(
+          newValue
+              ? 'Are you sure you want to activate?'
+              : 'Are you sure you want to deactivate?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false), // Cancel
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true), // Confirm
+            child: Text('Confirm'),
+          ),
+        ],
+      ),
+    );
+
+    // Update the switch state if the user confirmed the action
+    if (confirmed == true) {
+      provider.isActive = newValue;
+    }
   }
 }

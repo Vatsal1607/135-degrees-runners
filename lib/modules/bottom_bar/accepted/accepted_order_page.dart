@@ -15,7 +15,9 @@ class AcceptedOrderPage extends StatelessWidget {
             child: Column(
               children: [
                 Row(
-                  children: [],
+                  children: [
+                    Text('Accepted page'),
+                  ],
                 )
               ],
             ),

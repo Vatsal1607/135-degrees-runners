@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 class BottomBarProvider extends ChangeNotifier {
   PageController myPage = PageController(initialPage: 0);
 
+  int currentIndex = 0;
+
+  onPageChanged(index) {
+    currentIndex = index;
+    notifyListeners();
+  }
+
   // * get dynamic greetings
   String getGreeting() {
     final hour = DateTime.now().hour;

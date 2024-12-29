@@ -15,7 +15,9 @@ class HistoryPage extends StatelessWidget {
             child: Column(
               children: [
                 Row(
-                  children: [],
+                  children: [
+                    Text('History page'),
+                  ],
                 )
               ],
             ),

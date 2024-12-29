@@ -6,6 +6,7 @@ class AppColors {
   static const white = Colors.white;
   static const black = Colors.black;
   static const red = Color(0XFFFF0000);
+  static const coralRed = Color(0XFFFF3B30);
   static const seaShell = Color(0XFFEEF4ED);
   static const seaMist = Color(0XFFC7DCCD);
   static const bayLeaf = Color(0XFF87AC91);
