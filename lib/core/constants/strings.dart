@@ -17,6 +17,8 @@ class IconStrings {
   static const smile = '${BaseIconPath.basePath}smile.svg';
   static const accepted = '${BaseIconPath.basePath}accepted.svg';
   static const add = '${BaseIconPath.basePath}add.svg';
+  static const history = '${BaseIconPath.basePath}history.svg';
+  static const orders = '${BaseIconPath.basePath}orders.svg';
 }
 
 class ImageStrings {

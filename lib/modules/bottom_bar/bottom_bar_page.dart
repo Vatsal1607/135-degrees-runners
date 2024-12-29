@@ -4,6 +4,7 @@ import 'package:degrees_runners/modules/bottom_bar/accepted/accepted_order_page.
 import 'package:degrees_runners/modules/bottom_bar/bottom_bar_provider.dart';
 import 'package:degrees_runners/modules/bottom_bar/history/history_page.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/orders_page.dart';
+import 'package:degrees_runners/modules/bottom_bar/widgets/nav_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,9 +23,7 @@ class BottomBarPage extends StatelessWidget {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: provider.myPage,
-        // onPageChanged: (index) {
-        //   debugPrint('Page Changes to index $index');
-        // },
+        onPageChanged: provider.onPageChanged,
         children: const [
           OrdersPage(),
           AcceptedOrderPage(),
@@ -41,20 +40,29 @@ class BottomBarPage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildNavItem(
-                onTap: () {
-                  provider.myPage.jumpToPage(0);
-                },
-                icon: Icons.local_cafe,
-                label: 'ORDERS',
+              Consumer<BottomBarProvider>(
+                builder: (context, _, child) => NavItem(
+                  selectedColor: provider.currentIndex == 0
+                      ? AppColors.seaShell
+                      : AppColors.grey,
+                  onTap: () {
+                    provider.myPage.jumpToPage(0);
+                  },
+                  icon: IconStrings.orders,
+                  label: 'ORDERS',
+                ),
               ),
               SizedBox(width: 48.w),
-              _buildNavItem(
-                onTap: () {
-                  provider.myPage.jumpToPage(2);
-                },
-                icon: Icons.insert_drive_file,
-                label: 'HISTORY',
+              Consumer<BottomBarProvider>(
+                builder: (context, _, child) => NavItem(
+                  selectedColor: provider.currentIndex == 2
+                      ? AppColors.seaShell
+                      : AppColors.grey,
+                  onTap: () {
+                    provider.myPage.jumpToPage(2);
+                  },
+                  label: 'HISTORY',
+                ),
               ),
             ],
           ),
@@ -75,52 +83,38 @@ class BottomBarPage extends StatelessWidget {
                 width: 5.w,
                 color: AppColors.seaShell,
               )),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SvgIcon(
-                icon: IconStrings.accepted,
-                color: AppColors.seaShell,
-              ),
-              SizedBox(width: 5.w),
-              Text(
-                'ACCEPTED',
-                style: GoogleFonts.publicSans(
-                  color: AppColors.seaShell,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12.sp,
+          child: Consumer<BottomBarProvider>(
+            builder: (context, _, child) => Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgIcon(
+                  icon: IconStrings.accepted,
+                  color: provider.currentIndex == 1
+                      ? AppColors.seaShell
+                      : AppColors.seaShell.withOpacity(.8),
                 ),
-              ),
-            ],
+                SizedBox(width: 5.w),
+                Text(
+                  'ACCEPTED',
+                  style: GoogleFonts.publicSans(
+                    color: provider.currentIndex == 1
+                        ? AppColors.seaShell
+                        : AppColors.seaShell.withOpacity(.8),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12.sp,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildNavItem(
-      {required IconData icon, required String label, VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        color: Colors.transparent,
-        width: 120.w,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: Colors.grey),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: GoogleFonts.publicSans(
-                color: Colors.grey,
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _buildNavItem(
+  //     {required IconData icon, required String label, VoidCallback? onTap}) {
+  //   return NavItem();
+  // }
 }
