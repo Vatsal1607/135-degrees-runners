@@ -11,6 +11,7 @@ class CustomButton extends StatelessWidget {
   final double? height;
   final double? width;
   final bool isLoading;
+  final bool isBorder;
   const CustomButton({
     super.key,
     this.text = 'NEXT',
@@ -20,6 +21,7 @@ class CustomButton extends StatelessWidget {
     this.height,
     this.width,
     this.isLoading = false,
+    this.isBorder = true,
   });
 
   @override
@@ -36,10 +38,12 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(100.r),
-          border: Border.all(
-            width: 2.w,
-            color: AppColors.black,
-          ),
+          border: isBorder
+              ? Border.all(
+                  width: 2.w,
+                  color: AppColors.black,
+                )
+              : null,
         ),
         child: Center(
           child: isLoading

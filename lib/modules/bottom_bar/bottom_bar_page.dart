@@ -98,10 +98,9 @@ class BottomBarPage extends StatelessWidget {
                 Text(
                   'ACCEPTED',
                   style: GoogleFonts.publicSans(
-                    color: provider.currentIndex == 1
-                        ? AppColors.seaShell
-                        : AppColors.seaShell.withOpacity(.8),
-                    fontWeight: FontWeight.w400,
+                    color: AppColors.seaShell,
+                    fontWeight:
+                        provider.currentIndex == 1 ? FontWeight.bold : null,
                     fontSize: 12.sp,
                   ),
                 ),

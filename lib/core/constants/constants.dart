@@ -17,3 +17,5 @@ List<BoxShadow>? kDropShadow = [
     offset: Offset(0, 4), // x: 0, y: 4
   ),
 ];
+
+// enum OrderType { orders, accepted, history }

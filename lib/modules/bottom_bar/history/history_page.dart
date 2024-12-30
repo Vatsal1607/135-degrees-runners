@@ -1,4 +1,6 @@
+import 'package:degrees_runners/modules/bottom_bar/history/widgets/history_order_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../custom_widgets/appbar/custom_sliver_appbar.dart';
 
@@ -12,14 +14,14 @@ class HistoryPage extends StatelessWidget {
         slivers: [
           CustomSliverAppbar(),
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text('History page'),
-                  ],
-                )
-              ],
+            child: ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 20.h),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return HistoryOrderCardWidget();
+              },
             ),
           ),
         ],

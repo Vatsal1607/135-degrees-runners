@@ -2,14 +2,11 @@ import 'package:degrees_runners/modules/auth/otp/otp_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import 'core/app_colors.dart';
 import 'modules/auth/login/login_provider.dart';
 import 'modules/auth/register/register_provider.dart';
 import 'modules/bottom_bar/bottom_bar_provider.dart';
 import 'modules/bottom_bar/orders/order_provider.dart';
-import 'modules/splash/splash_page.dart';
-import 'modules/under_review/under_review.dart';
 import 'routes/routes.dart';
 
 void main() {
