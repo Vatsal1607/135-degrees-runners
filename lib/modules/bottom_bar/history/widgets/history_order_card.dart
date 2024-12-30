@@ -1,11 +1,11 @@
+import 'package:degrees_runners/custom_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/app_colors.dart';
-import '../../../../custom_widgets/custom_button.dart';
 
-class OrderCardWidget extends StatelessWidget {
-  const OrderCardWidget({
+class HistoryOrderCardWidget extends StatelessWidget {
+  const HistoryOrderCardWidget({
     super.key,
   });
 
@@ -14,7 +14,7 @@ class OrderCardWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 20.h),
       decoration: BoxDecoration(
-        color: AppColors.davyGrey.withOpacity(.34),
+        color: AppColors.green,
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Padding(
@@ -28,7 +28,7 @@ class OrderCardWidget extends StatelessWidget {
                   'ORDER ID ',
                   style: GoogleFonts.publicSans(
                     fontSize: 12.sp,
-                    color: AppColors.doveGrey,
+                    color: AppColors.seaShell.withOpacity(.8),
                   ),
                 ),
                 Text(
@@ -36,23 +36,7 @@ class OrderCardWidget extends StatelessWidget {
                   style: GoogleFonts.publicSans(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.doveGrey,
-                  ),
-                ),
-                Text(
-                  'RECEIVED ON ',
-                  style: GoogleFonts.publicSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.black,
-                  ),
-                ),
-                Text(
-                  '9:51 AM',
-                  style: GoogleFonts.publicSans(
-                    fontSize: 12.sp,
-                    color: AppColors.black,
-                    fontWeight: FontWeight.bold,
+                    color: AppColors.seaShell,
                   ),
                 ),
               ],
@@ -64,6 +48,7 @@ class OrderCardWidget extends StatelessWidget {
               style: GoogleFonts.publicSans(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
+                color: AppColors.seaShell,
               ),
             ),
             SizedBox(height: 10.h),
@@ -74,7 +59,7 @@ class OrderCardWidget extends StatelessWidget {
                   style: GoogleFonts.publicSans(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.doveGrey,
+                    color: AppColors.seaShell,
                   ),
                 ),
                 Flexible(
@@ -84,7 +69,7 @@ class OrderCardWidget extends StatelessWidget {
                     style: GoogleFonts.publicSans(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: AppColors.seaShell,
                     ),
                   ),
                 ),
@@ -94,8 +79,9 @@ class OrderCardWidget extends StatelessWidget {
             CustomButton(
               height: 55.h,
               onTap: () {},
-              bgColor: AppColors.black,
-              text: 'ACCEPT',
+              isBorder: false,
+              bgColor: AppColors.seaShell.withOpacity(.5),
+              text: 'delivery  completed',
             ),
           ],
         ),

@@ -19,10 +19,12 @@ class IconStrings {
   static const add = '${BaseIconPath.basePath}add.svg';
   static const history = '${BaseIconPath.basePath}history.svg';
   static const orders = '${BaseIconPath.basePath}orders.svg';
+  static const offline = '${BaseIconPath.basePath}offline.svg';
 }
 
 class ImageStrings {
   static const runnersLogo = '${BaseImagePath.basePath}runners_logo.png';
   static const doodles = '${BaseImagePath.basePath}doodles.png';
   static const personalPic = '${BaseImagePath.basePath}personal_pic.png';
+  static const offline = '${BaseImagePath.basePath}offline.png';
 }

@@ -1,13 +1,18 @@
+import 'package:degrees_runners/core/constants/constants.dart';
 import 'package:degrees_runners/custom_widgets/appbar/custom_sliver_appbar.dart';
 import 'package:degrees_runners/custom_widgets/bottom_blur_on_page.dart';
 import 'package:degrees_runners/custom_widgets/svg_icons.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
+import 'package:degrees_runners/modules/bottom_bar/orders/widgets/offline_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/constants/strings.dart';
+import '../../../custom_widgets/custom_confirm_dialog.dart';
+import '../../../routes/routes.dart';
 import 'widgets/order_card_widget.dart';
 
 // ! Todo Design confirm dialog of Active status (code reformat)
@@ -26,8 +31,9 @@ class OrdersPage extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 20.h),
+                      EdgeInsets.symmetric(horizontal: 28.w, vertical: 20.h),
                   child: Column(
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +42,7 @@ class OrdersPage extends StatelessWidget {
                           Container(
                             height: 55.h,
                             padding: EdgeInsets.symmetric(
-                              horizontal: 12.w,
+                              horizontal: 20.w,
                             ),
                             decoration: BoxDecoration(
                               color: Colors.black,
@@ -60,9 +66,10 @@ class OrdersPage extends StatelessWidget {
                                     onChanged: (value) {
                                       // * showDialog
                                       showConfirmDialog(
-                                          context: context,
-                                          newValue: value,
-                                          provider: provider);
+                                        context: context,
+                                        newValue: value,
+                                        provider: provider,
+                                      );
                                     },
                                     activeColor: AppColors.seaShell,
                                     activeTrackColor: AppColors.lightGreen,
@@ -73,43 +80,62 @@ class OrdersPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                            width: 105.w,
-                            height: 50.h,
-                            decoration: BoxDecoration(
-                                color: AppColors.lightGreen,
-                                borderRadius: BorderRadius.circular(100.r)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'NEW',
-                                  style: GoogleFonts.publicSans(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
+                          Consumer<OrderProvider>(
+                            builder: (context, _, child) => Container(
+                              width: 115.w,
+                              height: 50.h,
+                              decoration: BoxDecoration(
+                                color: provider.isActive
+                                    ? AppColors.green
+                                    : AppColors.green.withOpacity(.5),
+                                borderRadius: BorderRadius.circular(100.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'NEW',
+                                    style: GoogleFonts.publicSans(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.seaShell,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 8.w),
-                                const SvgIcon(
-                                  icon: IconStrings.add,
-                                  color: AppColors.seaShell,
-                                ),
-                              ],
+                                  SizedBox(width: 8.w),
+                                  const SvgIcon(
+                                    icon: IconStrings.add,
+                                    color: AppColors.seaShell,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
                       SizedBox(height: 20.h),
-
-                      // * Ordercard widget
-                      ListView.builder(
-                        padding: EdgeInsets.zero,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return const OrderCardWidget();
-                        },
+                      Consumer<OrderProvider>(
+                        builder: (context, _, child) => provider.isActive
+                            ?
+                            // * Ordercard widget
+                            Align(
+                                alignment: Alignment.center,
+                                child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: 3,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () => Navigator.pushNamed(
+                                          context, Routes.orderDetails),
+                                      child: const OrderCardWidget(),
+                                    );
+                                  },
+                                ),
+                              )
+                            :
+                            // * Offline widget
+                            const OfflineWidget(),
                       ),
                       SizedBox(height: 20.h),
                     ],
@@ -119,48 +145,14 @@ class OrdersPage extends StatelessWidget {
             ],
           ),
           BottomBlurOnPage(
-            height: 55.h,
+            height: 70.h,
             isTopBlur: true,
           ),
           BottomBlurOnPage(
-            height: 55.h,
+            height: 70.h,
           ),
         ],
       ),
     );
-  }
-
-  // * Method to show the confirmation dialog
-  Future<void> showConfirmDialog({
-    required BuildContext context,
-    required bool newValue,
-    required OrderProvider provider,
-  }) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Confirm Action'),
-        content: Text(
-          newValue
-              ? 'Are you sure you want to activate?'
-              : 'Are you sure you want to deactivate?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false), // Cancel
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true), // Confirm
-            child: Text('Confirm'),
-          ),
-        ],
-      ),
-    );
-
-    // Update the switch state if the user confirmed the action
-    if (confirmed == true) {
-      provider.isActive = newValue;
-    }
   }
 }
