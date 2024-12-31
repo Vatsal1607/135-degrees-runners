@@ -18,4 +18,18 @@ List<BoxShadow>? kDropShadow = [
   ),
 ];
 
+// * Note: order details type
 // enum OrderType { orders, accepted, history }
+
+Color getColorOrderDetails({
+  required String orderType,
+  required Color ordersColor,
+  required Color acceptedOrderColor,
+  required Color historyOrderColor,
+}) {
+  return orderType != '' && orderType == 'accepted'
+      ? acceptedOrderColor
+      : orderType != '' && orderType == 'history'
+          ? historyOrderColor
+          : ordersColor;
+}

@@ -1,3 +1,4 @@
+import 'package:degrees_runners/custom_widgets/circular_progress_with_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,7 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
   final double? leftPadTitle;
   final String actionIcon;
   final Color actionIconColor;
+  final String? orderType;
   const CustomAppbarWithCenterTitle({
     super.key,
     required this.title,
@@ -25,6 +27,7 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
     this.leftPadTitle = 0.0,
     this.actionIcon = IconStrings.clock,
     this.actionIconColor = AppColors.black,
+    this.orderType,
   });
 
   @override
@@ -44,11 +47,11 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
                 height: 48.h,
                 width: 48.w,
                 margin: EdgeInsets.only(left: 20.w),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppColors.black,
                 ),
-                child: SvgIcon(
+                child: const SvgIcon(
                   icon: IconStrings.arrowBack,
                   color: AppColors.seaShell,
                 ),
@@ -73,16 +76,29 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
           if (isAction)
             Positioned.fill(
               right: 15.w,
-              child: GestureDetector(
-                onTap: onTapAction,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: SvgIcon(
-                    icon: actionIcon,
-                    color: actionIconColor,
-                  ),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: CircularProgressWithTimer(
+                  bgColor: orderType != null && orderType == 'history'
+                      ? AppColors.green
+                      : AppColors.black,
+                  valueColor: orderType != null && orderType == 'history'
+                      ? AppColors.green
+                      : AppColors.black,
+                  timeColor: AppColors.black,
                 ),
               ),
+              // * Svg icon for action in appbar
+              // child: GestureDetector(
+              //   onTap: onTapAction,
+              //   child: Align(
+              //     alignment: Alignment.centerRight,
+              //     child: SvgIcon(
+              //       icon: actionIcon,
+              //       color: actionIconColor,
+              //     ),
+              //   ),
+              // ),
             ),
         ],
       ),

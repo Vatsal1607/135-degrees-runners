@@ -18,7 +18,7 @@ class Routes {
   static const String underReview = '/underReview';
   static const String bottomBar = '/bottomBar';
   static const String orderDetails = '/orderDetails';
-  static const String acceptedOrderDetails = '/acceptedOrderDetails';
+  // static const String acceptedOrderDetails = '/acceptedOrderDetails';
 
   static final Map<String, WidgetBuilder> routes = {
     initial: (context) => const SplashPage(),
@@ -28,7 +28,7 @@ class Routes {
     otp: (context) => OtpPage(),
     underReview: (context) => const UnderReviewPage(),
     bottomBar: (context) => const BottomBarPage(),
-    orderDetails: (context) => const OrderDetailsPage(),
-    acceptedOrderDetails: (context) => const AcceptedOrderDetailsPage(),
+    orderDetails: (context) => OrderDetailsPage(),
+    // acceptedOrderDetails: (context) => const AcceptedOrderDetailsPage(),
   };
 }

@@ -23,7 +23,10 @@ class AcceptedOrderPage extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => Navigator.pushNamed(
                     context,
-                    Routes.acceptedOrderDetails,
+                    Routes.orderDetails,
+                    arguments: {
+                      'orderType': 'accepted',
+                    },
                   ),
                   child: const AcceptedOrderCardWidget(),
                 );

@@ -1,10 +1,8 @@
-import 'package:degrees_runners/core/constants/constants.dart';
 import 'package:degrees_runners/custom_widgets/appbar/custom_sliver_appbar.dart';
 import 'package:degrees_runners/custom_widgets/bottom_blur_on_page.dart';
 import 'package:degrees_runners/custom_widgets/svg_icons.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/widgets/offline_widget.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +13,6 @@ import '../../../custom_widgets/custom_confirm_dialog.dart';
 import '../../../routes/routes.dart';
 import 'widgets/order_card_widget.dart';
 
-// ! Todo Design confirm dialog of Active status (code reformat)
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});
 
@@ -41,14 +38,17 @@ class OrdersPage extends StatelessWidget {
                           // * Active Status with Switch
                           Container(
                             height: 55.h,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
+                            padding: EdgeInsets.only(
+                              left: 20.w,
+                              right: 13.w,
                             ),
                             decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(100.r),
                             ),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
                               children: [
                                 Text(
                                   "ACTIVE STATUS",
@@ -127,7 +127,12 @@ class OrdersPage extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
                                       onTap: () => Navigator.pushNamed(
-                                          context, Routes.orderDetails),
+                                        context,
+                                        Routes.orderDetails,
+                                        arguments: {
+                                          'orderType': 'orders',
+                                        },
+                                      ),
                                       child: const OrderCardWidget(),
                                     );
                                   },
@@ -145,11 +150,11 @@ class OrdersPage extends StatelessWidget {
             ],
           ),
           BottomBlurOnPage(
-            height: 70.h,
+            height: 60.h,
             isTopBlur: true,
           ),
           BottomBlurOnPage(
-            height: 70.h,
+            height: 60.h,
           ),
         ],
       ),

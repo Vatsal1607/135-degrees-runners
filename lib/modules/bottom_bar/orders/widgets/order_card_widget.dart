@@ -1,3 +1,4 @@
+import 'package:degrees_runners/custom_widgets/custom_confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -93,7 +94,19 @@ class OrderCardWidget extends StatelessWidget {
             SizedBox(height: 10.h),
             CustomButton(
               height: 55.h,
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomConfirmDialog(
+                    context: context,
+                    title: 'confirm',
+                    subTitle: 'Are You Sure You Want To Accept Order?',
+                    yesBtnText: 'ACCEPT',
+                    onTapCancel: () => Navigator.pop(context),
+                    onTapYes: () {},
+                  ),
+                );
+              },
               bgColor: AppColors.black,
               text: 'ACCEPT',
             ),

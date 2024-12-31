@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/app_colors.dart';
+import '../../../core/constants/constants.dart';
 import 'item_details_value.dart';
 
 class ItemDetailsTable extends StatelessWidget {
+  final String orderType;
   const ItemDetailsTable({
     super.key,
+    required this.orderType,
   });
 
   @override
@@ -32,6 +35,12 @@ class ItemDetailsTable extends StatelessWidget {
                   style: GoogleFonts.publicSans(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
+                    color: getColorOrderDetails(
+                      orderType: orderType,
+                      ordersColor: AppColors.black,
+                      acceptedOrderColor: AppColors.seaShell,
+                      historyOrderColor: AppColors.seaShell,
+                    ),
                   ),
                 ),
               ),
@@ -43,6 +52,12 @@ class ItemDetailsTable extends StatelessWidget {
                     style: GoogleFonts.publicSans(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
+                      color: getColorOrderDetails(
+                        orderType: orderType,
+                        ordersColor: AppColors.black,
+                        acceptedOrderColor: AppColors.seaShell,
+                        historyOrderColor: AppColors.seaShell,
+                      ),
                     ),
                   ),
                 ),
@@ -56,6 +71,12 @@ class ItemDetailsTable extends StatelessWidget {
                     style: GoogleFonts.publicSans(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
+                      color: getColorOrderDetails(
+                        orderType: orderType,
+                        ordersColor: AppColors.black,
+                        acceptedOrderColor: AppColors.seaShell,
+                        historyOrderColor: AppColors.seaShell,
+                      ),
                     ),
                   ),
                 ),
@@ -79,12 +100,18 @@ class ItemDetailsTable extends StatelessWidget {
                 height: 16.h,
                 axis: Axis.horizontal,
                 width: double.infinity,
-                dashColor: AppColors.black,
+                dashColor: getColorOrderDetails(
+                  orderType: orderType,
+                  ordersColor: AppColors.black,
+                  acceptedOrderColor: AppColors.seaShell,
+                  historyOrderColor: AppColors.seaShell,
+                ),
               ),
             ],
           ),
           itemBuilder: (context, index) {
-            return const ItemDetailsValue(
+            return ItemDetailsValue(
+              orderType: orderType,
               items: 'MASALA TEA',
               quantity: '1',
               amount: '₹ 50',
@@ -95,8 +122,14 @@ class ItemDetailsTable extends StatelessWidget {
 
         // * TOTAL
         Container(
-          color: AppColors.black,
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          // color: AppColors.black,
+          color: getColorOrderDetails(
+            orderType: orderType,
+            ordersColor: AppColors.black,
+            acceptedOrderColor: AppColors.green,
+            historyOrderColor: AppColors.green,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
           child: Row(
             children: [
               Expanded(
