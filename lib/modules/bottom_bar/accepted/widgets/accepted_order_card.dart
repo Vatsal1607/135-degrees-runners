@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/app_colors.dart';
+import '../../../../custom_widgets/circular_progress_with_timer.dart';
 
 class AcceptedOrderCardWidget extends StatelessWidget {
   const AcceptedOrderCardWidget({
@@ -109,32 +110,7 @@ class AcceptedOrderCardWidget extends StatelessWidget {
         Positioned(
           top: 30.h,
           right: 20.w,
-          child: Stack(
-            children: [
-              SizedBox(
-                height: 55.h,
-                width: 55.h,
-                child: const CircularProgressIndicator(
-                  value: .8,
-                  backgroundColor: AppColors.white,
-                  color: AppColors.green,
-                ),
-              ),
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '15:00',
-                    style: GoogleFonts.publicSans(
-                      color: AppColors.seaShell,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: const CircularProgressWithTimer(),
         ),
       ],
     );

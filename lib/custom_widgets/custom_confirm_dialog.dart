@@ -13,8 +13,6 @@ class CustomConfirmDialog extends StatelessWidget {
   final VoidCallback? onTapYes;
   final String yesBtnText;
   final BuildContext context;
-  final bool newValue;
-  final OrderProvider provider;
 
   const CustomConfirmDialog({
     super.key,
@@ -24,8 +22,6 @@ class CustomConfirmDialog extends StatelessWidget {
     this.onTapYes,
     this.yesBtnText = 'YES, REMOVE',
     required this.context,
-    required this.newValue,
-    required this.provider,
   });
 
   @override
@@ -43,7 +39,7 @@ class CustomConfirmDialog extends StatelessWidget {
           children: [
             // * Title
             Text(
-              title,
+              title.toUpperCase(),
               style: GoogleFonts.publicSans(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
@@ -52,12 +48,15 @@ class CustomConfirmDialog extends StatelessWidget {
             ),
             SizedBox(height: 23.h),
             // * Subtitle
-            Text(
-              subTitle,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.publicSans(
-                fontSize: 14.sp,
-                color: AppColors.black,
+            SizedBox(
+              width: 200.w,
+              child: Text(
+                subTitle,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.publicSans(
+                  fontSize: 14.sp,
+                  color: AppColors.black,
+                ),
               ),
             ),
             SizedBox(height: 25.h),
@@ -65,10 +64,10 @@ class CustomConfirmDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // * Yes, Remove Button
+                // * Cancel Button
                 Expanded(
                   child: GestureDetector(
-                    onTap: onTapYes,
+                    onTap: onTapCancel,
                     child: Container(
                       height: 48.h,
                       decoration: BoxDecoration(
@@ -77,7 +76,7 @@ class CustomConfirmDialog extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          yesBtnText,
+                          'CANCEL',
                           style: GoogleFonts.publicSans(
                             fontSize: 14.sp,
                             color: AppColors.seaShell,
@@ -89,10 +88,10 @@ class CustomConfirmDialog extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10.w),
-                // * Cancel Button
+                // * Yes Button
                 Expanded(
                   child: GestureDetector(
-                    onTap: onTapCancel,
+                    onTap: onTapYes,
                     child: Container(
                       height: 48.h,
                       decoration: BoxDecoration(
@@ -101,7 +100,7 @@ class CustomConfirmDialog extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          "CANCEL",
+                          yesBtnText,
                           style: GoogleFonts.publicSans(
                             fontSize: 14.sp,
                             color: AppColors.seaShell,
