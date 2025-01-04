@@ -13,7 +13,7 @@ class CustomConfirmDialog extends StatelessWidget {
   final VoidCallback? onTapYes;
   final String yesBtnText;
   final BuildContext context;
-
+  final Color yesBgColor;
   const CustomConfirmDialog({
     super.key,
     required this.title,
@@ -22,6 +22,7 @@ class CustomConfirmDialog extends StatelessWidget {
     this.onTapYes,
     this.yesBtnText = 'YES, REMOVE',
     required this.context,
+    this.yesBgColor = AppColors.primaryColor,
   });
 
   @override
@@ -95,7 +96,7 @@ class CustomConfirmDialog extends StatelessWidget {
                     child: Container(
                       height: 48.h,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
+                        color: yesBgColor,
                         borderRadius: BorderRadius.circular(30.r),
                       ),
                       child: Center(

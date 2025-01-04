@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/app_colors.dart';
 import '../../../../custom_widgets/circular_progress_with_timer.dart';
+import '../../../../custom_widgets/custom_confirm_dialog.dart';
 
 class AcceptedOrderCardWidget extends StatelessWidget {
   const AcceptedOrderCardWidget({
@@ -98,7 +99,22 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                 SizedBox(height: 10.h),
                 CustomButton(
                   height: 55.h,
-                  onTap: () {},
+                  onTap: () {
+                    // * onTap orderType 'accepted'
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomConfirmDialog(
+                        context: context,
+                        title: 'confirm',
+                        subTitle:
+                            'Confirm That You Have Successfully Delivered The Order!',
+                        yesBtnText: 'DELIVERED',
+                        yesBgColor: AppColors.green,
+                        onTapCancel: () => Navigator.pop(context),
+                        onTapYes: () {},
+                      ),
+                    );
+                  },
                   bgColor: AppColors.green,
                   text: 'deliver',
                 ),

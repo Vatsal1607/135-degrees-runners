@@ -217,7 +217,19 @@ class OrderDetailsPage extends StatelessWidget {
                         );
                       } else if (orderType == 'accepted') {
                         // * onTap orderType 'accepted'
-                        // debugPrint();
+                        showDialog(
+                          context: context,
+                          builder: (context) => CustomConfirmDialog(
+                            context: context,
+                            title: 'confirm',
+                            subTitle:
+                                'Confirm That You Have Successfully Picked Up The Order!',
+                            yesBtnText: 'PICKED UP',
+                            yesBgColor: AppColors.black,
+                            onTapCancel: () => Navigator.pop(context),
+                            onTapYes: () {},
+                          ),
+                        );
                       } else if (orderType == 'history') {
                         // * onTap orderType 'history'
                       }
