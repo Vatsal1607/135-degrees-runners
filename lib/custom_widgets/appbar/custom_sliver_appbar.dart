@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../core/app_colors.dart';
 import '../../core/constants/constants.dart';
 import '../../core/constants/strings.dart';
+import '../../routes/routes.dart';
 
 class CustomSliverAppbar extends StatelessWidget {
   const CustomSliverAppbar({
@@ -26,8 +27,7 @@ class CustomSliverAppbar extends StatelessWidget {
           children: [
             //! leading icon
             GestureDetector(
-              // onTap: () => Navigator.pushNamed(context, Routes.profile),
-              // onVerticalDragEnd: provider.onVerticalDragDownLeading,
+              onTap: () => Navigator.pushNamed(context, Routes.profile),
               child: Container(
                 height: 48.h,
                 width: 48.w,

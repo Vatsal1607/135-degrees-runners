@@ -21,6 +21,11 @@ class IconStrings {
   static const orders = '${BaseIconPath.basePath}orders.svg';
   static const offline = '${BaseIconPath.basePath}offline.svg';
   static const modifyOrder = '${BaseIconPath.basePath}modify_order.svg';
+  static const home = '${BaseIconPath.basePath}home.svg';
+  static const aboutUs = '${BaseIconPath.basePath}about_us.svg';
+  static const logout = '${BaseIconPath.basePath}logout.svg';
+  static const earnings = '${BaseIconPath.basePath}earnings.svg';
+  static const report = '${BaseIconPath.basePath}report.svg';
 }
 
 class ImageStrings {
