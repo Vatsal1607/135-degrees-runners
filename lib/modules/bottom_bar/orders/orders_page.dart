@@ -2,6 +2,7 @@ import 'package:degrees_runners/custom_widgets/appbar/custom_sliver_appbar.dart'
 import 'package:degrees_runners/custom_widgets/bottom_blur_on_page.dart';
 import 'package:degrees_runners/custom_widgets/svg_icons.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
+import 'package:degrees_runners/modules/bottom_bar/orders/widgets/new_orderbottom_sheet.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/widgets/offline_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,32 +82,39 @@ class OrdersPage extends StatelessWidget {
                             ),
                           ),
                           Consumer<OrderProvider>(
-                            builder: (context, _, child) => Container(
-                              width: 115.w,
-                              height: 50.h,
-                              decoration: BoxDecoration(
-                                color: provider.isActive
-                                    ? AppColors.green
-                                    : AppColors.green.withOpacity(.5),
-                                borderRadius: BorderRadius.circular(100.r),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'NEW',
-                                    style: GoogleFonts.publicSans(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
+                            builder: (context, _, child) => GestureDetector(
+                              onTap: provider.isActive
+                                  ? () {
+                                      newOrderBottomSheeet(context: context);
+                                    }
+                                  : null,
+                              child: Container(
+                                width: 115.w,
+                                height: 50.h,
+                                decoration: BoxDecoration(
+                                  color: provider.isActive
+                                      ? AppColors.green
+                                      : AppColors.green.withOpacity(.5),
+                                  borderRadius: BorderRadius.circular(100.r),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'NEW',
+                                      style: GoogleFonts.publicSans(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.seaShell,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    const SvgIcon(
+                                      icon: IconStrings.add,
                                       color: AppColors.seaShell,
                                     ),
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  const SvgIcon(
-                                    icon: IconStrings.add,
-                                    color: AppColors.seaShell,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
