@@ -26,6 +26,9 @@ class IconStrings {
   static const logout = '${BaseIconPath.basePath}logout.svg';
   static const earnings = '${BaseIconPath.basePath}earnings.svg';
   static const report = '${BaseIconPath.basePath}report.svg';
+  static const close = '${BaseIconPath.basePath}close.svg';
+  static const arrowNext = '${BaseIconPath.basePath}arrow_next.svg';
+  static const cash = '${BaseIconPath.basePath}cash.svg';
 }
 
 class ImageStrings {
@@ -33,6 +36,7 @@ class ImageStrings {
   static const doodles = '${BaseImagePath.basePath}doodles.png';
   static const personalPic = '${BaseImagePath.basePath}personal_pic.png';
   static const offline = '${BaseImagePath.basePath}offline.png';
+  static const upi = '${BaseImagePath.basePath}upi.png';
 }
 
 class StringKeys {
