@@ -33,3 +33,13 @@ Color getColorOrderDetails({
           ? historyOrderColor
           : ordersColor;
 }
+
+// Capitalized every first word
+String capitalizeEachWord(String text) {
+  return text
+      .split(' ') // Split the text by spaces
+      .map((word) => word.isNotEmpty
+          ? '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}'
+          : '') // Capitalize the first letter
+      .join(' '); // Join the words back together
+}

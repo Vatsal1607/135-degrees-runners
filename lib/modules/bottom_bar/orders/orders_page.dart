@@ -2,8 +2,9 @@ import 'package:degrees_runners/custom_widgets/appbar/custom_sliver_appbar.dart'
 import 'package:degrees_runners/custom_widgets/bottom_blur_on_page.dart';
 import 'package:degrees_runners/custom_widgets/svg_icons.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
-import 'package:degrees_runners/modules/bottom_bar/orders/widgets/new_orderbottom_sheet.dart';
+import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/new_order_bottom_sheet.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/widgets/offline_widget.dart';
+import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/quick_serve_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +14,7 @@ import '../../../core/constants/strings.dart';
 import '../../../custom_widgets/custom_confirm_dialog.dart';
 import '../../../routes/routes.dart';
 import 'widgets/order_card_widget.dart';
+import 'widgets/bottomsheets/payment_method_bottom_sheet.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});
@@ -85,7 +87,10 @@ class OrdersPage extends StatelessWidget {
                             builder: (context, _, child) => GestureDetector(
                               onTap: provider.isActive
                                   ? () {
-                                      newOrderBottomSheeet(context: context);
+                                      // newOrderBottomSheeet(context: context);
+                                      // quickServeBottomSheeet(context: context);
+                                      paymentMethodBottomSheeet(
+                                          context: context);
                                     }
                                   : null,
                               child: Container(
