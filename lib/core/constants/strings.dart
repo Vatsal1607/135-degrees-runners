@@ -37,6 +37,7 @@ class ImageStrings {
   static const personalPic = '${BaseImagePath.basePath}personal_pic.png';
   static const offline = '${BaseImagePath.basePath}offline.png';
   static const upi = '${BaseImagePath.basePath}upi.png';
+  static const masalaTea2 = '${BaseImagePath.basePath}masala_tea_2.jpg';
 }
 
 class StringKeys {

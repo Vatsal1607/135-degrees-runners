@@ -1,10 +1,11 @@
+import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/cash_pay_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/app_colors.dart';
-import '../../../../core/constants/strings.dart';
-import '../../../../custom_widgets/buttons/custom_button_with_arrow.dart';
-import '../../../../custom_widgets/svg_icons.dart';
+import '../../../../../core/app_colors.dart';
+import '../../../../../core/constants/strings.dart';
+import '../../../../../custom_widgets/buttons/custom_button_with_arrow.dart';
+import '../../../../../custom_widgets/svg_icons.dart';
 
 void paymentMethodBottomSheeet({
   required BuildContext context,
@@ -39,6 +40,8 @@ void paymentMethodBottomSheeet({
                     isMargin: false,
                     onTap: () {
                       debugPrint('pay via cash pressed');
+                      Navigator.pop(context);
+                      cashPayBottomSheeet(context: context);
                     },
                     text: 'pay via cash'.toUpperCase(),
                     prefixWidget: Padding(
