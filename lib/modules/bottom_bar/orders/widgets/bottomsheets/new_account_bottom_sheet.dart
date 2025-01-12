@@ -1,19 +1,20 @@
-import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/new_account_bottom_sheet.dart';
+import 'package:degrees_runners/custom_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/app_colors.dart';
 import '../../../../../core/constants/strings.dart';
-import '../../../../../custom_widgets/buttons/custom_button_with_arrow.dart';
+import '../../../../../custom_widgets/custom_textfield.dart';
 import '../../../../../custom_widgets/svg_icons.dart';
-import 'quick_serve_bottom_sheet.dart';
 
-void newOrderBottomSheeet({
+TextEditingController nameOrCompanyController = TextEditingController();
+TextEditingController mobileController = TextEditingController();
+
+void newAccountBottomSheeet({
   required BuildContext context,
 }) {
   showModalBottomSheet(
     context: context,
-    // barrierColor: Colors.transparent,
     backgroundColor: AppColors.seaShell,
     builder: (context) {
       // final authEmpProvider =
@@ -29,7 +30,7 @@ void newOrderBottomSheeet({
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'select an action'.toUpperCase(),
+                    'ONBOARD NEW ACCOUNT',
                     style: GoogleFonts.publicSans(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
@@ -37,25 +38,22 @@ void newOrderBottomSheeet({
                     ),
                   ),
                   SizedBox(height: 15.h),
-                  CustomButtonWithArrow(
-                    isMargin: false,
-                    onTap: () {
-                      debugPrint('QUICK SERVE pressed');
-                      Navigator.pop(context);
-                      // ! Dev Reached here...
-                      quickServeBottomSheeet(context: context);
-                    },
-                    text: 'QUICK SERVE',
+                  CustomTextField(
+                    hint: 'Enter Your/Company Name',
+                    prefixIcon: IconStrings.person,
+                    controller: nameOrCompanyController,
                   ),
                   SizedBox(height: 15.h),
-                  CustomButtonWithArrow(
-                    isMargin: false,
-                    onTap: () {
-                      debugPrint('ONBOARD NEW ACCOUNT pressed');
-                      Navigator.pop(context);
-                      newAccountBottomSheeet(context: context);
-                    },
-                    text: 'ONBOARD NEW ACCOUNT',
+                  CustomTextField(
+                    hint: 'Enter Mobile Number',
+                    prefixIcon: IconStrings.person,
+                    controller: mobileController,
+                  ),
+                  SizedBox(height: 15.h),
+                  CustomButton(
+                    height: 55.h,
+                    onTap: () {},
+                    text: 'SEND',
                   ),
                   SizedBox(height: 40.h),
                 ],

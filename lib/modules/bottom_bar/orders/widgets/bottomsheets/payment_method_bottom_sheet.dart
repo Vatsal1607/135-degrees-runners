@@ -1,4 +1,5 @@
 import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/cash_pay_bottom_sheet.dart';
+import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/upi_pay_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,6 +58,8 @@ void paymentMethodBottomSheeet({
                     isMargin: false,
                     onTap: () {
                       debugPrint('pay via upi pressed');
+                      Navigator.pop(context);
+                      upiPayBottomSheeet(context: context);
                     },
                     text: 'pay via upi'.toUpperCase(),
                     prefixWidget: Container(
