@@ -10,6 +10,7 @@ import '../../../../../custom_widgets/buttons/custom_button_with_arrow.dart';
 import '../../../../../custom_widgets/svg_icons.dart';
 
 TextEditingController nameOrCompanyController = TextEditingController();
+TextEditingController mobileController = TextEditingController();
 
 void quickServeBottomSheeet({
   required BuildContext context,
@@ -48,7 +49,7 @@ void quickServeBottomSheeet({
                   CustomTextField(
                     hint: 'Enter Mobile Number',
                     prefixIcon: IconStrings.person,
-                    controller: nameOrCompanyController,
+                    controller: mobileController,
                   ),
                   SizedBox(height: 15.h),
                   Text(

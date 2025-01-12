@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/app_colors.dart';
 import '../../../../../core/constants/strings.dart';
-import '../../../../../custom_widgets/buttons/custom_button_with_arrow.dart';
 import '../../../../../custom_widgets/svg_icons.dart';
 
 void cashPayBottomSheeet({
@@ -48,7 +47,7 @@ void cashPayBottomSheeet({
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 40.h),
+                  SizedBox(height: 30.h),
 
                   /// Slidable button
                   CustomSlidableButton(),

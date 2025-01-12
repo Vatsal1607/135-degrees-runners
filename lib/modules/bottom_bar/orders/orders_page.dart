@@ -2,6 +2,7 @@ import 'package:degrees_runners/custom_widgets/appbar/custom_sliver_appbar.dart'
 import 'package:degrees_runners/custom_widgets/bottom_blur_on_page.dart';
 import 'package:degrees_runners/custom_widgets/svg_icons.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
+import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/cash_pay_bottom_sheet.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/new_order_bottom_sheet.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/widgets/offline_widget.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/quick_serve_bottom_sheet.dart';
@@ -87,10 +88,8 @@ class OrdersPage extends StatelessWidget {
                             builder: (context, _, child) => GestureDetector(
                               onTap: provider.isActive
                                   ? () {
-                                      // newOrderBottomSheeet(context: context);
-                                      // quickServeBottomSheeet(context: context);
-                                      paymentMethodBottomSheeet(
-                                          context: context);
+                                      newOrderBottomSheeet(context: context);
+                                      // cashPayBottomSheeet(context: context);
                                     }
                                   : null,
                               child: Container(
