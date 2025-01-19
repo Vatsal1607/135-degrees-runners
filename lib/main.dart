@@ -1,6 +1,7 @@
 import 'package:degrees_runners/modules/auth/otp/otp_provider.dart';
 import 'package:degrees_runners/modules/profile/profile_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'core/app_colors.dart';
@@ -9,9 +10,18 @@ import 'modules/auth/register/register_provider.dart';
 import 'modules/bottom_bar/bottom_bar_provider.dart';
 import 'modules/bottom_bar/orders/order_provider.dart';
 import 'routes/routes.dart';
+import 'services/local/shared_preferences_service.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
+  await sharedPrefsService.init(); // * local storage init
+  // SystemChrome.setSystemUIOverlayStyle(
+  //   const SystemUiOverlayStyle(
+  //     statusBarColor: Colors.transparent, // Set your desired status bar color
+  //     statusBarIconBrightness: Brightness.dark, // Light or dark icons
+  //     statusBarBrightness: Brightness.light, // Adjusts for iOS
+  //   ),
+  // );
 }
 
 class MyApp extends StatelessWidget {

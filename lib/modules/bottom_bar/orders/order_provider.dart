@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../services/socket/socket_service.dart';
+
 class OrderProvider extends ChangeNotifier {
   bool isActive = false;
+  final SocketService _socketService = SocketService();
 
   onChangeIsActive(bool? confirmed, bool newValue) {
     if (confirmed == true) {
       isActive = newValue;
+
+      if (isActive) {
+        // * Connect to socket server
+        _socketService.connectToSocket();
+      } else {
+        // * Disconnect from socket server
+        _socketService.disconnect();
+      }
+
       notifyListeners();
     }
   }

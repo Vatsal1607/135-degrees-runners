@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../core/app_colors.dart';
 import '../modules/bottom_bar/orders/order_provider.dart';
+import 'loader/custom_loader.dart';
 
 // ! Note: to show, Call this in showDialog's builder () =>
 class CustomConfirmDialog extends StatelessWidget {
@@ -14,6 +15,7 @@ class CustomConfirmDialog extends StatelessWidget {
   final String yesBtnText;
   final BuildContext context;
   final Color yesBgColor;
+  final bool isLoading;
   const CustomConfirmDialog({
     super.key,
     required this.title,
@@ -23,6 +25,7 @@ class CustomConfirmDialog extends StatelessWidget {
     this.yesBtnText = 'YES, REMOVE',
     required this.context,
     this.yesBgColor = AppColors.primaryColor,
+    this.isLoading = false,
   });
 
   @override
@@ -100,14 +103,16 @@ class CustomConfirmDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30.r),
                       ),
                       child: Center(
-                        child: Text(
-                          yesBtnText,
-                          style: GoogleFonts.publicSans(
-                            fontSize: 14.sp,
-                            color: AppColors.seaShell,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: isLoading
+                            ? const CustomLoader(color: AppColors.primaryColor)
+                            : Text(
+                                yesBtnText,
+                                style: GoogleFonts.publicSans(
+                                  fontSize: 14.sp,
+                                  color: AppColors.seaShell,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
                     ),
                   ),

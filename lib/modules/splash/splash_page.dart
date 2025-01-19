@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../core/constants/keys.dart';
 import '../../core/constants/strings.dart';
 import '../../routes/routes.dart';
+import '../../services/local/shared_preferences_service.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -16,9 +20,17 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, Routes.bottomBar);
+        final isLoggedIn =
+            sharedPrefsService.getBool(SharedPrefsKeys.isLoggedIn);
+        log('isLoggedIn: ${isLoggedIn.toString()}');
+        if (isLoggedIn != null && isLoggedIn) {
+          Navigator.pushReplacementNamed(context, Routes.bottomBar);
+        } else {
+          Navigator.pushReplacementNamed(context, Routes.authSelection);
+        }
+        // Navigator.pushReplacementNamed(context, Routes.verifySuccess);
       }
     });
   }
