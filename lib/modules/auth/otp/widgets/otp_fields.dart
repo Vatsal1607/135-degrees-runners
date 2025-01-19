@@ -8,14 +8,13 @@ import '../../../../core/app_colors.dart';
 import '../otp_provider.dart';
 
 class OtpFields extends StatelessWidget {
-  OtpFields({super.key});
+  const OtpFields({super.key});
 
-  final TextEditingController otpController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // final provider = Provider.of<OtpProvider>(context, listen: false);
+    final provider = Provider.of<OtpProvider>(context, listen: false);
     return PinCodeTextField(
-      controller: otpController,
+      controller: provider.otpController,
       appContext: context,
       length: 6,
       textStyle: GoogleFonts.publicSans(

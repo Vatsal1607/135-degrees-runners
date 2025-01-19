@@ -1,0 +1,32 @@
+import 'package:dio/dio.dart';
+import 'package:retrofit/retrofit.dart';
+import '../../models/api_global_model.dart';
+import '../../models/user_login_model.dart';
+import 'api/api_constants.dart';
+import 'api/api_endpoints.dart';
+part 'api_client.g.dart';
+
+@RestApi(baseUrl: BaseUrl.apiBaseUrl)
+abstract class ApiClient {
+  factory ApiClient(Dio dio, {String baseUrl}) = _ApiClient;
+
+  @POST(ApiEndpoints.userLogin)
+  Future<UserLoginModel> userLogin(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @POST(ApiEndpoints.sendOtp)
+  Future<ApiGlobalModel> sendOtp(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @POST(ApiEndpoints.verifyOtp)
+  Future<ApiGlobalModel> verifyOtp(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @POST(ApiEndpoints.logout)
+  Future<ApiGlobalModel> logout(
+    @Body() Map<String, dynamic> body,
+  );
+}

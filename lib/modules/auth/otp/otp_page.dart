@@ -3,9 +3,12 @@ import 'package:degrees_runners/custom_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/app_colors.dart';
 import '../../../core/constants/strings.dart';
+import '../login/login_provider.dart';
+import 'otp_provider.dart';
 import 'widgets/otp_fields.dart';
 
 class OtpPage extends StatefulWidget {
@@ -35,6 +38,10 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<OtpProvider>(context, listen: false);
+    final arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>? ??
+            {};
     return Scaffold(
       resizeToAvoidBottomInset: false, //image did't move by the keyboard
       appBar: const AppBarWithBackButton(),
@@ -73,7 +80,7 @@ class _OtpPageState extends State<OtpPage> {
                             fontSize: 14.sp, color: AppColors.black),
                       ),
                       Text(
-                        "+91 12345 67890",
+                        "+91 ${arguments['mobile']}",
                         style: GoogleFonts.publicSans(
                           fontSize: 14.sp,
                           color: AppColors.black,
@@ -85,12 +92,50 @@ class _OtpPageState extends State<OtpPage> {
                   SizedBox(height: 18.h),
                   // OTP fields
                   OtpFields(),
-                  Text(
-                    "RESEND OTP IN ${_resendSeconds.toString().padLeft(2, '0')}",
-                    style: GoogleFonts.publicSans(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54,
-                    ),
+                  Consumer<OtpProvider>(
+                    builder: (context, _, child) =>
+                        provider.remainingSeconds == 0
+                            ? GestureDetector(
+                                onTap: () {
+                                  context
+                                      .read<LoginProvider>()
+                                      .sendOtp(
+                                        mobile: arguments['mobile'],
+                                        context: context,
+                                      )
+                                      .then((isSuccess) {
+                                    if (isSuccess != null && isSuccess) {
+                                      provider.startTimer();
+                                    }
+                                  });
+                                },
+                                child: Text(
+                                  'RESEND OTP',
+                                  style: GoogleFonts.publicSans(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                              )
+                            : RichText(
+                                text: TextSpan(
+                                  text: 'resend otp in '.toUpperCase(),
+                                  style: GoogleFonts.publicSans(
+                                    fontSize: 10.sp,
+                                    color: AppColors.black,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: '00:${provider.remainingSeconds}',
+                                      style: GoogleFonts.publicSans(
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.black),
+                                    )
+                                  ],
+                                ),
+                              ),
                   ),
                 ],
               ),
@@ -104,12 +149,20 @@ class _OtpPageState extends State<OtpPage> {
                 left: 34.w,
                 right: 34.w,
               ),
-              child: CustomButton(
-                height: 48.h,
-                onTap: () {
-                  // Verification logic
-                },
-                text: 'verify',
+              child: Consumer<OtpProvider>(
+                builder: (context, _, child) => CustomButton(
+                  height: 48.h,
+                  isLoading: provider.isLoading,
+                  onTap: () {
+                    if (provider.otpController.text.isNotEmpty) {
+                      provider.verifyOtp(
+                        context: context,
+                        mobile: arguments['mobile'],
+                      );
+                    }
+                  },
+                  text: 'verify',
+                ),
               ),
             ),
           ),

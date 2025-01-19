@@ -33,11 +33,10 @@ class ProfilePage extends StatelessWidget {
                   context: context,
                   onTapCancel: () => Navigator.pop(context),
                   onTapYes: () {
-                    // * LogOut
-                    // provider.logout(context: context);
+                    provider.logout(context: context); // * LogOut
                   },
                   yesBtnText: 'LOGOUT',
-                  // isLoading: provider.isLoading,
+                  isLoading: provider.isLoading,
                   title: 'ARE YOU SURE?',
                   subTitle: 'You really want to Logout?',
                 ),

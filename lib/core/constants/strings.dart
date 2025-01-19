@@ -29,6 +29,7 @@ class IconStrings {
   static const close = '${BaseIconPath.basePath}close.svg';
   static const arrowNext = '${BaseIconPath.basePath}arrow_next.svg';
   static const cash = '${BaseIconPath.basePath}cash.svg';
+  static const otpVerified = '${BaseIconPath.basePath}otp_verifed.svg';
 }
 
 class ImageStrings {

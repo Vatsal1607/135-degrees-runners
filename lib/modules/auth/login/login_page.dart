@@ -165,13 +165,13 @@ class LoginPage extends StatelessWidget {
                     height: 50.h,
                     isLoading: provider.isLoading,
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.otp);
-                      // if (provider.formKey.currentState!.validate()) {
-                      //   debugPrint('Form is valid');
-                      //   // provider.userLogin(context, accountType); //!Api call
-                      // } else {
-                      //   debugPrint('Form is not valid');
-                      // }
+                      // Navigator.pushNamed(context, Routes.otp);
+                      if (provider.formKey.currentState!.validate()) {
+                        debugPrint('Form is valid');
+                        provider.userLogin(context); // * Api call
+                      } else {
+                        debugPrint('Form is not valid');
+                      }
                     },
                     text: 'GET OTP',
                     bgColor: AppColors.black,

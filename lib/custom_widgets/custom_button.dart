@@ -1,3 +1,4 @@
+import 'package:degrees_runners/custom_widgets/loader/custom_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,7 +48,7 @@ class CustomButton extends StatelessWidget {
         ),
         child: Center(
           child: isLoading
-              ? const CircularProgressIndicator.adaptive()
+              ? CustomLoader(color: textColor)
               : Text(
                   text.toUpperCase(),
                   style: GoogleFonts.publicSans(
