@@ -31,8 +31,13 @@ class SocketService {
     });
   }
 
-  void sendMessage(String event, dynamic data) {
-    _socket.emit(event, data);
+  void emitEvent(String event, dynamic data) {
+    // _socket.emit(event, data);
+    if (_socket.connected) {
+      _socket.emit(event, data);
+    } else {
+      throw Exception("Socket is not connected!");
+    }
   }
 
   void listenToEvent(String event, Function(dynamic) callback) {
@@ -41,5 +46,6 @@ class SocketService {
 
   void disconnect() {
     _socket.dispose();
+    log('Socket disconnected');
   }
 }

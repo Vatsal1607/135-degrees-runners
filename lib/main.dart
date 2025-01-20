@@ -1,12 +1,12 @@
 import 'package:degrees_runners/modules/auth/otp/otp_provider.dart';
 import 'package:degrees_runners/modules/profile/profile_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'core/app_colors.dart';
 import 'modules/auth/login/login_provider.dart';
 import 'modules/auth/register/register_provider.dart';
+import 'modules/bottom_bar/accepted/accepted_order_provider.dart';
 import 'modules/bottom_bar/bottom_bar_provider.dart';
 import 'modules/bottom_bar/orders/order_provider.dart';
 import 'routes/routes.dart';
@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BottomBarProvider()),
         ChangeNotifierProvider(create: (_) => OrderProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => AcceptedOrderProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(430, 932), // Base screen size (width x height)

@@ -14,7 +14,7 @@ class HistoryOrderCardWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 20.h),
       decoration: BoxDecoration(
-        color: AppColors.green,
+        color: AppColors.yellow,
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Padding(

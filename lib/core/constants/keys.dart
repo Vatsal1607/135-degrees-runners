@@ -12,3 +12,12 @@ class SharedPrefsKeys {
   static const String userContact = 'user_contact';
   static const String isLoggedIn = 'is_logged_in';
 }
+
+class SocketEvents {
+  static const String orderList = 'order-list';
+  static const String orderListResponse = 'order-list-response';
+  static const String orderAccept = 'order-accept';
+  static const String orderAccepted = 'order-accepted';
+  static const String acceptedOrderList = 'accepted-order-list';
+  static const String acceptedListResponse = 'accepted-list-response';
+}

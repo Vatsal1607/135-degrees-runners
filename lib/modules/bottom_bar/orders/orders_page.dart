@@ -125,33 +125,47 @@ class OrdersPage extends StatelessWidget {
                       ),
                       SizedBox(height: 20.h),
                       Consumer<OrderProvider>(
-                        builder: (context, _, child) => provider.isActive
-                            ?
-                            // * Ordercard widget
-                            Align(
-                                alignment: Alignment.center,
-                                child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: 3,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () => Navigator.pushNamed(
-                                        context,
-                                        Routes.orderDetails,
-                                        arguments: {
-                                          'orderType': 'orders',
-                                        },
-                                      ),
-                                      child: const OrderCardWidget(),
-                                    );
-                                  },
-                                ),
-                              )
-                            :
-                            // * Offline widget
-                            const OfflineWidget(),
+                        builder: (context, _, child) {
+                          log('Orderlist-- ${provider.orderList}');
+                          return provider.isActive
+                              ? Align(
+                                  alignment: Alignment.center,
+                                  // * Ordercard widget
+                                  child: provider.orderList != null &&
+                                          provider.orderList!.isNotEmpty
+                                      ? ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount:
+                                              provider.orderList?.length ?? 0,
+                                          itemBuilder: (context, index) {
+                                            final order =
+                                                provider.orderList?[index];
+                                            return GestureDetector(
+                                              onTap: () => Navigator.pushNamed(
+                                                context,
+                                                Routes.orderDetails,
+                                                arguments: {
+                                                  'orderType': 'orders',
+                                                },
+                                              ),
+                                              child: OrderCardWidget(
+                                                order: order,
+                                                provider: provider,
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : const Center(
+                                          child: Text('No Orders Available'),
+                                        ),
+                                )
+                              :
+                              // * Offline widget
+                              const OfflineWidget();
+                        },
                       ),
                       SizedBox(height: 20.h),
                     ],
