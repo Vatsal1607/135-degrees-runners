@@ -7,6 +7,7 @@ import '../../../custom_widgets/custom_snackbar.dart';
 import '../../../models/api_global_model.dart';
 import '../../../models/user_login_model.dart';
 import '../../../routes/routes.dart';
+import '../../../services/local/auth_token_helper.dart';
 import '../../../services/local/shared_preferences_service.dart';
 import '../../../services/network/api_service.dart';
 
@@ -73,6 +74,9 @@ class LoginProvider extends ChangeNotifier {
           //* Save User Token
           sharedPrefsService.setString(
               SharedPrefsKeys.userToken, response.data!.token!);
+          // * Save User id
+          sharedPrefsService.setString(
+              SharedPrefsKeys.userId, AuthTokenHelper.getUserId().toString());
         }
 
         //! send otp API call

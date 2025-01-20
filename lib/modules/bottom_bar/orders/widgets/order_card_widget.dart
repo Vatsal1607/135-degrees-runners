@@ -1,13 +1,22 @@
 import 'package:degrees_runners/custom_widgets/custom_confirm_dialog.dart';
+import 'package:degrees_runners/services/local/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/app_colors.dart';
+import '../../../../core/constants/keys.dart';
+import '../../../../core/utils/utils.dart';
 import '../../../../custom_widgets/custom_button.dart';
+import '../../../../models/socket_order_list_model.dart';
+import '../order_provider.dart';
 
 class OrderCardWidget extends StatelessWidget {
+  final SocketOrderModel? order;
+  final OrderProvider provider;
   const OrderCardWidget({
     super.key,
+    this.order,
+    required this.provider,
   });
 
   @override
@@ -33,7 +42,7 @@ class OrderCardWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '12345 ',
+                  '${order?.orderIds ?? ''} ',
                   style: GoogleFonts.publicSans(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
@@ -49,7 +58,8 @@ class OrderCardWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '9:51 AM',
+                  // '9:51 AM',
+                  Utils.formatTime(order!.createdAt.toString()),
                   style: GoogleFonts.publicSans(
                     fontSize: 12.sp,
                     color: AppColors.black,
@@ -60,8 +70,16 @@ class OrderCardWidget extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             // * Items details
+            // Text(
+            //   '1 × MASALA TEA\n2 × HOT COFFEE\n& MORE',
+            //   style: GoogleFonts.publicSans(
+            //     fontSize: 16.sp,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
             Text(
-              '1 × MASALA TEA\n2 × HOT COFFEE\n& MORE',
+              '${order?.items[0].quantity} × ${order?.items[0].itemName}',
+              // \n2 × HOT COFFEE\n& MORE',
               style: GoogleFonts.publicSans(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
@@ -80,7 +98,7 @@ class OrderCardWidget extends StatelessWidget {
                 ),
                 Flexible(
                   child: Text(
-                    'E-1102, AMTECH DESIGN, 11TH FLOOR, E-BLOCK, T',
+                    order?.deliveryAddress ?? '',
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.publicSans(
                       fontSize: 12.sp,
@@ -103,7 +121,16 @@ class OrderCardWidget extends StatelessWidget {
                     subTitle: 'Are You Sure You Want To Accept Order?',
                     yesBtnText: 'ACCEPT',
                     onTapCancel: () => Navigator.pop(context),
-                    onTapYes: () {},
+                    onTapYes: () {
+                      // * Emit the 'orderAccept' event
+                      provider.socketService
+                          .emitEvent(SocketEvents.orderAccept, {
+                        'deliveryBoyId': sharedPrefsService
+                            .getString(SharedPrefsKeys.userId),
+                        'orderId': order?.id,
+                      });
+                      Navigator.pop(context);
+                    },
                   ),
                 );
               },
