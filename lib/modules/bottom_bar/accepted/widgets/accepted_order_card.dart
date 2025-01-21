@@ -1,14 +1,21 @@
 import 'package:degrees_runners/custom_widgets/custom_button.dart';
+import 'package:degrees_runners/modules/bottom_bar/accepted/accepted_order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/app_colors.dart';
+import '../../../../core/utils/utils.dart';
 import '../../../../custom_widgets/circular_progress_with_timer.dart';
 import '../../../../custom_widgets/custom_confirm_dialog.dart';
+import '../../../../models/socket_accepted_order_model.dart';
 
 class AcceptedOrderCardWidget extends StatelessWidget {
+  final AcceptedOrderModel? acceptedOrder;
+  final AcceptedOrderProvider provider;
   const AcceptedOrderCardWidget({
     super.key,
+    this.acceptedOrder,
+    required this.provider,
   });
 
   @override
@@ -37,7 +44,8 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '12345 ',
+                      '${acceptedOrder?.orderDetails.orderIds ?? ''} ',
+                      // '',
                       style: GoogleFonts.publicSans(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
@@ -53,7 +61,8 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '9:51 AM',
+                      Utils.formatTime(
+                          acceptedOrder!.pickupStartTime.toString()),
                       style: GoogleFonts.publicSans(
                         fontSize: 12.sp,
                         color: AppColors.seaShell,
@@ -65,7 +74,7 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                 SizedBox(height: 10.h),
                 // * Items details
                 Text(
-                  '1 × MASALA TEA\n2 × HOT COFFEE\n& MORE',
+                  '${acceptedOrder?.orderDetails.items[0].quantity} × ${acceptedOrder?.orderDetails.items[0].itemName}',
                   style: GoogleFonts.publicSans(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
@@ -85,7 +94,7 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        'E-1102, AMTECH DESIGN, 11TH FLOOR, E-BLOCK, T',
+                        '${acceptedOrder?.orderDetails.deliveryAddress}',
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.publicSans(
                           fontSize: 12.sp,
@@ -100,23 +109,56 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                 CustomButton(
                   height: 55.h,
                   onTap: () {
-                    // * onTap orderType 'accepted'
-                    showDialog(
-                      context: context,
-                      builder: (context) => CustomConfirmDialog(
+                    if (acceptedOrder?.pickupStartTime == null) {
+                      // * BTN: Pickup
+                      showDialog(
                         context: context,
-                        title: 'confirm',
-                        subTitle:
-                            'Confirm That You Have Successfully Delivered The Order!',
-                        yesBtnText: 'DELIVERED',
-                        yesBgColor: AppColors.green,
-                        onTapCancel: () => Navigator.pop(context),
-                        onTapYes: () {},
-                      ),
-                    );
+                        builder: (context) => CustomConfirmDialog(
+                          context: context,
+                          title: 'confirm',
+                          subTitle:
+                              'Confirm That You Have Successfully Picked Up The Order!',
+                          yesBtnText: 'PICKED UP',
+                          yesBgColor: AppColors.green,
+                          onTapCancel: () => Navigator.pop(context),
+                          onTapYes: () {
+                            //* Picked up API - end
+                            provider.pickupTime(
+                              context: context,
+                              orderId: acceptedOrder?.orderId ?? '',
+                              type: 'end',
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      // * onTap orderType 'accepted' // BTN: deliver
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomConfirmDialog(
+                          context: context,
+                          title: 'confirm',
+                          subTitle:
+                              'Confirm That You Have Successfully Delivered The Order!',
+                          yesBtnText: 'DELIVERED',
+                          yesBgColor: AppColors.green,
+                          onTapCancel: () => Navigator.pop(context),
+                          onTapYes: () {
+                            // Todo call Delivered up event
+                          },
+                        ),
+                      );
+                    }
                   },
-                  bgColor: AppColors.green,
-                  text: 'deliver',
+                  bgColor: acceptedOrder?.pickupStartTime == null
+                      ? AppColors.seaShell
+                      : AppColors.green,
+                  text: acceptedOrder?.pickupStartTime == null
+                      ? 'pickup'
+                      : 'deliver',
+                  textColor: acceptedOrder?.pickupStartTime == null
+                      ? AppColors.black
+                      : AppColors.seaShell,
                 ),
               ],
             ),

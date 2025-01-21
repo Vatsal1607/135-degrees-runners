@@ -38,4 +38,16 @@ class ApiService {
   }) async {
     return await apiClient.logout(body);
   }
+
+  Future<ApiGlobalModel> pickupTime({
+    required Map<String, dynamic> body,
+  }) async {
+    return await apiClient.pickupTime(body);
+  }
+
+  Future<ApiGlobalModel> deliveryStatus({
+    required Map<String, dynamic> body,
+  }) async {
+    return await apiClient.deliveryStatus(body);
+  }
 }

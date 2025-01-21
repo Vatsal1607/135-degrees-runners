@@ -29,4 +29,15 @@ abstract class ApiClient {
   Future<ApiGlobalModel> logout(
     @Body() Map<String, dynamic> body,
   );
+
+  @POST(ApiEndpoints.pickupTime)
+  Future<ApiGlobalModel> pickupTime(
+    @Body() Map<String, dynamic> body,
+  );
+
+  // Toggle Active status
+  @POST(ApiEndpoints.deliveryStatus)
+  Future<ApiGlobalModel> deliveryStatus(
+    @Body() Map<String, dynamic> body,
+  );
 }
