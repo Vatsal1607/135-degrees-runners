@@ -11,7 +11,7 @@ class Utils {
       return DateFormat('h:mm a').format(dateTime);
     } catch (e) {
       // Handle invalid DateTime strings gracefully
-      return 'Invalid time';
+      return '$dateTimeString';
     }
   }
 }

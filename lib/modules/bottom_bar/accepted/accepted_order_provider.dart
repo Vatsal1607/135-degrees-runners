@@ -43,6 +43,11 @@ class AcceptedOrderProvider extends ChangeNotifier {
               .toList();
           // Update your UI or state with the parsed data
           acceptedOrderList = orders;
+          // if (acceptedOrderList?[0].pickupStartTime == null) {
+          //   //
+          // } else {
+          //   //
+          // }
         } else {
           // If no items, ensure the list is cleared
           acceptedOrderList?.clear();
@@ -68,8 +73,8 @@ class AcceptedOrderProvider extends ChangeNotifier {
     notifyListeners();
     try {
       final Map<String, dynamic> body = {
-        'orderId': orderId,
-        'deliveryBoyId': sharedPrefsService.getString(SharedPrefsKeys.userId),
+        'orderId': [orderId],
+        'deliveryBoyId': [sharedPrefsService.getString(SharedPrefsKeys.userId)],
         'type': type,
       };
       final ApiGlobalModel response = await apiService.pickupTime(
@@ -79,10 +84,10 @@ class AcceptedOrderProvider extends ChangeNotifier {
       if (response.success == true) {
         log('Success: pickupTime: ${response.message.toString()}');
       } else {
-        debugPrint('User sendotp Message: ${response.message}');
+        debugPrint('pickupTime Message: ${response.message}');
       }
     } catch (error) {
-      log("Error during sendotp Response: $error");
+      log("Error during pickupTime Response: $error");
       if (error is DioException) {
         final apiError = ApiGlobalModel.fromJson(error.response?.data ?? {});
       } else {
@@ -93,5 +98,92 @@ class AcceptedOrderProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  bool isDeliveryTimeLoading = false;
+  //* deliveryTime time API
+  Future deliveryTime({
+    required BuildContext context,
+    required String orderId,
+    required String type, // 'start' or 'end'
+  }) async {
+    isDeliveryTimeLoading = true;
+    notifyListeners();
+    try {
+      final Map<String, dynamic> body = {
+        'orderId': orderId,
+        'deliveryBoyId': sharedPrefsService.getString(SharedPrefsKeys.userId),
+        'type': type,
+      };
+      final ApiGlobalModel response = await apiService.deliveryTime(
+        body: body,
+      );
+      log('deliveryTime Response: $response');
+      if (response.success == true) {
+        log('Success: deliveryTime: ${response.message.toString()}');
+        Navigator.pop(context);
+      } else {
+        debugPrint('User deliveryTime Message: ${response.message}');
+      }
+    } catch (error) {
+      log("Error during deliveryTime Response: $error");
+      if (error is DioException) {
+        final apiError = ApiGlobalModel.fromJson(error.response?.data ?? {});
+      } else {
+        //
+      }
+    } finally {
+      isDeliveryTimeLoading = false;
+      notifyListeners();
+    }
+  }
+
+  late Timer _timer;
+  int pickUpRemainingSeconds = 600; // 10 minutes in seconds
+  bool _isCountingUp = false;
+
+  //* Start timer while pickupStartTime is not null
+  void startPickupTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!_isCountingUp) {
+        // Countdown logic
+        if (pickUpRemainingSeconds > 0) {
+          pickUpRemainingSeconds--;
+        } else {
+          _isCountingUp = true;
+          pickUpRemainingSeconds = 0; // Reset to 0 for counting up
+        }
+      } else {
+        // Count-up logic
+        pickUpRemainingSeconds++;
+      }
+      debugPrint('pickUpRemainingSeconds: $pickUpRemainingSeconds');
+      notifyListeners();
+    });
+  }
+
+  String formatTime(int seconds) {
+    final int minutes = seconds ~/ 60;
+    final int secs = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
+  }
+
+  int infinitySeconds = 0;
+  late Timer _infinityTimer;
+
+  void startInfinityTimer() {
+    infinitySeconds = 0;
+    _infinityTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      infinitySeconds++;
+      debugPrint('infinitySeconds: $infinitySeconds');
+      notifyListeners();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _infinityTimer.cancel();
+    super.dispose();
   }
 }

@@ -48,6 +48,12 @@ class AcceptedOrderPage extends StatelessWidget {
                               child: AcceptedOrderCardWidget(
                                 provider: acceptedProvider,
                                 acceptedOrder: acceptedOrder,
+                                // time: acceptedProvider.formatTime(
+                                //     acceptedProvider.pickUpRemainingSeconds),
+                                time: acceptedOrder?.pickupStartTime == null
+                                    ? acceptedProvider.formatTime(
+                                        acceptedProvider.infinitySeconds)
+                                    : '',
                               ),
                             );
                           },

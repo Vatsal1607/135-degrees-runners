@@ -3,6 +3,7 @@ import 'package:degrees_runners/modules/bottom_bar/accepted/accepted_order_provi
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/app_colors.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../custom_widgets/circular_progress_with_timer.dart';
@@ -12,14 +13,20 @@ import '../../../../models/socket_accepted_order_model.dart';
 class AcceptedOrderCardWidget extends StatelessWidget {
   final AcceptedOrderModel? acceptedOrder;
   final AcceptedOrderProvider provider;
+  // final DateTime? pickupStartTime;
+  final String time;
   const AcceptedOrderCardWidget({
     super.key,
     this.acceptedOrder,
     required this.provider,
+    // this.pickupStartTime,
+    required this.time,
   });
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AcceptedOrderProvider>(context, listen: false);
+    // log('${provider.acceptedOrderList}' as num);
     return Stack(
       children: [
         // * Card widget
@@ -45,7 +52,6 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                     ),
                     Text(
                       '${acceptedOrder?.orderDetails.orderIds ?? ''} ',
-                      // '',
                       style: GoogleFonts.publicSans(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
@@ -53,7 +59,9 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'PICKED ON ',
+                      acceptedOrder!.pickupStartTime != null
+                          ? 'PICKED ON '
+                          : 'PREPARING',
                       style: GoogleFonts.publicSans(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
@@ -61,8 +69,10 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      Utils.formatTime(
-                          acceptedOrder!.pickupStartTime.toString()),
+                      acceptedOrder!.pickupStartTime != null
+                          ? Utils.formatTime(
+                              acceptedOrder!.pickupStartTime.toString())
+                          : '',
                       style: GoogleFonts.publicSans(
                         fontSize: 12.sp,
                         color: AppColors.seaShell,
@@ -109,54 +119,72 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                 CustomButton(
                   height: 55.h,
                   onTap: () {
-                    if (acceptedOrder?.pickupStartTime == null) {
+                    if (acceptedOrder?.deliveryStartTime == null) {
                       // * BTN: Pickup
                       showDialog(
                         context: context,
-                        builder: (context) => CustomConfirmDialog(
-                          context: context,
-                          title: 'confirm',
-                          subTitle:
-                              'Confirm That You Have Successfully Picked Up The Order!',
-                          yesBtnText: 'PICKED UP',
-                          yesBgColor: AppColors.green,
-                          onTapCancel: () => Navigator.pop(context),
-                          onTapYes: () {
-                            //* Picked up API - end
-                            provider.pickupTime(
-                              context: context,
-                              orderId: acceptedOrder?.orderId ?? '',
-                              type: 'end',
-                            );
-                          },
+                        builder: (context) => Consumer<AcceptedOrderProvider>(
+                          builder: (context, _, child) => CustomConfirmDialog(
+                            context: context,
+                            title: 'confirm',
+                            subTitle:
+                                'Confirm That You Have Successfully Picked Up The Order!',
+                            yesBtnText: 'PICKED UP',
+                            isLoading: provider.isLoading,
+                            yesBgColor: AppColors.green,
+                            onTapCancel: () => Navigator.pop(context),
+                            onTapYes: () async {
+                              //* Picked up API - end
+                              await provider.pickupTime(
+                                context: context,
+                                orderId: acceptedOrder?.orderId ?? '',
+                                // orderId: acceptedOrder?.deliveryStartTime ?? '',
+                                type: 'end',
+                              );
+                              //* API delivery-time 'start'
+                              await provider.deliveryTime(
+                                context: context,
+                                orderId: acceptedOrder?.orderId ?? '',
+                                type: 'start',
+                              );
+                            },
+                          ),
                         ),
                       );
                     } else {
                       // * onTap orderType 'accepted' // BTN: deliver
                       showDialog(
                         context: context,
-                        builder: (context) => CustomConfirmDialog(
-                          context: context,
-                          title: 'confirm',
-                          subTitle:
-                              'Confirm That You Have Successfully Delivered The Order!',
-                          yesBtnText: 'DELIVERED',
-                          yesBgColor: AppColors.green,
-                          onTapCancel: () => Navigator.pop(context),
-                          onTapYes: () {
-                            // Todo call Delivered up event
-                          },
+                        builder: (context) => Consumer<AcceptedOrderProvider>(
+                          builder: (context, _, child) => CustomConfirmDialog(
+                            context: context,
+                            title: 'confirm',
+                            subTitle:
+                                'Confirm That You Have Successfully Delivered The Order!',
+                            yesBtnText: 'DELIVERED',
+                            isLoading: provider.isDeliveryTimeLoading,
+                            yesBgColor: AppColors.green,
+                            onTapCancel: () => Navigator.pop(context),
+                            onTapYes: () async {
+                              //* API delivery-time 'end'
+                              await provider.deliveryTime(
+                                context: context,
+                                orderId: acceptedOrder?.orderId ?? '',
+                                type: 'end',
+                              );
+                            },
+                          ),
                         ),
                       );
                     }
                   },
-                  bgColor: acceptedOrder?.pickupStartTime == null
+                  bgColor: acceptedOrder?.deliveryStartTime == null
                       ? AppColors.seaShell
                       : AppColors.green,
-                  text: acceptedOrder?.pickupStartTime == null
+                  text: acceptedOrder?.deliveryStartTime == null
                       ? 'pickup'
                       : 'deliver',
-                  textColor: acceptedOrder?.pickupStartTime == null
+                  textColor: acceptedOrder?.deliveryStartTime == null
                       ? AppColors.black
                       : AppColors.seaShell,
                 ),
@@ -166,9 +194,17 @@ class AcceptedOrderCardWidget extends StatelessWidget {
         ),
         // * Timer indicator
         Positioned(
-          top: 30.h,
+          top: 25.h,
           right: 20.w,
-          child: const CircularProgressWithTimer(),
+          child: Consumer<AcceptedOrderProvider>(
+            builder: (context, _, child) {
+              return CircularProgressWithTimer(
+                time: time,
+                valueColor: AppColors.green,
+                bgColor: AppColors.green,
+              );
+            },
+          ),
         ),
       ],
     );

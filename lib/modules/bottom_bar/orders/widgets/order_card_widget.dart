@@ -126,12 +126,6 @@ class OrderCardWidget extends StatelessWidget {
                     yesBtnText: 'ACCEPT',
                     onTapCancel: () => Navigator.pop(context),
                     onTapYes: () async {
-                      // //* Picked up API
-                      // await acceptedOrderProvider.pickupTime(
-                      //   context: context,
-                      //   orderId: order?.id ?? '',
-                      //   type: 'start',
-                      // );
                       // * Emit the 'orderAccept' event
                       provider.socketService
                           .emitEvent(SocketEvents.orderAccept, {
@@ -140,6 +134,7 @@ class OrderCardWidget extends StatelessWidget {
                         'orderId': order?.id,
                       });
                       Navigator.pop(context);
+                      acceptedOrderProvider.startInfinityTimer();
                     },
                   ),
                 );

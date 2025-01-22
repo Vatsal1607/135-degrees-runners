@@ -14,4 +14,5 @@ class ApiEndpoints {
   static const String listCart = 'user/list-cart';
   static const String pickupTime = 'pickup-time';
   static const String deliveryStatus = 'delivery/status';
+  static const String deliveryTime = 'delivery-time';
 }

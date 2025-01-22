@@ -40,4 +40,9 @@ abstract class ApiClient {
   Future<ApiGlobalModel> deliveryStatus(
     @Body() Map<String, dynamic> body,
   );
+
+  @POST(ApiEndpoints.deliveryTime)
+  Future<ApiGlobalModel> deliveryTime(
+    @Body() Map<String, dynamic> body,
+  );
 }
