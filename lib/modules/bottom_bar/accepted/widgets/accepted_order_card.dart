@@ -9,18 +9,21 @@ import '../../../../core/utils/utils.dart';
 import '../../../../custom_widgets/circular_progress_with_timer.dart';
 import '../../../../custom_widgets/custom_confirm_dialog.dart';
 import '../../../../models/socket_accepted_order_model.dart';
+import '../controllers/timer_controller.dart';
 
 class AcceptedOrderCardWidget extends StatelessWidget {
   final AcceptedOrderModel? acceptedOrder;
   final AcceptedOrderProvider provider;
-  // final DateTime? pickupStartTime;
   final String time;
+  final TimerController timerController;
+  final int index;
   const AcceptedOrderCardWidget({
     super.key,
     this.acceptedOrder,
     required this.provider,
-    // this.pickupStartTime,
     required this.time,
+    required this.timerController,
+    required this.index,
   });
 
   @override
@@ -198,8 +201,29 @@ class AcceptedOrderCardWidget extends StatelessWidget {
           right: 20.w,
           child: Consumer<AcceptedOrderProvider>(
             builder: (context, _, child) {
+              // REF: Replace this with your actual condition for pickedUpTime
+              // bool isPickupTimeNull = true; // Example condition
+
+              // if (isPickupTimeNull) {
+              //   // Show infinite timer
+              //   if (provider._timer == null) {
+              //     provider.startTimer(isPickupTimeNull: true);
+              //   }
+              // } else {
+              //   // Show countdown-to-countup timer
+              //   if (provider._timer == null) {
+              //     provider.startTimer(isPickupTimeNull: false);
+              //   }
+              // }
+
+              final duration = timerController.duration;
+              final minutes =
+                  (duration.inSeconds ~/ 60).toString().padLeft(2, '0');
+              final seconds =
+                  (duration.inSeconds % 60).toString().padLeft(2, '0');
+              //*Note: Start timer using: timerController.start();
               return CircularProgressWithTimer(
-                time: time,
+                time: '$minutes:$seconds',
                 valueColor: AppColors.green,
                 bgColor: AppColors.green,
               );
