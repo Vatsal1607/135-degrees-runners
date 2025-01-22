@@ -12,7 +12,7 @@ class CircularProgressWithTimer extends StatelessWidget {
     super.key,
     this.bgColor = AppColors.white,
     this.valueColor = AppColors.green,
-    this.time = '15:00',
+    this.time = '00:00',
     this.timeColor = AppColors.seaShell,
   });
 

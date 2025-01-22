@@ -5,10 +5,26 @@ import 'package:provider/provider.dart';
 import '../../../custom_widgets/appbar/custom_sliver_appbar.dart';
 import '../../../routes/routes.dart';
 import 'accepted_order_provider.dart';
+import 'controllers/timer_controller.dart';
 import 'widgets/accepted_order_card.dart';
 
-class AcceptedOrderPage extends StatelessWidget {
+class AcceptedOrderPage extends StatefulWidget {
   const AcceptedOrderPage({super.key});
+
+  @override
+  State<AcceptedOrderPage> createState() => _AcceptedOrderPageState();
+}
+
+class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
+  final List<TimerController> _controllers = [];
+
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +53,14 @@ class AcceptedOrderPage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final acceptedOrder =
                                 acceptedProvider.acceptedOrderList?[index];
+                            for (int i = 0;
+                                i <
+                                    (acceptedProvider
+                                            .acceptedOrderList?.length ??
+                                        0);
+                                i++) {
+                              _controllers.add(TimerController());
+                            }
                             return GestureDetector(
                               onTap: () => Navigator.pushNamed(
                                 context,
@@ -48,6 +72,8 @@ class AcceptedOrderPage extends StatelessWidget {
                               child: AcceptedOrderCardWidget(
                                 provider: acceptedProvider,
                                 acceptedOrder: acceptedOrder,
+                                timerController: _controllers[index],
+                                index: index,
                                 // time: acceptedProvider.formatTime(
                                 //     acceptedProvider.pickUpRemainingSeconds),
                                 time: acceptedOrder?.pickupStartTime == null

@@ -139,7 +139,7 @@ class AcceptedOrderProvider extends ChangeNotifier {
   }
 
   late Timer _timer;
-  int pickUpRemainingSeconds = 600; // 10 minutes in seconds
+  int pickUpRemainingSeconds = 600; //* 10 minutes in seconds
   bool _isCountingUp = false;
 
   //* Start timer while pickupStartTime is not null
@@ -151,7 +151,8 @@ class AcceptedOrderProvider extends ChangeNotifier {
           pickUpRemainingSeconds--;
         } else {
           _isCountingUp = true;
-          pickUpRemainingSeconds = 0; // Reset to 0 for counting up
+          // pickUpRemainingSeconds = 0; // Reset to 0 for counting up
+          pickUpRemainingSeconds = 600; // Reset to 600 for counting up
         }
       } else {
         // Count-up logic
@@ -186,4 +187,38 @@ class AcceptedOrderProvider extends ChangeNotifier {
     _infinityTimer.cancel();
     super.dispose();
   }
+
+  //* REF:
+  // Timer? _timer;
+  // int pickUpRemainingSeconds = 0; // Default for the infinite timer
+  // bool isCountingDown = false;
+  // bool isCountingUp = false;
+
+  // void startTimer({bool isPickupTimeNull = true}) {
+  //   if (isPickupTimeNull) {
+  //     // Infinite timer logic
+  //     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //       pickUpRemainingSeconds++;
+  //       notifyListeners();
+  //     });
+  //   } else {
+  //     // Countdown timer logic
+  //     pickUpRemainingSeconds = 600; // 10 minutes in seconds
+  //     isCountingDown = true;
+
+  //     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //       if (isCountingDown) {
+  //         if (pickUpRemainingSeconds > 0) {
+  //           pickUpRemainingSeconds--;
+  //         } else {
+  //           isCountingDown = false;
+  //           isCountingUp = true;
+  //         }
+  //       } else if (isCountingUp) {
+  //         pickUpRemainingSeconds++;
+  //       }
+  //       notifyListeners();
+  //     });
+  //   }
+  // }
 }
