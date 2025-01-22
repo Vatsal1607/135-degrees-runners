@@ -50,4 +50,10 @@ class ApiService {
   }) async {
     return await apiClient.deliveryStatus(body);
   }
+
+  Future<ApiGlobalModel> deliveryTime({
+    required Map<String, dynamic> body,
+  }) async {
+    return await apiClient.deliveryTime(body);
+  }
 }
