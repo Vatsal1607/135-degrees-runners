@@ -49,7 +49,7 @@ class AcceptedOrderModel {
 
 class OrderDetails {
   final List<Item> items;
-  final double totalAmount;
+  final num totalAmount;
   final String orderStatus;
   final String deliveryAddress;
   final int orderIds;
@@ -81,7 +81,7 @@ class Item {
   final String menuId;
   final String itemName;
   final int quantity;
-  final double price;
+  final num price;
 
   Item({
     required this.menuId,

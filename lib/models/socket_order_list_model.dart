@@ -1,7 +1,7 @@
 class SocketOrderModel {
   final String id;
   final List<Item> items;
-  final double totalAmount;
+  final num totalAmount;
   final String orderStatus;
   final String deliveryAddress;
   final int orderIds; // Adjusted to match the response field
@@ -52,7 +52,7 @@ class SocketOrderModel {
 class Item {
   final String menuId;
   final String itemName;
-  final double price;
+  final num price;
   final int quantity; // Added quantity field
 
   Item({

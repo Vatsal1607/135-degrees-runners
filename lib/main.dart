@@ -7,6 +7,7 @@ import 'core/app_colors.dart';
 import 'modules/auth/login/login_provider.dart';
 import 'modules/auth/register/register_provider.dart';
 import 'modules/bottom_bar/accepted/accepted_order_provider.dart';
+import 'modules/bottom_bar/accepted/controllers/timer_provider.dart';
 import 'modules/bottom_bar/bottom_bar_provider.dart';
 import 'modules/bottom_bar/orders/order_provider.dart';
 import 'routes/routes.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => OrderProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => AcceptedOrderProvider()),
+        ChangeNotifierProvider(create: (_) => TimerProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(430, 932), // Base screen size (width x height)
