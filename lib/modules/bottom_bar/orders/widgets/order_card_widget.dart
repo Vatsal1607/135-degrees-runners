@@ -1,4 +1,5 @@
 import 'package:degrees_runners/custom_widgets/custom_confirm_dialog.dart';
+import 'package:degrees_runners/modules/bottom_bar/accepted/controllers/timer_provider.dart';
 import 'package:degrees_runners/services/local/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -134,7 +135,6 @@ class OrderCardWidget extends StatelessWidget {
                         'orderId': order?.id,
                       });
                       Navigator.pop(context);
-                      acceptedOrderProvider.startInfinityTimer();
                     },
                   ),
                 );

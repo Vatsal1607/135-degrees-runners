@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../custom_widgets/appbar/custom_sliver_appbar.dart';
 import '../../../routes/routes.dart';
 import 'accepted_order_provider.dart';
-import 'controllers/timer_controller.dart';
+import 'controllers/timer_provider.dart';
 import 'widgets/accepted_order_card.dart';
 
 class AcceptedOrderPage extends StatefulWidget {
@@ -16,15 +16,21 @@ class AcceptedOrderPage extends StatefulWidget {
 }
 
 class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
-  final List<TimerController> _controllers = [];
+  final AcceptedOrderProvider _acceptedProvider = AcceptedOrderProvider();
 
-  @override
-  void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
+  // void removeOrder(String orderId) {
+  //   final timerProvider = _timerMap.remove(orderId);
+  //   timerProvider?.dispose();
+  // }
+
+  // @override
+  // void dispose() {
+  //   for (final timerProvider in _timerMap.values) {
+  //     timerProvider.dispose();
+  //   }
+  //   _timerMap.clear();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +59,11 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                           itemBuilder: (context, index) {
                             final acceptedOrder =
                                 acceptedProvider.acceptedOrderList?[index];
-                            for (int i = 0;
-                                i <
-                                    (acceptedProvider
-                                            .acceptedOrderList?.length ??
-                                        0);
-                                i++) {
-                              _controllers.add(TimerController());
-                            }
+                            final timerProvider =
+                                acceptedProvider.timerMap.putIfAbsent(
+                              acceptedOrder?.orderId ?? '',
+                              () => TimerProvider()..start(),
+                            );
                             return GestureDetector(
                               onTap: () => Navigator.pushNamed(
                                 context,
@@ -72,14 +75,8 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                               child: AcceptedOrderCardWidget(
                                 provider: acceptedProvider,
                                 acceptedOrder: acceptedOrder,
-                                timerController: _controllers[index],
+                                timerProvider: timerProvider,
                                 index: index,
-                                // time: acceptedProvider.formatTime(
-                                //     acceptedProvider.pickUpRemainingSeconds),
-                                time: acceptedOrder?.pickupStartTime == null
-                                    ? acceptedProvider.formatTime(
-                                        acceptedProvider.infinitySeconds)
-                                    : '',
                               ),
                             );
                           },

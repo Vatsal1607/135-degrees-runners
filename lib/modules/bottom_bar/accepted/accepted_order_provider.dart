@@ -8,16 +8,26 @@ import '../../../models/api_global_model.dart';
 import '../../../models/socket_accepted_order_model.dart';
 import '../../../services/network/api_service.dart';
 import '../../../services/socket/socket_service.dart';
+import 'controllers/timer_provider.dart';
 
 class AcceptedOrderProvider extends ChangeNotifier {
   bool isActive = false;
   // final SocketService socketService = SocketService();
 
-  // AcceptedOrderProvider() {
-  //   onSocketConnected(); // ! EMIT & LISTEN acceptedOrderList
-  // }
+  AcceptedOrderProvider() {
+    initializeControllers(acceptedOrderList ?? []);
+  }
 
   List<AcceptedOrderModel>? acceptedOrderList;
+  final Map<String, TimerProvider> timerMap = {};
+  void initializeControllers(List<AcceptedOrderModel?> orderList) {
+    for (var order in orderList) {
+      final orderId = order?.orderId;
+      if (orderId != null && !timerMap.containsKey(orderId)) {
+        timerMap.putIfAbsent(orderId, () => TimerProvider()..start());
+      }
+    }
+  }
 
   // bool isLoading = false;
   void emitAndListenAcceptedOrderList(SocketService socketService) {

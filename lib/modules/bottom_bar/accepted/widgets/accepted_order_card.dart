@@ -9,27 +9,27 @@ import '../../../../core/utils/utils.dart';
 import '../../../../custom_widgets/circular_progress_with_timer.dart';
 import '../../../../custom_widgets/custom_confirm_dialog.dart';
 import '../../../../models/socket_accepted_order_model.dart';
-import '../controllers/timer_controller.dart';
+import '../controllers/timer_provider.dart';
 
 class AcceptedOrderCardWidget extends StatelessWidget {
   final AcceptedOrderModel? acceptedOrder;
   final AcceptedOrderProvider provider;
-  final String time;
-  final TimerController timerController;
+  // final String time;
+  final TimerProvider? timerProvider;
   final int index;
   const AcceptedOrderCardWidget({
     super.key,
     this.acceptedOrder,
     required this.provider,
-    required this.time,
-    required this.timerController,
+    // required this.time,
+    required this.timerProvider,
     required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AcceptedOrderProvider>(context, listen: false);
-    // log('${provider.acceptedOrderList}' as num);
+    // provider.startPickupTimer(); //!
     return Stack(
       children: [
         // * Card widget
@@ -199,33 +199,22 @@ class AcceptedOrderCardWidget extends StatelessWidget {
         Positioned(
           top: 25.h,
           right: 20.w,
-          child: Consumer<AcceptedOrderProvider>(
+          child: Consumer<TimerProvider>(
             builder: (context, _, child) {
-              // REF: Replace this with your actual condition for pickedUpTime
-              // bool isPickupTimeNull = true; // Example condition
-
-              // if (isPickupTimeNull) {
-              //   // Show infinite timer
-              //   if (provider._timer == null) {
-              //     provider.startTimer(isPickupTimeNull: true);
-              //   }
-              // } else {
-              //   // Show countdown-to-countup timer
-              //   if (provider._timer == null) {
-              //     provider.startTimer(isPickupTimeNull: false);
-              //   }
-              // }
-
-              final duration = timerController.duration;
+              // Note: Infinity timer
+              final duration = timerProvider?.duration ?? const Duration();
+              debugPrint('Duration from Consumer: $duration');
               final minutes =
                   (duration.inSeconds ~/ 60).toString().padLeft(2, '0');
               final seconds =
                   (duration.inSeconds % 60).toString().padLeft(2, '0');
               //*Note: Start timer using: timerController.start();
               return CircularProgressWithTimer(
-                time: '$minutes:$seconds',
-                valueColor: AppColors.green,
-                bgColor: AppColors.green,
+                // time: '$minutes:$seconds', //* Infinity timer
+                time:
+                    '${provider.formatTime(provider.pickUpRemainingSeconds)}', //* Picked up Timer
+                valueColor: AppColors.grey,
+                bgColor: AppColors.grey,
               );
             },
           ),
