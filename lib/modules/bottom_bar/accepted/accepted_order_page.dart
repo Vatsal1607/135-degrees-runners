@@ -37,6 +37,7 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
     final orderProvider = Provider.of<OrderProvider>(context, listen: false);
     final acceptedProvider =
         Provider.of<AcceptedOrderProvider>(context, listen: false);
+    // ! Emit & listen AcceptedOrderList
     acceptedProvider
         .emitAndListenAcceptedOrderList(orderProvider.socketService);
 
@@ -62,8 +63,9 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                             final timerProvider =
                                 acceptedProvider.timerMap.putIfAbsent(
                               acceptedOrder?.orderId ?? '',
-                              () => TimerProvider()..start(),
+                              () => TimerProvider()..startInfinityTimer(),
                             );
+
                             return GestureDetector(
                               onTap: () => Navigator.pushNamed(
                                 context,

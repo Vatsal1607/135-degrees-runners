@@ -8,12 +8,14 @@ class CircularProgressWithTimer extends StatelessWidget {
   final Color valueColor;
   final String time;
   final Color timeColor;
+  final double? value;
   const CircularProgressWithTimer({
     super.key,
     this.bgColor = AppColors.white,
     this.valueColor = AppColors.green,
     this.time = '00:00',
     this.timeColor = AppColors.seaShell,
+    this.value = .8,
   });
 
   @override
@@ -24,7 +26,7 @@ class CircularProgressWithTimer extends StatelessWidget {
           height: 50.h,
           width: 50.h,
           child: CircularProgressIndicator(
-            value: .8,
+            value: value,
             backgroundColor: bgColor,
             color: valueColor,
           ),

@@ -9,19 +9,18 @@ import '../../../../core/utils/utils.dart';
 import '../../../../custom_widgets/circular_progress_with_timer.dart';
 import '../../../../custom_widgets/custom_confirm_dialog.dart';
 import '../../../../models/socket_accepted_order_model.dart';
+import '../../../../models/timer_model.dart';
 import '../controllers/timer_provider.dart';
 
 class AcceptedOrderCardWidget extends StatelessWidget {
   final AcceptedOrderModel? acceptedOrder;
   final AcceptedOrderProvider provider;
-  // final String time;
   final TimerProvider? timerProvider;
   final int index;
   const AcceptedOrderCardWidget({
     super.key,
     this.acceptedOrder,
     required this.provider,
-    // required this.time,
     required this.timerProvider,
     required this.index,
   });
@@ -29,7 +28,8 @@ class AcceptedOrderCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AcceptedOrderProvider>(context, listen: false);
-    // provider.startPickupTimer(); //!
+    // final timerProvider = Provider.of<TimerProvider>(context);
+    final timerModel = timerProvider?.getPickedUpTimer(index);
     return Stack(
       children: [
         // * Card widget
@@ -195,30 +195,102 @@ class AcceptedOrderCardWidget extends StatelessWidget {
             ),
           ),
         ),
-        // * Timer indicator
-        Positioned(
-          top: 25.h,
-          right: 20.w,
-          child: Consumer<TimerProvider>(
-            builder: (context, _, child) {
-              // Note: Infinity timer
-              final duration = timerProvider?.duration ?? const Duration();
-              debugPrint('Duration from Consumer: $duration');
-              final minutes =
-                  (duration.inSeconds ~/ 60).toString().padLeft(2, '0');
-              final seconds =
-                  (duration.inSeconds % 60).toString().padLeft(2, '0');
-              //*Note: Start timer using: timerController.start();
-              return CircularProgressWithTimer(
-                // time: '$minutes:$seconds', //* Infinity timer
-                time:
-                    '${provider.formatTime(provider.pickUpRemainingSeconds)}', //* Picked up Timer
-                valueColor: AppColors.grey,
-                bgColor: AppColors.grey,
-              );
-            },
+        // * Infinity Timer indicator (1)
+        if (acceptedOrder!.pickupStartTime == null &&
+            acceptedOrder!.deliveryStartTime == null)
+          Positioned(
+            top: 25.h,
+            right: 20.w,
+            child: Consumer<TimerProvider>(
+              builder: (context, _, child) {
+                // Note: Infinity timer
+                final duration = timerProvider?.duration ?? const Duration();
+                debugPrint('Duration from Consumer: $duration');
+                final minutes =
+                    (duration.inSeconds ~/ 60).toString().padLeft(2, '0');
+                final seconds =
+                    (duration.inSeconds % 60).toString().padLeft(2, '0');
+                //*Note: Start timer using: timerController.start();
+                return CircularProgressWithTimer(
+                  time: '$minutes:$seconds', //* Infinity timer
+                  valueColor: AppColors.grey,
+                  bgColor: AppColors.grey,
+                );
+              },
+            ),
           ),
-        ),
+        // * Picked up Timer indicator (2)
+        if (acceptedOrder!.pickupStartTime != null &&
+            acceptedOrder!.deliveryStartTime == null)
+          Positioned(
+            top: 25.h,
+            right: 20.w,
+            child: FocusableActionDetector(
+              autofocus: true,
+              onFocusChange: (value) {
+                debugPrint('FocusableActionDetector 2 timer: $value');
+                if (value == true) {
+                  timerProvider?.startPickedUpTimer(index);
+                }
+              },
+              child: Consumer<TimerProvider>(
+                builder: (context, _, child) {
+                  //*Note: Start timer using: timerController.start();
+                  String formattedTime = timerModel?.remainingSeconds != null
+                      ? timerProvider!.formatTime(timerModel!.remainingSeconds)
+                      : '00:00';
+                  return CircularProgressWithTimer(
+                    //* Picked up Timer
+                    time: formattedTime,
+                    valueColor:
+                        timerProvider?.getPickedUpTimer(index).isCountingUp ==
+                                true
+                            ? AppColors.red
+                            : AppColors.green,
+                    bgColor:
+                        timerProvider?.getPickedUpTimer(index).isCountingUp ==
+                                true
+                            ? AppColors.red
+                            : AppColors.green,
+                  );
+                },
+              ),
+            ),
+          ),
+        // * Delivery Timer indicator (3)
+        if (acceptedOrder!.deliveryStartTime != null)
+          Positioned(
+            top: 25.h,
+            right: 20.w,
+            child: FocusableActionDetector(
+              autofocus: true,
+              onFocusChange: (value) {
+                debugPrint('FocusableActionDetector 3 timer: $value');
+                if (value == true) {
+                  timerProvider?.startDeliveryTimer(index);
+                }
+              },
+              child: Consumer<TimerProvider>(
+                builder: (context, timerProvider, child) {
+                  // Get the timer model for the specific index
+                  TimerModel timerModel = timerProvider.getDeliveryTimer(index);
+                  // Format the remaining seconds into time format (e.g., mm:ss)
+                  String formattedTime =
+                      timerProvider.formatTime(timerModel.remainingSeconds);
+                  return CircularProgressWithTimer(
+                    time: formattedTime,
+                    value: .5,
+                    bgColor: timerModel.isCountingUp
+                        ? AppColors.red
+                        : AppColors.grey,
+                    valueColor: timerModel.isCountingUp
+                        ? AppColors.red
+                        : AppColors.green,
+                  );
+                },
+              ),
+            ),
+          ),
       ],
     );
   }
