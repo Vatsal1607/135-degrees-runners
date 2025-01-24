@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../../models/api_global_model.dart';
 import '../../../models/socket_accepted_order_model.dart';
+import '../../../models/timer_model.dart';
 import '../../../services/network/api_service.dart';
 import '../../../services/socket/socket_service.dart';
 import 'controllers/timer_provider.dart';
@@ -20,14 +21,17 @@ class AcceptedOrderProvider extends ChangeNotifier {
 
   List<AcceptedOrderModel>? acceptedOrderList;
   final Map<String, TimerProvider> timerMap = {};
-  void initializeControllers(List<AcceptedOrderModel?> orderList) {
-    for (var order in orderList) {
+  void initializeControllers(List<AcceptedOrderModel?> acceptedOrderList) {
+    for (var order in acceptedOrderList) {
       final orderId = order?.orderId;
       if (orderId != null && !timerMap.containsKey(orderId)) {
-        timerMap.putIfAbsent(orderId, () => TimerProvider()..start());
+        timerMap.putIfAbsent(
+            orderId, () => TimerProvider()..startInfinityTimer());
       }
     }
   }
+
+  List<TimerModel> pickUpItems = [];
 
   // bool isLoading = false;
   void emitAndListenAcceptedOrderList(SocketService socketService) {
@@ -48,11 +52,11 @@ class AcceptedOrderProvider extends ChangeNotifier {
         if (acceptedOrderListData.isNotEmpty) {
           // Clear and reinitialize the list to ensure data is fresh
           acceptedOrderList?.clear();
-          List<AcceptedOrderModel> orders = acceptedOrderListData
+          List<AcceptedOrderModel> acceptedOrders = acceptedOrderListData
               .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
               .toList();
           // Update your UI or state with the parsed data
-          acceptedOrderList = orders;
+          acceptedOrderList = acceptedOrders;
           // if (acceptedOrderList?[0].pickupStartTime == null) {
           //   //
           // } else {
@@ -148,36 +152,36 @@ class AcceptedOrderProvider extends ChangeNotifier {
     }
   }
 
-  late Timer _timer;
-  int pickUpRemainingSeconds = 600; //* 10 minutes in seconds
-  bool _isCountingUp = false;
+  // late Timer _timer;
+  // int pickUpRemainingSeconds = 600; //* 10 minutes in seconds
+  // bool _isCountingUp = false;
 
   //* Start timer while pickupStartTime is not null
-  void startPickupTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!_isCountingUp) {
-        // Countdown logic
-        if (pickUpRemainingSeconds > 0) {
-          pickUpRemainingSeconds--;
-        } else {
-          _isCountingUp = true;
-          // pickUpRemainingSeconds = 0; // Reset to 0 for counting up
-          pickUpRemainingSeconds = 600; // Reset to 600 for counting up
-        }
-      } else {
-        // Count-up logic
-        pickUpRemainingSeconds++;
-      }
-      debugPrint('pickUpRemainingSeconds: $pickUpRemainingSeconds');
-      notifyListeners();
-    });
-  }
+  // void startPickupTimer() {
+  //   _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     if (!_isCountingUp) {
+  //       // Countdown logic
+  //       if (pickUpRemainingSeconds > 0) {
+  //         pickUpRemainingSeconds--;
+  //       } else {
+  //         _isCountingUp = true;
+  //         // pickUpRemainingSeconds = 0; // Reset to 0 for counting up
+  //         pickUpRemainingSeconds = 600; // Reset to 600 for counting up
+  //       }
+  //     } else {
+  //       // Count-up logic
+  //       pickUpRemainingSeconds++;
+  //     }
+  //     debugPrint('pickUpRemainingSeconds: $pickUpRemainingSeconds');
+  //     notifyListeners();
+  //   });
+  // }
 
-  String formatTime(int seconds) {
-    final int minutes = seconds ~/ 60;
-    final int secs = seconds % 60;
-    return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
-  }
+  // String formatTime(int seconds) {
+  //   final int minutes = seconds ~/ 60;
+  //   final int secs = seconds % 60;
+  //   return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
+  // }
 
   int infinitySeconds = 0;
   late Timer _infinityTimer;
@@ -193,7 +197,7 @@ class AcceptedOrderProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    _timer.cancel();
+    // _timer.cancel();
     _infinityTimer.cancel();
     super.dispose();
   }

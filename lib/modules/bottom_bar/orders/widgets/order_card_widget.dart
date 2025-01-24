@@ -43,7 +43,7 @@ class OrderCardWidget extends StatelessWidget {
                   'ORDER ID ',
                   style: GoogleFonts.publicSans(
                     fontSize: 12.sp,
-                    color: AppColors.doveGrey,
+                    color: AppColors.davyGrey,
                   ),
                 ),
                 Text(
@@ -51,7 +51,7 @@ class OrderCardWidget extends StatelessWidget {
                   style: GoogleFonts.publicSans(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.doveGrey,
+                    color: AppColors.davyGrey,
                   ),
                 ),
                 Text(
