@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import '../../../../core/app_colors.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../custom_widgets/circular_progress_with_timer.dart';
@@ -225,21 +226,24 @@ class AcceptedOrderCardWidget extends StatelessWidget {
           Positioned(
             top: 25.h,
             right: 20.w,
-            child: FocusableActionDetector(
-              autofocus: true,
-              onFocusChange: (value) {
-                debugPrint('FocusableActionDetector 2 timer: $value');
-                if (value == true) {
-                  timerProvider?.startPickedUpTimer(index);
-                }
-              },
-              child: Consumer<TimerProvider>(
-                builder: (context, _, child) {
-                  //*Note: Start timer using: timerController.start();
-                  String formattedTime = timerModel?.remainingSeconds != null
-                      ? timerProvider!.formatTime(timerModel!.remainingSeconds)
-                      : '00:00';
-                  return CircularProgressWithTimer(
+            child: Consumer<TimerProvider>(
+              builder: (context, _, child) {
+                String formattedTime = timerModel?.remainingSeconds != null
+                    ? timerProvider!.formatTime(timerModel!.remainingSeconds)
+                    : '00:00';
+                return VisibilityDetector(
+                  key: Key('item_$index'),
+                  onVisibilityChanged: (visibilityInfo) {
+                    if (visibilityInfo.visibleFraction > 0) {
+                      //* Start the Picked up timer
+                      timerProvider?.startPickedUpTimer(index);
+                      debugPrint(
+                          'PickedUpTimer Item $index is visible (${visibilityInfo.visibleFraction * 100}%)');
+                    } else {
+                      debugPrint('Item $index is not visible');
+                    }
+                  },
+                  child: CircularProgressWithTimer(
                     //* Picked up Timer
                     time: formattedTime,
                     valueColor:
@@ -252,9 +256,9 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                                 true
                             ? AppColors.red
                             : AppColors.green,
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
         // * Delivery Timer indicator (3)
@@ -262,22 +266,26 @@ class AcceptedOrderCardWidget extends StatelessWidget {
           Positioned(
             top: 25.h,
             right: 20.w,
-            child: FocusableActionDetector(
-              autofocus: true,
-              onFocusChange: (value) {
-                debugPrint('FocusableActionDetector 3 timer: $value');
-                if (value == true) {
-                  timerProvider?.startDeliveryTimer(index);
-                }
-              },
-              child: Consumer<TimerProvider>(
-                builder: (context, timerProvider, child) {
-                  // Get the timer model for the specific index
-                  TimerModel timerModel = timerProvider.getDeliveryTimer(index);
-                  // Format the remaining seconds into time format (e.g., mm:ss)
-                  String formattedTime =
-                      timerProvider.formatTime(timerModel.remainingSeconds);
-                  return CircularProgressWithTimer(
+            child: Consumer<TimerProvider>(
+              builder: (context, timerProvider, child) {
+                // Get the timer model for the specific index
+                TimerModel timerModel = timerProvider.getDeliveryTimer(index);
+                // Format the remaining seconds into time format (e.g., mm:ss)
+                String formattedTime =
+                    timerProvider.formatTime(timerModel.remainingSeconds);
+                return VisibilityDetector(
+                  key: Key('item_$index'),
+                  onVisibilityChanged: (visibilityInfo) {
+                    if (visibilityInfo.visibleFraction > 0) {
+                      //* Start the Picked up timer
+                      timerProvider.startDeliveryTimer(index);
+                      debugPrint(
+                          'DeliveryTimer Item $index is visible (${visibilityInfo.visibleFraction * 100}%)');
+                    } else {
+                      debugPrint('Item $index is not visible');
+                    }
+                  },
+                  child: CircularProgressWithTimer(
                     time: formattedTime,
                     value: .5,
                     bgColor: timerModel.isCountingUp
@@ -286,9 +294,9 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                     valueColor: timerModel.isCountingUp
                         ? AppColors.red
                         : AppColors.green,
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
       ],
