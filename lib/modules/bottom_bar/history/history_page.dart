@@ -40,11 +40,11 @@ class HistoryPage extends StatelessWidget {
             ],
           ),
           BottomBlurOnPage(
-            height: 60.h,
+            height: 65.h,
             isTopBlur: true,
           ),
           BottomBlurOnPage(
-            height: 60.h,
+            height: 65.h,
           ),
         ],
       ),

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:degrees_runners/custom_widgets/appbar/custom_sliver_appbar.dart';
 import 'package:degrees_runners/custom_widgets/bottom_blur_on_page.dart';
+import 'package:degrees_runners/custom_widgets/loader/custom_loader.dart';
 import 'package:degrees_runners/custom_widgets/svg_icons.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/new_order_bottom_sheet.dart';
@@ -158,8 +159,23 @@ class OrdersPage extends StatelessWidget {
                                             );
                                           },
                                         )
-                                      : const Center(
-                                          child: Text('No Orders Available'),
+                                      : SizedBox(
+                                          height: 1.sh / 1.8,
+                                          child: true
+                                              ? SizedBox(
+                                                  height: 40.h,
+                                                  width: 40.w,
+                                                  child: const FittedBox(
+                                                    child: CustomLoader(
+                                                      color: AppColors.black,
+                                                      strokeWidth: 4,
+                                                    ),
+                                                  ),
+                                                )
+                                              : const Center(
+                                                  child: Text(
+                                                      'No Orders Available'),
+                                                ),
                                         ),
                                 )
                               :

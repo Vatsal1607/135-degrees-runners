@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomLoader extends StatelessWidget {
   final Color color;
+  final double strokeWidth;
   const CustomLoader({
     super.key,
     required this.color,
+    this.strokeWidth = 4.0,
   });
 
   @override
@@ -14,6 +16,7 @@ class CustomLoader extends StatelessWidget {
       height: 25.h,
       width: 25.h,
       child: CircularProgressIndicator.adaptive(
+        strokeWidth: strokeWidth,
         valueColor: AlwaysStoppedAnimation<Color>(color),
       ),
     );
