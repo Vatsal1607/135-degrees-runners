@@ -66,7 +66,7 @@ class CustomSliverAppbar extends StatelessWidget {
                 ),
                 Text(
                   // 'Delivery Boy Name',
-                  '${sharedPrefsService.getString(SharedPrefsKeys.username)}',
+                  sharedPrefsService.getString(SharedPrefsKeys.username) ?? '',
                   style: GoogleFonts.publicSans(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,

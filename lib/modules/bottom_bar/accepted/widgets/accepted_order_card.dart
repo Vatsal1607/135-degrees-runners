@@ -17,14 +17,12 @@ class AcceptedOrderCardWidget extends StatelessWidget {
   final AcceptedOrderProvider provider;
   final TimerProvider? timerProvider;
   final int index;
-  // final double progress;
   const AcceptedOrderCardWidget({
     super.key,
     this.acceptedOrder,
     required this.provider,
     required this.timerProvider,
     required this.index,
-    // required this.progress,
   });
 
   @override

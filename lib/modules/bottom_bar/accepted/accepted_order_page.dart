@@ -2,7 +2,9 @@ import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../../core/app_colors.dart';
 import '../../../custom_widgets/appbar/custom_sliver_appbar.dart';
+import '../../../custom_widgets/loader/custom_loader.dart';
 import '../../../routes/routes.dart';
 import 'accepted_order_provider.dart';
 import 'controllers/timer_provider.dart';
@@ -74,8 +76,23 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                             );
                           },
                         )
-                      : const Center(
-                          child: Text('No Orders Available'),
+                      : SizedBox(
+                          height: 1.sh / 1.3,
+                          child: true
+                              ? FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: SizedBox(
+                                    height: 40.h,
+                                    width: 40.w,
+                                    child: const CustomLoader(
+                                      color: AppColors.black,
+                                      strokeWidth: 6,
+                                    ),
+                                  ),
+                                )
+                              : const Center(
+                                  child: Text('No Orders Available'),
+                                ),
                         ),
             ),
           ),

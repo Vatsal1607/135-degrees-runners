@@ -10,7 +10,6 @@ class OfflineWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // color: Colors.amber,
       height: 1.sh / 1.8,
       child: Center(
         child: Column(

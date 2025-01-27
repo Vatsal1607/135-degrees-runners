@@ -68,13 +68,13 @@ void quickServeBottomSheeet({
                         image: ImageStrings.masalaTea2,
                         name: 'Masala tea',
                       ),
-                      const ProductWidget(
+                      ProductWidget(
                         image: ImageStrings.masalaTea2,
                         name: 'Masala tea',
                       ),
                     ],
                   ),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: 16.h),
                   CustomButtonWithArrow(
                     isMargin: false,
                     onTap: () {
@@ -84,8 +84,7 @@ void quickServeBottomSheeet({
                     },
                     text: 'PROCEED TO ACCEPT ₹ 20',
                   ),
-                  // SizedBox(height: 15.h),
-                  SizedBox(height: 25.h),
+                  SizedBox(height: 18.h),
                 ],
               ),
             ),

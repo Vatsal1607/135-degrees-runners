@@ -104,7 +104,9 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${sharedPrefsService.getString(SharedPrefsKeys.username)}',
+                        sharedPrefsService
+                                .getString(SharedPrefsKeys.username) ??
+                            '',
                         style: GoogleFonts.publicSans(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w700,

@@ -14,7 +14,7 @@ class HistoryOrderCardWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 20.h),
       decoration: BoxDecoration(
-        color: AppColors.yellow,
+        color: AppColors.black,
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Padding(
@@ -80,8 +80,9 @@ class HistoryOrderCardWidget extends StatelessWidget {
               height: 55.h,
               onTap: () {},
               isBorder: false,
-              bgColor: AppColors.seaShell.withOpacity(.5),
+              bgColor: AppColors.green.withOpacity(.5),
               text: 'delivery  completed',
+              textColor: AppColors.green,
             ),
           ],
         ),
