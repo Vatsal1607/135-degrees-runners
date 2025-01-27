@@ -28,56 +28,103 @@ class TimerProvider extends ChangeNotifier {
 
   TimerModel getPickedUpTimer(int index) {
     if (!pickedUpTimers.containsKey(index)) {
-      pickedUpTimers[index] = TimerModel(remainingSeconds: 600);
+      pickedUpTimers[index] =
+          TimerModel(remainingSeconds: 600, totalSeconds: 600);
     }
     return pickedUpTimers[index]!;
   }
 
   //* Start Pickup Timer
   void startPickedUpTimer(int index) {
-    final timerModel = getPickedUpTimer(index);
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!timerModel.isCountingUp) {
-        if (timerModel.remainingSeconds > 0) {
-          timerModel.remainingSeconds--;
+    TimerModel timerModel = getPickedUpTimer(index);
+    if (!timerModel.hasStarted) {
+      timerModel.hasStarted = true; // Mark the timer as started
+      Timer.periodic(const Duration(seconds: 1), (timerInstance) {
+        if (!timerModel.isCountingUp) {
+          if (timerModel.remainingSeconds > 0) {
+            timerModel.remainingSeconds--;
+          } else {
+            timerModel.isCountingUp = true;
+            timerModel.remainingSeconds = 600; // Reset to count-up
+          }
         } else {
-          timerModel.isCountingUp = true;
-          timerModel.remainingSeconds = 600; // Reset to count-up
+          timerModel.remainingSeconds++;
         }
-      } else {
-        timerModel.remainingSeconds++;
-      }
-      notifyListeners();
-    });
+        notifyListeners();
+      });
+      notifyListeners(); // Notify listeners about the initial change
+    }
   }
+
+  // void startPickedUpTimer(int index) {
+  //   final timerModel = getPickedUpTimer(index);
+  //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     if (!timerModel.isCountingUp) {
+  //       if (timerModel.remainingSeconds > 0) {
+  //         timerModel.remainingSeconds--;
+  //       } else {
+  //         timerModel.isCountingUp = true;
+  //         timerModel.remainingSeconds = 600; // Reset to count-up
+  //       }
+  //     } else {
+  //       timerModel.remainingSeconds++;
+  //     }
+  //     notifyListeners();
+  //   });
+  // }
 
   int deliveryRemainingSeconds = 900; //* 15 minutes in seconds
   final Map<int, TimerModel> deliveryTimers = {};
 
   TimerModel getDeliveryTimer(int index) {
     if (!deliveryTimers.containsKey(index)) {
-      deliveryTimers[index] = TimerModel(remainingSeconds: 900);
+      deliveryTimers[index] =
+          TimerModel(remainingSeconds: 900, totalSeconds: 900);
     }
     return deliveryTimers[index]!;
   }
 
+  // final List<TimerModel> _timers = [];
+
   //* Start Delivery Timer
   void startDeliveryTimer(int index) {
-    final timerModel = getDeliveryTimer(index);
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!timerModel.isCountingUp) {
-        if (timerModel.remainingSeconds > 0) {
-          timerModel.remainingSeconds--;
+    TimerModel timer = getDeliveryTimer(index);
+    if (!timer.hasStarted) {
+      timer.hasStarted = true; // Mark the timer as started
+      Timer.periodic(const Duration(seconds: 1), (timerInstance) {
+        if (!timer.isCountingUp) {
+          if (timer.remainingSeconds > 0) {
+            timer.remainingSeconds--;
+          } else {
+            timer.isCountingUp = true;
+            timer.remainingSeconds = 900; // Reset to count-up
+          }
         } else {
-          timerModel.isCountingUp = true;
-          timerModel.remainingSeconds = 900; // Reset to count-up
+          timer.remainingSeconds++;
         }
-      } else {
-        timerModel.remainingSeconds++;
-      }
-      notifyListeners();
-    });
+        notifyListeners();
+      });
+      notifyListeners(); // Notify listeners about the initial change
+    }
   }
+
+  // void startDeliveryTimer(int index) {
+  //   final timerModel = getDeliveryTimer(index);
+  //   TimerModel timer = _timers[index];
+  //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     if (!timerModel.isCountingUp) {
+  //       if (timerModel.remainingSeconds > 0) {
+  //         timerModel.remainingSeconds--;
+  //       } else {
+  //         timerModel.isCountingUp = true;
+  //         timerModel.remainingSeconds = 900; // Reset to count-up
+  //       }
+  //     } else {
+  //       timerModel.remainingSeconds++;
+  //     }
+  //     notifyListeners();
+  //   });
+  // }
 
   String formatTime(int seconds) {
     final int minutes = seconds ~/ 60;

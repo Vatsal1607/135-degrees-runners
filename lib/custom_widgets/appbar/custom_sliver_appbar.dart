@@ -1,4 +1,6 @@
+import 'package:degrees_runners/core/constants/keys.dart';
 import 'package:degrees_runners/modules/bottom_bar/bottom_bar_provider.dart';
+import 'package:degrees_runners/services/local/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -63,7 +65,8 @@ class CustomSliverAppbar extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Delivery Boy Name',
+                  // 'Delivery Boy Name',
+                  '${sharedPrefsService.getString(SharedPrefsKeys.username)}',
                   style: GoogleFonts.publicSans(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,

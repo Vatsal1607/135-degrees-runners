@@ -63,8 +63,7 @@ class LoginProvider extends ChangeNotifier {
         'deviceId': 'jrkjfbsdnanhaifkbsfa', //Todo add dynamic data
       };
       debugPrint('--Request body: $body');
-      // Make the API call
-      final UserLoginModel response = await apiService.userLogin(
+      final LoginModel response = await apiService.userLogin(
         body: body,
       );
       log('User login Response: $response');
@@ -77,6 +76,9 @@ class LoginProvider extends ChangeNotifier {
           // * Save User id
           sharedPrefsService.setString(
               SharedPrefsKeys.userId, AuthTokenHelper.getUserId().toString());
+          // * Save Username
+          sharedPrefsService.setString(
+              SharedPrefsKeys.username, response.data?.user?.username ?? '');
         }
 
         //! send otp API call

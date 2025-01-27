@@ -14,8 +14,7 @@ class _ApiClient implements ApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??=
-        'https://d6d8-2409-40c1-18-9cad-2175-6b12-ffca-c007.ngrok-free.app/';
+    baseUrl ??= 'http://192.168.1.12:9000/';
   }
 
   final Dio _dio;
@@ -25,13 +24,13 @@ class _ApiClient implements ApiClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<UserLoginModel> userLogin(Map<String, dynamic> body) async {
+  Future<LoginModel> userLogin(Map<String, dynamic> body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _options = _setStreamType<UserLoginModel>(Options(
+    final _options = _setStreamType<LoginModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -48,9 +47,9 @@ class _ApiClient implements ApiClient {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late UserLoginModel _value;
+    late LoginModel _value;
     try {
-      _value = UserLoginModel.fromJson(_result.data!);
+      _value = LoginModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
