@@ -23,15 +23,6 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
   //   timerProvider?.dispose();
   // }
 
-  // @override
-  // void dispose() {
-  //   for (final timerProvider in _timerMap.values) {
-  //     timerProvider.dispose();
-  //   }
-  //   _timerMap.clear();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final orderProvider = Provider.of<OrderProvider>(context, listen: false);
@@ -65,7 +56,6 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                               acceptedOrder?.orderId ?? '',
                               () => TimerProvider()..startInfinityTimer(),
                             );
-
                             return GestureDetector(
                               onTap: () => Navigator.pushNamed(
                                 context,
@@ -75,6 +65,7 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                                 },
                               ),
                               child: AcceptedOrderCardWidget(
+                                // progress: timerModel.progress,
                                 provider: acceptedProvider,
                                 acceptedOrder: acceptedOrder,
                                 timerProvider: timerProvider,

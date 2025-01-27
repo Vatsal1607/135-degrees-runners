@@ -11,7 +11,7 @@ abstract class ApiClient {
   factory ApiClient(Dio dio, {String baseUrl}) = _ApiClient;
 
   @POST(ApiEndpoints.userLogin)
-  Future<UserLoginModel> userLogin(
+  Future<LoginModel> userLogin(
     @Body() Map<String, dynamic> body,
   );
 

@@ -13,7 +13,7 @@ class ApiService {
     apiClient = ApiClient(dio);
   }
 
-  Future<UserLoginModel> userLogin({
+  Future<LoginModel> userLogin({
     required Map<String, dynamic> body,
   }) async {
     return await apiClient.userLogin(

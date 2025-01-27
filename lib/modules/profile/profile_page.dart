@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../core/app_colors.dart';
+import '../../core/constants/keys.dart';
 import '../../core/constants/strings.dart';
 import '../../custom_widgets/appbar/custom_appbar_with_center_title.dart';
 import '../../custom_widgets/custom_confirm_dialog.dart';
 import '../../custom_widgets/svg_icons.dart';
+import '../../services/local/shared_preferences_service.dart';
 import 'profile_provider.dart';
 import 'widgets/profile_tile.dart';
 
@@ -102,7 +104,7 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Delivery Boy Name',
+                        '${sharedPrefsService.getString(SharedPrefsKeys.username)}',
                         style: GoogleFonts.publicSans(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w700,

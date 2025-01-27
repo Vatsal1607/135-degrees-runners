@@ -17,6 +17,19 @@ class AcceptedOrderProvider extends ChangeNotifier {
 
   AcceptedOrderProvider() {
     initializeControllers(acceptedOrderList ?? []);
+    //* Start the picked-up timer when an item is added to the ListView
+    // if (acceptedOrder!.pickupStartTime != null &&
+    //     acceptedOrder.deliveryStartTime == null) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     timerProvider.startPickedUpTimer(index);
+    //   });
+    // }
+    // //* Start the Delivery timer when an item is added to the ListView
+    // if (acceptedOrder.deliveryStartTime != null) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     timerProvider.startDeliveryTimer(index);
+    //   });
+    // }
   }
 
   List<AcceptedOrderModel>? acceptedOrderList;
