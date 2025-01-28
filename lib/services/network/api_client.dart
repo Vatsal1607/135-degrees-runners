@@ -45,4 +45,9 @@ abstract class ApiClient {
   Future<ApiGlobalModel> deliveryTime(
     @Body() Map<String, dynamic> body,
   );
+
+  // @GET(ApiEndpoints.orderHistory)
+  // Future<ApiGlobalModel> orderHistory(
+  //   @Body() Map<String, dynamic> body,
+  // );
 }

@@ -78,7 +78,7 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                         )
                       : SizedBox(
                           height: 1.sh / 1.3,
-                          child: true
+                          child: false
                               ? FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: SizedBox(

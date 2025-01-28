@@ -15,4 +15,5 @@ class ApiEndpoints {
   static const String pickupTime = 'pickup-time';
   static const String deliveryStatus = 'delivery/status';
   static const String deliveryTime = 'delivery-time';
+  static const String orderHistory = 'delivery/order-history';
 }
