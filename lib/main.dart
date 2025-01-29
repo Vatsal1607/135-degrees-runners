@@ -10,6 +10,7 @@ import 'modules/bottom_bar/accepted/accepted_order_provider.dart';
 import 'modules/bottom_bar/accepted/controllers/timer_provider.dart';
 import 'modules/bottom_bar/bottom_bar_provider.dart';
 import 'modules/bottom_bar/orders/order_provider.dart';
+import 'modules/order_details/order_details_provider.dart';
 import 'routes/routes.dart';
 import 'services/local/shared_preferences_service.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => AcceptedOrderProvider()),
         ChangeNotifierProvider(create: (_) => TimerProvider()),
+        ChangeNotifierProvider(create: (_) => OrderDetailsProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(430, 932), // Base screen size (width x height)

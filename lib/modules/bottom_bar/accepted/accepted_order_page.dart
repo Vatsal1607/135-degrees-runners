@@ -18,13 +18,6 @@ class AcceptedOrderPage extends StatefulWidget {
 }
 
 class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
-  final AcceptedOrderProvider _acceptedProvider = AcceptedOrderProvider();
-
-  // void removeOrder(String orderId) {
-  //   final timerProvider = _timerMap.remove(orderId);
-  //   timerProvider?.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final orderProvider = Provider.of<OrderProvider>(context, listen: false);

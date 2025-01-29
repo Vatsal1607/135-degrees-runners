@@ -265,7 +265,6 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                 timerProvider.startDeliveryTimer(index);
                 return CircularProgressWithTimer(
                   time: formattedTime,
-                  // value: .5,
                   value: timerModel.progress,
                   bgColor:
                       timerModel.isCountingUp ? AppColors.red : AppColors.grey,

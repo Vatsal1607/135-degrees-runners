@@ -150,6 +150,7 @@ class OrdersPage extends StatelessWidget {
                                                 Routes.orderDetails,
                                                 arguments: {
                                                   'orderType': 'orders',
+                                                  'orderId': order?.id ?? '',
                                                 },
                                               ),
                                               child: OrderCardWidget(

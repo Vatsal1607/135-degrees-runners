@@ -1,16 +1,13 @@
 import 'package:degrees_runners/custom_widgets/custom_confirm_dialog.dart';
-import 'package:degrees_runners/modules/bottom_bar/accepted/controllers/timer_provider.dart';
 import 'package:degrees_runners/services/local/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import '../../../../core/app_colors.dart';
 import '../../../../core/constants/keys.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../custom_widgets/custom_button.dart';
 import '../../../../models/socket_order_list_model.dart';
-import '../../accepted/accepted_order_provider.dart';
 import '../order_provider.dart';
 
 class OrderCardWidget extends StatelessWidget {
@@ -24,8 +21,8 @@ class OrderCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final acceptedOrderProvider =
-        Provider.of<AcceptedOrderProvider>(context, listen: false);
+    // final acceptedOrderProvider =
+    //     Provider.of<AcceptedOrderProvider>(context, listen: false);
     return Container(
       margin: EdgeInsets.only(bottom: 20.h),
       decoration: BoxDecoration(
