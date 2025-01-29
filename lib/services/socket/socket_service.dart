@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../network/api/api_constants.dart';
 
-//* Note: User connected socket instance from OrderProvider
+//! Note: Use connected socket instance from OrderProvider
 class SocketService {
   late IO.Socket _socket;
 

@@ -1,26 +1,32 @@
+import 'package:degrees_runners/models/order_details_model.dart';
+import 'package:degrees_runners/modules/order_details/order_details_provider.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/constants/constants.dart';
 import 'item_details_value.dart';
 
 class ItemDetailsTable extends StatelessWidget {
   final String orderType;
+  final OrderDetailsData? orderDetailsData;
   const ItemDetailsTable({
     super.key,
     required this.orderType,
+    this.orderDetailsData,
   });
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<OrderDetailsProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(height: 16.h),
-        // * New table headers
+        // * Table headers
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 16.w,
@@ -85,12 +91,11 @@ class ItemDetailsTable extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8.h),
-
         // * List Items
         ListView.separated(
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
-          itemCount: 3,
+          itemCount: orderDetailsData?.items?.length ?? 0,
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           separatorBuilder: (context, index) => Column(
             children: [
@@ -110,11 +115,12 @@ class ItemDetailsTable extends StatelessWidget {
             ],
           ),
           itemBuilder: (context, index) {
+            final items = orderDetailsData?.items?[index];
             return ItemDetailsValue(
               orderType: orderType,
-              items: 'MASALA TEA',
-              quantity: '1',
-              amount: '₹ 50',
+              items: '${items?.itemName}',
+              quantity: '${items?.quantity}',
+              amount: '₹ ${items?.price}',
             );
           },
         ),
@@ -150,7 +156,7 @@ class ItemDetailsTable extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    '4',
+                    '${provider.totalQuantity}',
                     style: GoogleFonts.publicSans(
                       color: AppColors.white,
                       fontSize: 15.sp,
@@ -164,7 +170,7 @@ class ItemDetailsTable extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    '₹ 80',
+                    '₹ ${orderDetailsData?.totalAmount}',
                     style: GoogleFonts.publicSans(
                       color: AppColors.white,
                       fontSize: 15.sp,

@@ -24,10 +24,10 @@ class BottomBarPage extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         controller: provider.myPage,
         onPageChanged: provider.onPageChanged,
-        children: [
-          const OrdersPage(),
+        children: const [
+          OrdersPage(),
           AcceptedOrderPage(),
-          const HistoryPage(),
+          HistoryPage(),
         ],
       ),
       bottomNavigationBar: BottomAppBar(

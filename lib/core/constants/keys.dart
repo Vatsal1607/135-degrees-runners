@@ -21,4 +21,6 @@ class SocketEvents {
   static const String orderAccepted = 'order-accepted';
   static const String acceptedOrderList = 'accepted-order-list';
   static const String acceptedListResponse = 'accepted-list-response';
+  static const String orderDetails = 'order-details';
+  static const String orderDetailsResponse = 'order-details-response';
 }
