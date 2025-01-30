@@ -149,15 +149,16 @@ class AcceptedOrderProvider extends ChangeNotifier {
       if (response.success == true) {
         log('Success: deliveryTime: ${response.message.toString()}');
         Navigator.pop(context);
+        return true;
       } else {
         debugPrint('User deliveryTime Message: ${response.message}');
+        return false;
       }
     } catch (error) {
       log("Error during deliveryTime Response: $error");
       if (error is DioException) {
         final apiError = ApiGlobalModel.fromJson(error.response?.data ?? {});
-      } else {
-        //
+        return false;
       }
     } finally {
       isDeliveryTimeLoading = false;

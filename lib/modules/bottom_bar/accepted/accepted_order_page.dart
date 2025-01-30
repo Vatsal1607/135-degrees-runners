@@ -57,6 +57,8 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                                 Routes.orderDetails,
                                 arguments: {
                                   'orderType': 'accepted',
+                                  'orderId': acceptedOrder?.orderId ?? '',
+                                  'acceptedOrder': acceptedOrder,
                                 },
                               ),
                               child: AcceptedOrderCardWidget(
@@ -84,7 +86,7 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                                   ),
                                 )
                               : const Center(
-                                  child: Text('No Orders Available'),
+                                  child: Text('No Accepted Orders Available'),
                                 ),
                         ),
             ),
