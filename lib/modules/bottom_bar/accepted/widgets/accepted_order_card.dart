@@ -1,4 +1,5 @@
 import 'package:degrees_runners/custom_widgets/custom_button.dart';
+import 'package:degrees_runners/custom_widgets/custom_snackbar.dart';
 import 'package:degrees_runners/modules/bottom_bar/accepted/accepted_order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -118,77 +119,85 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10.h),
-                CustomButton(
-                  height: 55.h,
-                  onTap: () {
-                    if (acceptedOrder?.deliveryStartTime == null) {
-                      // * BTN: Pickup
-                      showDialog(
-                        context: context,
-                        builder: (context) => Consumer<AcceptedOrderProvider>(
-                          builder: (context, _, child) => CustomConfirmDialog(
-                            context: context,
-                            title: 'confirm',
-                            subTitle:
-                                'Confirm That You Have Successfully Picked Up The Order!',
-                            yesBtnText: 'PICKED UP',
-                            isLoading: provider.isLoading,
-                            yesBgColor: AppColors.green,
-                            onTapCancel: () => Navigator.pop(context),
-                            onTapYes: () async {
-                              //* Picked up API - end
-                              await provider.pickupTime(
+                Consumer<AcceptedOrderProvider>(
+                  builder: (context, _, child) => CustomButton(
+                    height: 55.h,
+                    onTap: () {
+                      if (acceptedOrder?.deliveryStartTime == null) {
+                        // * BTN: Pickup
+                        acceptedOrder!.pickupStartTime == null
+                            ? customSnackBar(
                                 context: context,
-                                orderId: acceptedOrder?.orderId ?? '',
-                                // orderId: acceptedOrder?.deliveryStartTime ?? '',
-                                type: 'end',
-                              );
-                              //* API delivery-time 'start'
-                              await provider.deliveryTime(
+                                message: 'Order Is Not Prepared Yet')
+                            : showDialog(
                                 context: context,
-                                orderId: acceptedOrder?.orderId ?? '',
-                                type: 'start',
+                                builder: (context) =>
+                                    Consumer<AcceptedOrderProvider>(
+                                  builder: (context, _, child) =>
+                                      CustomConfirmDialog(
+                                    context: context,
+                                    title: 'confirm',
+                                    subTitle:
+                                        'Confirm That You Have Successfully Picked Up The Order!',
+                                    yesBtnText: 'PICKED UP',
+                                    isLoading: provider.isLoading,
+                                    yesBgColor: AppColors.green,
+                                    onTapCancel: () => Navigator.pop(context),
+                                    onTapYes: () async {
+                                      //* Picked up API - end
+                                      await provider.pickupTime(
+                                        context: context,
+                                        orderId: acceptedOrder?.orderId ?? '',
+                                        // orderId: acceptedOrder?.deliveryStartTime ?? '',
+                                        type: 'end',
+                                      );
+                                      //* API delivery-time 'start'
+                                      await provider.deliveryTime(
+                                        context: context,
+                                        orderId: acceptedOrder?.orderId ?? '',
+                                        type: 'start',
+                                      );
+                                    },
+                                  ),
+                                ),
                               );
-                            },
+                      } else {
+                        // * onTap orderType 'accepted' // BTN: deliver
+                        showDialog(
+                          context: context,
+                          builder: (context) => Consumer<AcceptedOrderProvider>(
+                            builder: (context, _, child) => CustomConfirmDialog(
+                              context: context,
+                              title: 'confirm',
+                              subTitle:
+                                  'Confirm That You Have Successfully Delivered The Order!',
+                              yesBtnText: 'DELIVERED',
+                              isLoading: provider.isDeliveryTimeLoading,
+                              yesBgColor: AppColors.green,
+                              onTapCancel: () => Navigator.pop(context),
+                              onTapYes: () async {
+                                //* API delivery-time 'end'
+                                await provider.deliveryTime(
+                                  context: context,
+                                  orderId: acceptedOrder?.orderId ?? '',
+                                  type: 'end',
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    } else {
-                      // * onTap orderType 'accepted' // BTN: deliver
-                      showDialog(
-                        context: context,
-                        builder: (context) => Consumer<AcceptedOrderProvider>(
-                          builder: (context, _, child) => CustomConfirmDialog(
-                            context: context,
-                            title: 'confirm',
-                            subTitle:
-                                'Confirm That You Have Successfully Delivered The Order!',
-                            yesBtnText: 'DELIVERED',
-                            isLoading: provider.isDeliveryTimeLoading,
-                            yesBgColor: AppColors.green,
-                            onTapCancel: () => Navigator.pop(context),
-                            onTapYes: () async {
-                              //* API delivery-time 'end'
-                              await provider.deliveryTime(
-                                context: context,
-                                orderId: acceptedOrder?.orderId ?? '',
-                                type: 'end',
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                  bgColor: acceptedOrder?.deliveryStartTime == null
-                      ? AppColors.seaShell
-                      : AppColors.green,
-                  text: acceptedOrder?.deliveryStartTime == null
-                      ? 'pickup'
-                      : 'deliver',
-                  textColor: acceptedOrder?.deliveryStartTime == null
-                      ? AppColors.black
-                      : AppColors.seaShell,
+                        );
+                      }
+                    },
+                    bgColor: acceptedOrder?.deliveryStartTime == null
+                        ? AppColors.seaShell
+                        : AppColors.green,
+                    text: acceptedOrder?.deliveryStartTime == null
+                        ? 'pickup'
+                        : 'deliver',
+                    textColor: acceptedOrder?.deliveryStartTime == null
+                        ? AppColors.black
+                        : AppColors.seaShell,
+                  ),
                 ),
               ],
             ),
@@ -230,7 +239,7 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                     ? timerProvider!.formatTime(timerModel!.remainingSeconds)
                     : '00:00';
                 timerProvider?.startPickedUpTimer(index);
-
+                debugPrint('${timerModel?.progress}');
                 return CircularProgressWithTimer(
                   //* Picked up Timer
                   time: formattedTime,
