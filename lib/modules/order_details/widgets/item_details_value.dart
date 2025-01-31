@@ -26,16 +26,20 @@ class ItemDetailsValue extends StatelessWidget {
           flex: 2,
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              items,
-              style: GoogleFonts.publicSans(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.bold,
-                color: getColorOrderDetails(
-                  orderType: orderType,
-                  ordersColor: AppColors.black,
-                  acceptedOrderColor: AppColors.seaShell,
-                  historyOrderColor: AppColors.seaShell,
+            child: Container(
+              // color: Colors.amber,
+              padding: EdgeInsets.only(right: 10.w),
+              child: Text(
+                items,
+                style: GoogleFonts.publicSans(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: getColorOrderDetails(
+                    orderType: orderType,
+                    ordersColor: AppColors.black,
+                    acceptedOrderColor: AppColors.seaShell,
+                    historyOrderColor: AppColors.seaShell,
+                  ),
                 ),
               ),
             ),
