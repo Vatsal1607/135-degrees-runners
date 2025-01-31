@@ -117,14 +117,22 @@ class Items {
   String? itemName;
   int? quantity;
   int? price;
+  Size? size;
 
-  Items({this.menuId, this.itemName, this.quantity, this.price});
+  Items({
+    this.menuId,
+    this.itemName,
+    this.quantity,
+    this.price,
+    this.size,
+  });
 
   Items.fromJson(Map<String, dynamic> json) {
     menuId = json['menuId'];
     itemName = json['itemName'];
     quantity = json['quantity'];
     price = json['price'];
+    size = json['size'] != null ? Size.fromJson(json['size']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -133,6 +141,28 @@ class Items {
     data['itemName'] = itemName;
     data['quantity'] = quantity;
     data['price'] = price;
+    if (size != null) {
+      data['size'] = size!.toJson();
+    }
+    return data;
+  }
+}
+
+class Size {
+  String? sizeId;
+  String? sizeName;
+
+  Size({this.sizeId, this.sizeName});
+
+  Size.fromJson(Map<String, dynamic> json) {
+    sizeId = json['sizeId'];
+    sizeName = json['sizeName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['sizeId'] = sizeId;
+    data['sizeName'] = sizeName;
     return data;
   }
 }

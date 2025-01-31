@@ -118,7 +118,8 @@ class ItemDetailsTable extends StatelessWidget {
             final items = orderDetailsData?.items?[index];
             return ItemDetailsValue(
               orderType: orderType,
-              items: '${items?.itemName}',
+              items:
+                  '${items?.itemName} (${items?.size?.sizeName?.substring(0, 1)})',
               quantity: '${items?.quantity}',
               amount: '₹ ${items?.price}',
             );

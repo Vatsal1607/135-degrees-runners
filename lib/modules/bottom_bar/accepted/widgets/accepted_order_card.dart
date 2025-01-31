@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:degrees_runners/custom_widgets/custom_button.dart';
 import 'package:degrees_runners/custom_widgets/custom_snackbar.dart';
 import 'package:degrees_runners/modules/bottom_bar/accepted/accepted_order_provider.dart';
@@ -86,14 +88,41 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 // * Items details
-                Text(
-                  '${acceptedOrder?.orderDetails.items[0].quantity} × ${acceptedOrder?.orderDetails.items[0].itemName}',
-                  style: GoogleFonts.publicSans(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.seaShell,
-                  ),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero, // imp
+                  shrinkWrap: true,
+                  itemCount:
+                      min(acceptedOrder?.orderDetails.items.length ?? 0, 2),
+                  itemBuilder: (context, index) {
+                    return Text(
+                      '${acceptedOrder?.orderDetails.items[index].quantity} × ${acceptedOrder?.orderDetails.items[index].itemName} | Size: ${acceptedOrder?.orderDetails.items[index].size?.sizeName?.substring(0, 1)}',
+                      style: GoogleFonts.publicSans(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.seaShell,
+                      ),
+                    );
+                  },
                 ),
+                if (acceptedOrder?.orderDetails.items != null &&
+                    acceptedOrder!.orderDetails.items.length > 2)
+                  Text(
+                    '& MORE',
+                    style: GoogleFonts.publicSans(
+                      color: AppColors.black,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                // Text(
+                //   '${acceptedOrder?.orderDetails.items[0].quantity} × ${acceptedOrder?.orderDetails.items[0].itemName}',
+                //   style: GoogleFonts.publicSans(
+                //     fontSize: 16.sp,
+                //     fontWeight: FontWeight.bold,
+                //     color: AppColors.seaShell,
+                //   ),
+                // ),
                 SizedBox(height: 10.h),
                 Row(
                   children: [
@@ -235,11 +264,13 @@ class AcceptedOrderCardWidget extends StatelessWidget {
             right: 20.w,
             child: Consumer<TimerProvider>(
               builder: (context, _, child) {
+                TimerModel? timerModel = timerProvider?.getPickedUpTimer(index);
                 String formattedTime = timerModel?.remainingSeconds != null
                     ? timerProvider!.formatTime(timerModel!.remainingSeconds)
                     : '00:00';
+
                 timerProvider?.startPickedUpTimer(index);
-                debugPrint('${timerModel?.progress}');
+                debugPrint('Picked up progress: ${timerModel?.progress}');
                 return CircularProgressWithTimer(
                   //* Picked up Timer
                   time: formattedTime,

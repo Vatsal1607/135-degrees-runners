@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:degrees_runners/custom_widgets/custom_confirm_dialog.dart';
 import 'package:degrees_runners/services/local/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
@@ -72,21 +74,30 @@ class OrderCardWidget extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             // * Items details
-            // Text(
-            //   '1 × MASALA TEA\n2 × HOT COFFEE\n& MORE',
-            //   style: GoogleFonts.publicSans(
-            //     fontSize: 16.sp,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            Text(
-              '${order?.items[0].quantity} × ${order?.items[0].itemName}',
-              // \n2 × HOT COFFEE\n& MORE',
-              style: GoogleFonts.publicSans(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-              ),
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero, // imp
+              shrinkWrap: true,
+              itemCount: min(order?.items.length ?? 0, 2),
+              itemBuilder: (context, index) {
+                return Text(
+                  '${order?.items[index].quantity} × ${order?.items[index].itemName} | Size: ${order?.items[index].size?.sizeName?.substring(0, 1)}',
+                  style: GoogleFonts.publicSans(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              },
             ),
+            if (order?.items != null && order!.items.length > 2)
+              Text(
+                '& MORE',
+                style: GoogleFonts.publicSans(
+                  color: AppColors.black,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             SizedBox(height: 10.h),
             Row(
               children: [
