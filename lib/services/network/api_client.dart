@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../models/api_global_model.dart';
+import '../../models/order_history_model.dart';
 import '../../models/user_login_model.dart';
 import 'api/api_constants.dart';
 import 'api/api_endpoints.dart';
@@ -46,8 +47,8 @@ abstract class ApiClient {
     @Body() Map<String, dynamic> body,
   );
 
-  // @GET(ApiEndpoints.orderHistory)
-  // Future<ApiGlobalModel> orderHistory(
-  //   @Body() Map<String, dynamic> body,
-  // );
+  @GET('${ApiEndpoints.orderHistory}/{userId}')
+  Future<OrderHistoryModel> orderHistory(
+    @Path('userId') String userId,
+  );
 }

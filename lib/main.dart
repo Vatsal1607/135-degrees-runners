@@ -1,4 +1,5 @@
 import 'package:degrees_runners/modules/auth/otp/otp_provider.dart';
+import 'package:degrees_runners/modules/order_delivered/order_delivered_page.dart';
 import 'package:degrees_runners/modules/profile/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import 'modules/auth/register/register_provider.dart';
 import 'modules/bottom_bar/accepted/accepted_order_provider.dart';
 import 'modules/bottom_bar/accepted/controllers/timer_provider.dart';
 import 'modules/bottom_bar/bottom_bar_provider.dart';
+import 'modules/bottom_bar/history/history_provider.dart';
 import 'modules/bottom_bar/orders/order_provider.dart';
 import 'modules/order_details/order_details_provider.dart';
 import 'routes/routes.dart';
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AcceptedOrderProvider()),
         ChangeNotifierProvider(create: (_) => TimerProvider()),
         ChangeNotifierProvider(create: (_) => OrderDetailsProvider()),
+        ChangeNotifierProvider(create: (_) => HistoryProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(430, 932), // Base screen size (width x height)
@@ -54,9 +57,9 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             scaffoldBackgroundColor: AppColors.seaShell,
           ),
-          // home: const UnderReviewPage(),
-          initialRoute: Routes.initial,
-          routes: Routes.routes,
+          home: const OrderDeliveredPage(),
+          // initialRoute: Routes.initial,
+          // routes: Routes.routes,
         ),
       ),
     );

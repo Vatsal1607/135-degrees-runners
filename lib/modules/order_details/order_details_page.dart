@@ -39,13 +39,13 @@ class OrderDetailsPage extends StatelessWidget {
     // ! Emit & listen OrderDetails
     provider.emitAndListenOrderDetails(
       orderProvider.socketService,
-      orderId,
+      orderId.toString(),
     );
+
     return Scaffold(
       appBar: CustomAppbarWithCenterTitle(
         title: 'Order Details',
-        isAction:
-            orderType == 'accepted' || orderType == 'history' ? true : false,
+        isAction: orderType == 'accepted' ? true : false,
         orderType: orderType,
       ),
       body: Consumer<OrderDetailsProvider>(
@@ -148,6 +148,7 @@ class OrderDetailsPage extends StatelessWidget {
                               // * Modify Order widget
                               if (orderType == 'history')
                                 Container(
+                                  margin: EdgeInsets.only(top: 5.h),
                                   padding: EdgeInsets.symmetric(
                                       vertical: 6.h, horizontal: 8.h),
                                   decoration: BoxDecoration(
@@ -228,171 +229,178 @@ class OrderDetailsPage extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: 20.h),
-                              CustomButton(
-                                height: 48.h,
-
-                                onTap: () {
-                                  if (orderType == 'orders') {
-                                    // * onTap orderType 'orders'
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => CustomConfirmDialog(
+                              if (orderType != 'history')
+                                CustomButton(
+                                  height: 48.h,
+                                  onTap: () {
+                                    if (orderType == 'orders') {
+                                      // * onTap orderType 'orders'
+                                      showDialog(
                                         context: context,
-                                        title: 'confirm',
-                                        subTitle:
-                                            'Are You Sure You Want To Accept Order?',
-                                        yesBtnText: 'ACCEPT',
-                                        onTapCancel: () =>
-                                            Navigator.pop(context),
-                                        onTapYes: () {
-                                          //! Emit the 'orderAccept' event
-                                          orderProvider.socketService.emitEvent(
-                                              SocketEvents.orderAccept, {
-                                            'deliveryBoyId':
-                                                sharedPrefsService.getString(
-                                                    SharedPrefsKeys.userId),
-                                            'orderId': arguments?['orderId'],
-                                          });
-                                          Navigator.popUntil(context, (route) {
-                                            // Keep popping until the condition is met
-                                            return route.settings.name ==
-                                                Routes.bottomBar;
-                                          });
-                                        },
-                                      ),
-                                    );
-                                  } else if (orderType == 'accepted' &&
-                                      acceptedOrder?.deliveryStartTime ==
-                                          null) {
-                                    // * onTap orderType 'accepted' BTN: PICKED UP
-                                    acceptedOrder!.pickupStartTime == null
-                                        ? customSnackBar(
-                                            context: context,
-                                            message:
-                                                'Order Is Not Prepared Yet')
-                                        : showDialog(
-                                            context: context,
-                                            builder: (context) =>
-                                                CustomConfirmDialog(
-                                              context: context,
-                                              title: 'confirm',
-                                              subTitle:
-                                                  'Confirm That You Have Successfully Picked Up The Order!',
-                                              yesBtnText: 'PICKED UP',
-                                              yesBgColor: AppColors.black,
-                                              onTapCancel: () =>
-                                                  Navigator.pop(context),
-                                              onTapYes: () async {
-                                                //* Picked up API - end
-                                                await acceptedOrderProvider
-                                                    .pickupTime(
-                                                  context: context,
-                                                  orderId: orderId,
-                                                  // orderId: acceptedOrder?.deliveryStartTime ?? '',
-                                                  type: 'end',
-                                                );
-                                                //* API delivery-time 'start'
-                                                await acceptedOrderProvider
-                                                    .deliveryTime(
-                                                  context: context,
-                                                  orderId: orderId,
-                                                  type: 'start',
-                                                )
-                                                    .then((isSuccess) {
-                                                  if (isSuccess == true) {
-                                                    Navigator.popUntil(context,
-                                                        (route) {
-                                                      // Keep popping until the condition is met
-                                                      return route
-                                                              .settings.name ==
-                                                          Routes.bottomBar;
-                                                    });
-                                                  }
-                                                });
-                                              },
-                                            ),
-                                          );
-                                  } else if (orderType == 'accepted' &&
-                                      acceptedOrder?.deliveryStartTime !=
-                                          null) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          Consumer<AcceptedOrderProvider>(
-                                        builder: (context, _, child) =>
+                                        builder: (context) =>
                                             CustomConfirmDialog(
                                           context: context,
                                           title: 'confirm',
                                           subTitle:
-                                              'Confirm That You Have Successfully Delivered The Order!',
-                                          yesBtnText: 'DELIVERED',
-                                          isLoading: acceptedOrderProvider
-                                              .isDeliveryTimeLoading,
-                                          yesBgColor: AppColors.green,
+                                              'Are You Sure You Want To Accept Order?',
+                                          yesBtnText: 'ACCEPT',
                                           onTapCancel: () =>
                                               Navigator.pop(context),
-                                          onTapYes: () async {
-                                            //* API delivery-time 'end'
-                                            await acceptedOrderProvider
-                                                .deliveryTime(
-                                              context: context,
-                                              orderId:
-                                                  acceptedOrder?.orderId ?? '',
-                                              type: 'end',
-                                            )
-                                                .then((isSuccess) {
-                                              if (isSuccess == true) {
-                                                Navigator.popUntil(context,
-                                                    (route) {
-                                                  // Keep popping until the condition is met
-                                                  return route.settings.name ==
-                                                      Routes.bottomBar;
-                                                });
-                                              }
+                                          onTapYes: () {
+                                            //! Emit the 'orderAccept' event
+                                            orderProvider.socketService
+                                                .emitEvent(
+                                                    SocketEvents.orderAccept, {
+                                              'deliveryBoyId':
+                                                  sharedPrefsService.getString(
+                                                      SharedPrefsKeys.userId),
+                                              'orderId': arguments?['orderId'],
+                                            });
+                                            Navigator.popUntil(context,
+                                                (route) {
+                                              // Keep popping until the condition is met
+                                              return route.settings.name ==
+                                                  Routes.bottomBar;
                                             });
                                           },
                                         ),
-                                      ),
-                                    );
-                                  } else if (orderType == 'history') {
-                                    // * onTap orderType 'history'
-                                  }
-                                },
-                                bgColor: orderType == 'accepted' &&
-                                        acceptedOrder?.deliveryStartTime == null
-                                    ? AppColors.seaShell
-                                    : orderType == 'accepted'
-                                        ? AppColors.green
-                                        : AppColors.black,
-                                // bgColor: getColorOrderDetails(
-                                //   orderType: orderType,
-                                //   ordersColor: AppColors.black,
-                                //   acceptedOrderColor: AppColors.seaShell,
-                                //   historyOrderColor: AppColors.green,
-                                // ),
-                                text: orderType == 'accepted' &&
-                                        (acceptedOrder?.deliveryStartTime ==
-                                            null)
-                                    ? 'pickup'
-                                    : orderType == 'accepted'
-                                        ? 'deliver'
-                                        : 'ACCEPT',
-                                textColor: orderType == 'accepted' &&
-                                        acceptedOrder?.deliveryStartTime == null
-                                    ? AppColors.black
-                                    : AppColors.seaShell,
-                                // textColor: getColorOrderDetails(
-                                //   orderType: orderType,
-                                //   ordersColor: AppColors.seaShell,
-                                //   acceptedOrderColor: AppColors.black,
-                                //   historyOrderColor: AppColors.seaShell,
-                                // ),
-                                // text: orderType == 'accepted'
-                                //     ? 'PICKUP'
-                                //     : orderType == 'history'
-                                //         ? 'DELIVER'
-                                //         : 'ACCEPT',
-                              )
+                                      );
+                                    } else if (orderType == 'accepted' &&
+                                        acceptedOrder?.deliveryStartTime ==
+                                            null) {
+                                      // * onTap orderType 'accepted' BTN: PICKED UP
+                                      acceptedOrder!.pickupStartTime == null
+                                          ? customSnackBar(
+                                              context: context,
+                                              message:
+                                                  'Order Is Not Prepared Yet')
+                                          : showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  CustomConfirmDialog(
+                                                context: context,
+                                                title: 'confirm',
+                                                subTitle:
+                                                    'Confirm That You Have Successfully Picked Up The Order!',
+                                                yesBtnText: 'PICKED UP',
+                                                yesBgColor: AppColors.black,
+                                                onTapCancel: () =>
+                                                    Navigator.pop(context),
+                                                onTapYes: () async {
+                                                  //* Picked up API - end
+                                                  await acceptedOrderProvider
+                                                      .pickupTime(
+                                                    context: context,
+                                                    orderId: orderId,
+                                                    // orderId: acceptedOrder?.deliveryStartTime ?? '',
+                                                    type: 'end',
+                                                  );
+                                                  //* API delivery-time 'start'
+                                                  await acceptedOrderProvider
+                                                      .deliveryTime(
+                                                    context: context,
+                                                    orderId: orderId,
+                                                    type: 'start',
+                                                  )
+                                                      .then((isSuccess) {
+                                                    if (isSuccess == true) {
+                                                      Navigator.popUntil(
+                                                          context, (route) {
+                                                        // Keep popping until the condition is met
+                                                        return route.settings
+                                                                .name ==
+                                                            Routes.bottomBar;
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            );
+                                    } else if (orderType == 'accepted' &&
+                                        acceptedOrder?.deliveryStartTime !=
+                                            null) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            Consumer<AcceptedOrderProvider>(
+                                          builder: (context, _, child) =>
+                                              CustomConfirmDialog(
+                                            context: context,
+                                            title: 'confirm',
+                                            subTitle:
+                                                'Confirm That You Have Successfully Delivered The Order!',
+                                            yesBtnText: 'DELIVERED',
+                                            isLoading: acceptedOrderProvider
+                                                .isDeliveryTimeLoading,
+                                            yesBgColor: AppColors.green,
+                                            onTapCancel: () =>
+                                                Navigator.pop(context),
+                                            onTapYes: () async {
+                                              //* API delivery-time 'end'
+                                              await acceptedOrderProvider
+                                                  .deliveryTime(
+                                                context: context,
+                                                orderId:
+                                                    acceptedOrder?.orderId ??
+                                                        '',
+                                                type: 'end',
+                                              )
+                                                  .then((isSuccess) {
+                                                if (isSuccess == true) {
+                                                  Navigator.popUntil(context,
+                                                      (route) {
+                                                    // Keep popping until the condition is met
+                                                    return route
+                                                            .settings.name ==
+                                                        Routes.bottomBar;
+                                                  });
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    } else if (orderType == 'history') {
+                                      // * onTap orderType 'history'
+                                    }
+                                  },
+                                  bgColor: orderType == 'accepted' &&
+                                          acceptedOrder?.deliveryStartTime ==
+                                              null
+                                      ? AppColors.seaShell
+                                      : orderType == 'accepted'
+                                          ? AppColors.green
+                                          : AppColors.black,
+                                  // bgColor: getColorOrderDetails(
+                                  //   orderType: orderType,
+                                  //   ordersColor: AppColors.black,
+                                  //   acceptedOrderColor: AppColors.seaShell,
+                                  //   historyOrderColor: AppColors.green,
+                                  // ),
+                                  text: orderType == 'accepted' &&
+                                          (acceptedOrder?.deliveryStartTime ==
+                                              null)
+                                      ? 'pickup'
+                                      : orderType == 'accepted'
+                                          ? 'deliver'
+                                          : 'ACCEPT',
+                                  textColor: orderType == 'accepted' &&
+                                          acceptedOrder?.deliveryStartTime ==
+                                              null
+                                      ? AppColors.black
+                                      : AppColors.seaShell,
+                                  // textColor: getColorOrderDetails(
+                                  //   orderType: orderType,
+                                  //   ordersColor: AppColors.seaShell,
+                                  //   acceptedOrderColor: AppColors.black,
+                                  //   historyOrderColor: AppColors.seaShell,
+                                  // ),
+                                  // text: orderType == 'accepted'
+                                  //     ? 'PICKUP'
+                                  //     : orderType == 'history'
+                                  //         ? 'DELIVER'
+                                  //         : 'ACCEPT',
+                                )
                             ],
                           ),
                         ),
