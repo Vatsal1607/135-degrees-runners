@@ -1,3 +1,4 @@
+import 'package:degrees_runners/models/order_history_model.dart';
 import 'package:dio/dio.dart';
 import '../../models/api_global_model.dart';
 import '../../models/user_login_model.dart';
@@ -55,5 +56,11 @@ class ApiService {
     required Map<String, dynamic> body,
   }) async {
     return await apiClient.deliveryTime(body);
+  }
+
+  Future<OrderHistoryModel> orderHistory({
+    required String userId,
+  }) async {
+    return await apiClient.orderHistory(userId);
   }
 }

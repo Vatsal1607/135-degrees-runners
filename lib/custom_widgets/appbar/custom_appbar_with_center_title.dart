@@ -1,9 +1,11 @@
-import 'package:degrees_runners/custom_widgets/circular_progress_with_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../core/app_colors.dart';
 import '../../core/constants/strings.dart';
+import '../../modules/bottom_bar/accepted/controllers/timer_provider.dart';
+import '../circular_progress_with_timer.dart';
 import '../svg_icons.dart';
 
 class CustomAppbarWithCenterTitle extends StatelessWidget
@@ -14,6 +16,7 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
   final bool isAction;
   final VoidCallback? onTapAction;
   final double? leftPadTitle;
+  final Widget? actionWidgetTimer;
   final String actionIcon;
   final Color actionIconColor;
   final String? orderType;
@@ -25,6 +28,7 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
     this.isAction = false,
     this.onTapAction,
     this.leftPadTitle = 0.0,
+    this.actionWidgetTimer,
     this.actionIcon = IconStrings.clock,
     this.actionIconColor = AppColors.black,
     this.orderType,
@@ -32,6 +36,15 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    final String timerType = args['timerType'] ?? 'infinity';
+    final String time = args['time'] ?? '00:00';
+    final double progress = args['progress'] ?? 0.0;
+    final Color valueColor = args['valueColor'] ?? AppColors.green;
+    final Color bgColor = args['bgColor'] ?? AppColors.grey;
+
     return AppBar(
       forceMaterialTransparency: true, // * disable color change on scroll
       elevation: 0.0,
@@ -74,31 +87,48 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
             ),
           ),
           if (isAction)
+            //* Timer widget
             Positioned.fill(
               right: 15.w,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: CircularProgressWithTimer(
-                  bgColor: orderType != null && orderType == 'history'
-                      ? AppColors.green
-                      : AppColors.black,
-                  valueColor: orderType != null && orderType == 'history'
-                      ? AppColors.green
-                      : AppColors.black,
-                  timeColor: AppColors.black,
+              child: Consumer<TimerProvider>(
+                builder: (context, _, child) => Align(
+                  alignment: Alignment.centerRight,
+                  child: timerType == 'infinity'
+                      ? CircularProgressWithTimer(
+                          time: time,
+                          valueColor: AppColors.grey,
+                          bgColor: AppColors.grey,
+                          timeColor: AppColors.black,
+                        )
+                      : (timerType == 'picked_up')
+                          ? CircularProgressWithTimer(
+                              time: time,
+                              value: progress,
+                              valueColor: valueColor,
+                              bgColor: bgColor,
+                              timeColor: AppColors.black,
+                            )
+                          : (timerType == 'delivery')
+                              ? CircularProgressWithTimer(
+                                  time: time,
+                                  value: progress,
+                                  valueColor: valueColor,
+                                  bgColor: bgColor,
+                                  timeColor: AppColors.black,
+                                )
+                              : const SizedBox(),
+                  //
+                  // child: CircularProgressWithTimer(
+                  //   bgColor: orderType != null && orderType == 'history'
+                  //       ? AppColors.green
+                  //       : AppColors.black,
+                  //   valueColor: orderType != null && orderType == 'history'
+                  //       ? AppColors.green
+                  //       : AppColors.black,
+                  //   timeColor: AppColors.black,
+                  // ),
                 ),
               ),
-              // * Svg icon for action in appbar
-              // child: GestureDetector(
-              //   onTap: onTapAction,
-              //   child: Align(
-              //     alignment: Alignment.centerRight,
-              //     child: SvgIcon(
-              //       icon: actionIcon,
-              //       color: actionIconColor,
-              //     ),
-              //   ),
-              // ),
             ),
         ],
       ),

@@ -18,6 +18,18 @@ class SocketService {
           .build(),
     );
 
+    // if (!_socket.connected) {
+    //   _socket = IO.io(
+    //     BaseUrl.socketBaseUrl,
+    //     IO.OptionBuilder()
+    //         .setTransports(['websocket']) // Enable WebSocket transport
+    //         .enableAutoConnect() // Auto connect
+    //         .setReconnectionAttempts(5) // Retry 5 times
+    //         .build(),
+    //   );
+
+    //   _socket.connect();
+    // }
     _socket.onConnect((_) {
       log('Connected to the server');
     });
