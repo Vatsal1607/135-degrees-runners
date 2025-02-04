@@ -17,19 +17,14 @@ class AcceptedOrderProvider extends ChangeNotifier {
 
   AcceptedOrderProvider() {
     initializeControllers(acceptedOrderList ?? []);
-    //* Start the picked-up timer when an item is added to the ListView
-    // if (acceptedOrder!.pickupStartTime != null &&
-    //     acceptedOrder.deliveryStartTime == null) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     timerProvider.startPickedUpTimer(index);
-    //   });
-    // }
-    // //* Start the Delivery timer when an item is added to the ListView
-    // if (acceptedOrder.deliveryStartTime != null) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     timerProvider.startDeliveryTimer(index);
-    //   });
-    // }
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    _infinityTimer.cancel();
+    log('Accepted Timer disposed');
+    super.dispose();
   }
 
   List<AcceptedOrderModel>? acceptedOrderList;
@@ -45,14 +40,16 @@ class AcceptedOrderProvider extends ChangeNotifier {
   }
 
   List<TimerModel> pickUpItems = [];
-
+  Timer? timer;
   // bool isLoading = false;
   void emitAndListenAcceptedOrderList(SocketService socketService) {
     // Timer to emit the event every second
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       // Emit the 'acceptedOrderList' event
       socketService.emitEvent(SocketEvents.acceptedOrderList, {
         'deliveryBoyId': sharedPrefsService.getString(SharedPrefsKeys.userId),
+        "socketId": socketService.socket.id,
+        "role": "4",
       });
     });
 
@@ -70,11 +67,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
               .toList();
           // Update your UI or state with the parsed data
           acceptedOrderList = acceptedOrders;
-          // if (acceptedOrderList?[0].pickupStartTime == null) {
-          //   //
-          // } else {
-          //   //
-          // }
         } else {
           // If no items, ensure the list is cleared
           acceptedOrderList?.clear();
@@ -207,13 +199,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
       debugPrint('infinitySeconds: $infinitySeconds');
       notifyListeners();
     });
-  }
-
-  @override
-  void dispose() {
-    // _timer.cancel();
-    _infinityTimer.cancel();
-    super.dispose();
   }
 
   //* REF:

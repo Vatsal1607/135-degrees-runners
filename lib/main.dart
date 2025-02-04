@@ -13,6 +13,7 @@ import 'modules/bottom_bar/bottom_bar_provider.dart';
 import 'modules/bottom_bar/history/history_provider.dart';
 import 'modules/bottom_bar/orders/order_provider.dart';
 import 'modules/order_details/order_details_provider.dart';
+import 'modules/profile/edit_profile/edit_profile_provider.dart';
 import 'routes/routes.dart';
 import 'services/local/shared_preferences_service.dart';
 
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TimerProvider()),
         ChangeNotifierProvider(create: (_) => OrderDetailsProvider()),
         ChangeNotifierProvider(create: (_) => HistoryProvider()),
+        ChangeNotifierProvider(create: (_) => EditProfileProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(430, 932), // Base screen size (width x height)
@@ -57,9 +59,9 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             scaffoldBackgroundColor: AppColors.seaShell,
           ),
-          home: const OrderDeliveredPage(),
-          // initialRoute: Routes.initial,
-          // routes: Routes.routes,
+          // home: const OrderDeliveredPage(),
+          initialRoute: Routes.initial,
+          routes: Routes.routes,
         ),
       ),
     );

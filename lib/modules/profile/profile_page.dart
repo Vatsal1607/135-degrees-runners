@@ -8,6 +8,7 @@ import '../../core/constants/strings.dart';
 import '../../custom_widgets/appbar/custom_appbar_with_center_title.dart';
 import '../../custom_widgets/custom_confirm_dialog.dart';
 import '../../custom_widgets/svg_icons.dart';
+import '../../routes/routes.dart';
 import '../../services/local/shared_preferences_service.dart';
 import 'profile_provider.dart';
 import 'widgets/profile_tile.dart';
@@ -115,7 +116,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigator.pushNamed(context, Routes.editProfile);
+                          Navigator.pushNamed(context, Routes.editProfile);
                         },
                         child: Text(
                           'EDIT PROFILE',

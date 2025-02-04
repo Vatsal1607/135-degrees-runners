@@ -30,6 +30,9 @@ class IconStrings {
   static const arrowNext = '${BaseIconPath.basePath}arrow_next.svg';
   static const cash = '${BaseIconPath.basePath}cash.svg';
   static const otpVerified = '${BaseIconPath.basePath}otp_verifed.svg';
+  static const edit = '${BaseIconPath.basePath}edit.svg';
+  static const locationWhite = '${BaseIconPath.basePath}location_white.svg';
+  static const email = '${BaseIconPath.basePath}email.svg';
 }
 
 class ImageStrings {

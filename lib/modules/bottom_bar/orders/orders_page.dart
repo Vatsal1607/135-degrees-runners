@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../core/app_colors.dart';
+import '../../../core/constants/keys.dart';
 import '../../../core/constants/strings.dart';
 import '../../../custom_widgets/custom_confirm_dialog.dart';
 import '../../../routes/routes.dart';
@@ -23,6 +24,9 @@ class OrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<OrderProvider>(context, listen: false);
+    //* Remove listener of accepted order
+    // provider.socketService
+    //     .removeSpecificEventListener(SocketEvents.acceptedListResponse);
     return Scaffold(
       body: Stack(
         children: [

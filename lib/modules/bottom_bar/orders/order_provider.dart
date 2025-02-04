@@ -24,6 +24,15 @@ class OrderProvider extends ChangeNotifier {
         // * Connect to socket server
         socketService.connectToSocket();
         socketService.socket.onConnect((_) {
+          //* user connect by database
+          final userConnectData = {
+            "userId": sharedPrefsService.getString(SharedPrefsKeys.userId),
+            "deviceId": sharedPrefsService.getString(SharedPrefsKeys.deviceId),
+            "role": "4",
+            "socketId": socketService.socket.id,
+          };
+          socketService.emitEvent(SocketEvents.userConnected, userConnectData);
+          log('Log of uerConnect: $userConnectData');
           onSocketConnected(); // ! EMIT & LISTEN OrderList
         });
         deliveryStatus(isActive: true); // deliveryStatus apiCall
