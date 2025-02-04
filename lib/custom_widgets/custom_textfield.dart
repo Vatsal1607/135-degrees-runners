@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
   final String? errorText;
+  final Widget? suffixWidget;
   const CustomTextField({
     super.key,
     required this.hint,
@@ -27,6 +28,7 @@ class CustomTextField extends StatelessWidget {
     this.inputFormatters,
     this.onChanged,
     this.errorText,
+    this.suffixWidget,
   });
 
   @override
@@ -52,6 +54,7 @@ class CustomTextField extends StatelessWidget {
           icon: prefixIcon,
           color: iconColor,
         ),
+        suffixIcon: suffixWidget,
         border: kTextfieldBorderStyle,
         enabledBorder: kTextfieldBorderStyle,
         focusedBorder: kTextfieldBorderStyle,

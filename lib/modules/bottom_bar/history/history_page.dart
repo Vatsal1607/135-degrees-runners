@@ -2,9 +2,11 @@ import 'package:degrees_runners/custom_widgets/appbar/custom_appbar_with_center_
 import 'package:degrees_runners/custom_widgets/loader/custom_loader.dart';
 import 'package:degrees_runners/modules/bottom_bar/history/history_provider.dart';
 import 'package:degrees_runners/modules/bottom_bar/history/widgets/history_order_card.dart';
+import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../../core/constants/keys.dart';
 import '../../../custom_widgets/appbar/custom_sliver_appbar.dart';
 import '../../../custom_widgets/bottom_blur_on_page.dart';
 import '../../../routes/routes.dart';
@@ -28,6 +30,9 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<HistoryProvider>(context, listen: false);
+    // final orderProvider = Provider.of<OrderProvider>(context, listen: false);
+    // orderProvider.socketService
+    //     .removeSpecificEventListener(SocketEvents.acceptedListResponse);
     return Scaffold(
       body: Stack(
         children: [

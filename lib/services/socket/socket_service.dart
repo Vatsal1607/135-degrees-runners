@@ -43,8 +43,11 @@ class SocketService {
     });
   }
 
+  void removeSpecificEventListener(String eventName) {
+    _socket.off(eventName); // Remove specific event listener
+  }
+
   void emitEvent(String event, dynamic data) {
-    // _socket.emit(event, data);
     if (_socket.connected) {
       _socket.emit(event, data);
     } else {

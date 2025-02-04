@@ -60,7 +60,7 @@ class LoginProvider extends ChangeNotifier {
         'contact': int.parse('91${phoneController.text}'),
         'role': '4',
         'fcmToken': 'xyzwefghhfdsdfffffffffftgfdfcdfds', //Todo add dynamic data
-        'deviceId': 'jrkjfbsdnanhaifkbsfa', //Todo add dynamic data
+        'deviceId': sharedPrefsService.getString(SharedPrefsKeys.deviceId),
       };
       debugPrint('--Request body: $body');
       final LoginModel response = await apiService.userLogin(

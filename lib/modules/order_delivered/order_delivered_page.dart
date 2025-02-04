@@ -14,43 +14,38 @@ class OrderDeliveredPage extends StatelessWidget {
       backgroundColor: AppColors.green,
       body: Stack(
         children: [
-          Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 34.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Order Delivered!',
-                    style: GoogleFonts.publicSans(
-                      fontSize: 40.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white,
-                    ),
-                  ),
-                  Text(
-                    'at 10:25 aM, 12 January 2025',
-                    style: GoogleFonts.publicSans(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
           Positioned(
             bottom: 50.h,
             left: 34.w,
             right: 34.w,
-            child: CustomButton(
-              height: 50.h,
-              onTap: () {},
-              text: 'go to orders',
-              isBorder: false,
-              textColor: AppColors.black,
-              bgColor: AppColors.seaShell,
+            child: Column(
+              children: [
+                Text(
+                  'Order Delivered!',
+                  style: GoogleFonts.publicSans(
+                    fontSize: 40.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  ),
+                ),
+                Text(
+                  'at 10:25 aM, 12 January 2025',
+                  style: GoogleFonts.publicSans(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  ),
+                ),
+                SizedBox(height: 145.h),
+                CustomButton(
+                  height: 50.h,
+                  onTap: () {},
+                  text: 'go to orders',
+                  isBorder: false,
+                  textColor: AppColors.black,
+                  bgColor: AppColors.seaShell,
+                ),
+              ],
             ),
           ),
         ],

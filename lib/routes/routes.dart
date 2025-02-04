@@ -8,6 +8,7 @@ import '../modules/auth/login/login_page.dart';
 import '../modules/auth/otp/widgets/verify_success_page.dart';
 import '../modules/auth/register/register_page.dart';
 import '../modules/bottom_bar/bottom_bar_page.dart';
+import '../modules/profile/edit_profile/edit_profile_page.dart';
 import '../modules/splash/splash_page.dart';
 
 class Routes {
@@ -21,6 +22,7 @@ class Routes {
   static const String orderDetails = '/orderDetails';
   static const String profile = '/profile';
   static const String verifySuccess = '/verifySuccess';
+  static const String editProfile = '/editProfilePage';
 
   static final Map<String, WidgetBuilder> routes = {
     initial: (context) => const SplashPage(),
@@ -33,5 +35,6 @@ class Routes {
     orderDetails: (context) => const OrderDetailsPage(),
     profile: (context) => const ProfilePage(),
     verifySuccess: (context) => const VerifySuccessPage(),
+    editProfile: (context) => const EditProfilePage(),
   };
 }

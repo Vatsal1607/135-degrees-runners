@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +21,14 @@ class AcceptedOrderPage extends StatefulWidget {
 }
 
 class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!mounted) {
+      Provider.of<AcceptedOrderProvider>(context, listen: false).dispose();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final orderProvider = Provider.of<OrderProvider>(context, listen: false);

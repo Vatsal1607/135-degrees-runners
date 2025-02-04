@@ -37,7 +37,8 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>? ??
+            {};
 
     final String timerType = args['timerType'] ?? 'infinity';
     final String time = args['time'] ?? '00:00';
