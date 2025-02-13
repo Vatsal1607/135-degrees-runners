@@ -42,12 +42,65 @@ class AcceptedOrderProvider extends ChangeNotifier {
   List<TimerModel> pickUpItems = [];
   Timer? timer;
   // bool isLoading = false;
-  void emitAndListenAcceptedOrderList(SocketService socketService) {
-    // Timer to emit the event every second
+  // void emitAndListenAcceptedOrderList(SocketService socketService) {
+  //   // Timer to emit the event every second
+  //   timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     // Emit the 'acceptedOrderList' event
+  //     socketService.emitEvent(SocketEvents.acceptedOrderList, {
+  //       'deliveryBoyId': sharedPrefsService.getString(SharedPrefsKeys.userId),
+  //       "socketId": socketService.socket.id,
+  //       "role": "4",
+  //     });
+  //   });
+
+  //   /// Listen for the 'acceptedListResponse' event
+  //   socketService.listenToEvent(SocketEvents.acceptedListResponse, (data) {
+  //     try {
+  //       log('Raw socket acceptedListResponse data: $data');
+  //       Map<String, dynamic> response = data;
+  //       var acceptedOrderListData = response['data'] as List;
+  //       if (acceptedOrderListData.isNotEmpty) {
+  //         // Clear and reinitialize the list to ensure data is fresh
+  //         acceptedOrderList?.clear();
+  //         List<AcceptedOrderModel> acceptedOrders = acceptedOrderListData
+  //             .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
+  //             .toList();
+  //         // Update your UI or state with the parsed data
+  //         acceptedOrderList = acceptedOrders;
+  //       } else {
+  //         // If no items, ensure the list is cleared
+  //         acceptedOrderList?.clear();
+  //       }
+  //       notifyListeners();
+  //     } catch (e) {
+  //       log('Error parsing socket data: $e');
+  //     }
+  //   });
+  // }
+
+  void emitAndListenAcceptedOrderList(SocketService socketService) async {
+    final deliveryBoyId = sharedPrefsService.getString(SharedPrefsKeys.userId);
+    final deviceId = sharedPrefsService
+        .getString(SharedPrefsKeys.deviceId); // Fetch unique device ID
+
+    // if (deliveryBoyId.isEmpty) {
+    //   log("DeliveryBoyId is missing, cannot proceed.");
+    //   return;
+    // }
+
+    // Send deliveryBoyId & deviceId once during initialization
+    socketService.emitEvent(SocketEvents.acceptedOrderList, {
+      'deliveryBoyId': deliveryBoyId,
+      'deviceId': deviceId, // Pass unique device identifier
+      "socketId": socketService.socket.id,
+      "role": "4",
+    });
+
+    // Set up periodic listener for updates
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      // Emit the 'acceptedOrderList' event
       socketService.emitEvent(SocketEvents.acceptedOrderList, {
-        'deliveryBoyId': sharedPrefsService.getString(SharedPrefsKeys.userId),
+        'deliveryBoyId': deliveryBoyId,
+        'deviceId': deviceId, // Include deviceId in every request
         "socketId": socketService.socket.id,
         "role": "4",
       });
@@ -58,20 +111,19 @@ class AcceptedOrderProvider extends ChangeNotifier {
       try {
         log('Raw socket acceptedListResponse data: $data');
         Map<String, dynamic> response = data;
+
+        // if (response['deviceId'] == deviceId) {
+        // Ensure only updates for this device
         var acceptedOrderListData = response['data'] as List;
         if (acceptedOrderListData.isNotEmpty) {
-          // Clear and reinitialize the list to ensure data is fresh
-          acceptedOrderList?.clear();
-          List<AcceptedOrderModel> acceptedOrders = acceptedOrderListData
+          acceptedOrderList = acceptedOrderListData
               .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
               .toList();
-          // Update your UI or state with the parsed data
-          acceptedOrderList = acceptedOrders;
         } else {
-          // If no items, ensure the list is cleared
           acceptedOrderList?.clear();
         }
         notifyListeners();
+        // }
       } catch (e) {
         log('Error parsing socket data: $e');
       }
