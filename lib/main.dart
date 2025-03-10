@@ -1,7 +1,9 @@
 import 'package:degrees_runners/modules/auth/otp/otp_provider.dart';
 import 'package:degrees_runners/modules/order_delivered/order_delivered_page.dart';
 import 'package:degrees_runners/modules/profile/profile_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'core/app_colors.dart';
@@ -18,15 +20,13 @@ import 'routes/routes.dart';
 import 'services/local/shared_preferences_service.dart';
 
 Future<void> main() async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await sharedPrefsService.init(); // * local storage init
-  // SystemChrome.setSystemUIOverlayStyle(
-  //   const SystemUiOverlayStyle(
-  //     statusBarColor: Colors.transparent, // Set your desired status bar color
-  //     statusBarIconBrightness: Brightness.dark, // Light or dark icons
-  //     statusBarBrightness: Brightness.light, // Adjusts for iOS
-  //   ),
-  // );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
