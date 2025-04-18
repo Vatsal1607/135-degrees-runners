@@ -47,6 +47,35 @@ class AcceptedOrderModel {
   }
 }
 
+// class OrderDetails {
+//   final List<Item> items;
+//   final num totalAmount;
+//   final String orderStatus;
+//   final String deliveryAddress;
+//   final int orderIds;
+
+//   OrderDetails({
+//     required this.items,
+//     required this.totalAmount,
+//     required this.orderStatus,
+//     required this.deliveryAddress,
+//     required this.orderIds,
+//   });
+
+//   factory OrderDetails.fromJson(Map<String, dynamic> json) {
+//     var itemsList = json['items'] as List;
+//     List<Item> items =
+//         itemsList.map((itemJson) => Item.fromJson(itemJson)).toList();
+
+//     return OrderDetails(
+//       items: items,
+//       totalAmount: json['totalAmount'].toDouble(),
+//       orderStatus: json['orderStatus'],
+//       deliveryAddress: json['deliveryAddress'],
+//       orderIds: json['orderIds'],
+//     );
+//   }
+// }
 class OrderDetails {
   final List<Item> items;
   final num totalAmount;
@@ -63,16 +92,20 @@ class OrderDetails {
   });
 
   factory OrderDetails.fromJson(Map<String, dynamic> json) {
-    var itemsList = json['items'] as List;
-    List<Item> items =
-        itemsList.map((itemJson) => Item.fromJson(itemJson)).toList();
+    List<Item> items = [];
+
+    if (json['items'] != null && json['items'] is List) {
+      items = (json['items'] as List)
+          .map((itemJson) => Item.fromJson(itemJson))
+          .toList();
+    }
 
     return OrderDetails(
       items: items,
-      totalAmount: json['totalAmount'].toDouble(),
-      orderStatus: json['orderStatus'],
-      deliveryAddress: json['deliveryAddress'],
-      orderIds: json['orderIds'],
+      totalAmount: json['totalAmount']?.toDouble() ?? 0.0,
+      orderStatus: json['orderStatus'] ?? '',
+      deliveryAddress: json['deliveryAddress'] ?? '',
+      orderIds: int.tryParse(json['orderIds'].toString()) ?? 0,
     );
   }
 }

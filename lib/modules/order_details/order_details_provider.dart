@@ -39,7 +39,7 @@ class OrderDetailsProvider extends ChangeNotifier {
       } catch (e) {
         isLoading = false;
         notifyListeners();
-        log('Error parsing socket data: $e');
+        log('Error parsing socket data orderDetailsResponse: $e');
       }
     });
   }

@@ -75,7 +75,7 @@ class OrderProvider extends ChangeNotifier {
         }
         notifyListeners();
       } catch (e) {
-        log('Error parsing socket data: $e');
+        log('Error parsing socket data orderList: $e');
       }
     });
   }

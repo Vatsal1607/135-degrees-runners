@@ -106,28 +106,63 @@ class AcceptedOrderProvider extends ChangeNotifier {
       });
     });
 
-    /// Listen for the 'acceptedListResponse' event
+    //* Listen for the 'acceptedListResponse' event
     socketService.listenToEvent(SocketEvents.acceptedListResponse, (data) {
       try {
         log('Raw socket acceptedListResponse data: $data');
-        Map<String, dynamic> response = data;
 
-        // if (response['deviceId'] == deviceId) {
-        // Ensure only updates for this device
-        var acceptedOrderListData = response['data'] as List;
-        if (acceptedOrderListData.isNotEmpty) {
-          acceptedOrderList = acceptedOrderListData
-              .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
-              .toList();
+        if (data is Map<String, dynamic>) {
+          final acceptedOrderListData = data['data'];
+
+          if (acceptedOrderListData is List) {
+            acceptedOrderList = acceptedOrderListData
+                .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
+                .toList();
+            log("Accepted orders updated: ${acceptedOrderList?.length}");
+          } else {
+            log("Info: 'data' is empty or not a List.");
+            acceptedOrderList?.clear();
+          }
         } else {
-          acceptedOrderList?.clear();
+          log("Warning: Received socket data is not a Map.");
         }
         notifyListeners();
-        // }
-      } catch (e) {
-        log('Error parsing socket data: $e');
+      } catch (e, stack) {
+        log('Error parsing socket data acceptedOrderList: $e');
+        log('Stack trace: $stack'); // Optional but useful for deep debugging
       }
     });
+
+    // socketService.listenToEvent(SocketEvents.acceptedListResponse, (data) {
+    //   try {
+    //     log('Raw socket acceptedListResponse data: $data');
+    //     Map<String, dynamic> response = data;
+    //     var acceptedOrderListData = response['data'] as List;
+    //     // var acceptedOrderListData = response['data'];
+    //     // if (acceptedOrderListData != null && acceptedOrderListData is List) {
+    //     //   if (acceptedOrderListData.isNotEmpty) {
+    //     //     acceptedOrderList = acceptedOrderListData
+    //     //         .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
+    //     //         .toList();
+    //     //   } else {
+    //     //     acceptedOrderList?.clear();
+    //     //   }
+    //     // } else {
+    //     //   log("Warning: 'data' is null or not a List");
+    //     //   acceptedOrderList?.clear();
+    //     // }
+    //     if (acceptedOrderListData.isNotEmpty) {
+    //       acceptedOrderList = acceptedOrderListData
+    //           .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
+    //           .toList();
+    //     } else {
+    //       acceptedOrderList?.clear();
+    //     }
+    //     notifyListeners();
+    //   } catch (e) {
+    //     log('Error parsing socket data acceptedOrderList: $e');
+    //   }
+    // });
   }
 
   bool _isLoading = false;
