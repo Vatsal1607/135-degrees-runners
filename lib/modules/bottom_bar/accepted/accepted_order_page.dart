@@ -43,6 +43,85 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
         slivers: [
           const CustomSliverAppbar(),
           SliverToBoxAdapter(
+            //* New consumer accepted list widget
+            // child: Consumer<AcceptedOrderProvider>(
+            //   builder: (context, acceptedProvider, child) {
+            //     final acceptedOrderList = acceptedProvider.acceptedOrderList;
+
+            //     if (acceptedOrderList != null && acceptedOrderList.isNotEmpty) {
+            //       return ListView.builder(
+            //         padding:
+            //             EdgeInsets.symmetric(horizontal: 28.w, vertical: 20.h),
+            //         physics: const NeverScrollableScrollPhysics(),
+            //         shrinkWrap: true,
+            //         itemCount: acceptedOrderList.length,
+            //         itemBuilder: (context, index) {
+            //           final acceptedOrder = acceptedOrderList[index];
+
+            //           // Init or get timerProvider
+            //           final timerProvider =
+            //               acceptedProvider.timerMap.putIfAbsent(
+            //             acceptedOrder.orderId ?? '',
+            //             () => TimerProvider()..startInfinityTimer(),
+            //           );
+
+            //           TimerModel? timerModel;
+            //           String timerType = 'infinity';
+
+            //           if (acceptedOrder.pickupStartTime != null &&
+            //               acceptedOrder.deliveryStartTime == null) {
+            //             timerModel = timerProvider.getPickedUpTimer(index);
+            //             timerType = 'picked_up';
+            //           } else if (acceptedOrder.deliveryStartTime != null) {
+            //             timerModel = timerProvider.getDeliveryTimer(index);
+            //             timerType = 'delivery';
+            //           }
+
+            //           return GestureDetector(
+            //             onTap: () {
+            //               Navigator.pushNamed(
+            //                 context,
+            //                 Routes.orderDetails,
+            //                 arguments: {
+            //                   'orderType': 'accepted',
+            //                   'orderId': acceptedOrder.orderId ?? '',
+            //                   'acceptedOrder': acceptedOrder,
+            //                   'timerType': timerType,
+            //                   'time': timerModel != null
+            //                       ? timerProvider
+            //                           .formatTime(timerModel.remainingSeconds)
+            //                       : '00:00',
+            //                   'progress': timerModel?.progress ?? 0.0,
+            //                   'valueColor': timerModel?.isCountingUp == true
+            //                       ? AppColors.red
+            //                       : AppColors.green,
+            //                   'bgColor': timerModel?.isCountingUp == true
+            //                       ? AppColors.red
+            //                       : AppColors.grey,
+            //                 },
+            //               );
+            //             },
+            //             child: AcceptedOrderCardWidget(
+            //               provider: acceptedProvider,
+            //               acceptedOrder: acceptedOrder,
+            //               timerProvider: timerProvider,
+            //               index: index,
+            //             ),
+            //           );
+            //         },
+            //       );
+            //     } else {
+            //       return SizedBox(
+            //         height: 1.sh / 1.3,
+            //         child: Center(
+            //           child: const Text('No Accepted Orders Available'),
+            //         ),
+            //       );
+            //     }
+            //   },
+            // ),
+
+            //* Keep this
             child: Consumer<AcceptedOrderProvider>(
               builder: (context, _, child) => acceptedProvider
                               .acceptedOrderList !=

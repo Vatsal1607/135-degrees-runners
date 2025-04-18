@@ -1,0 +1,2 @@
+/Volumes/SSD 1/StudioProjects/135-degrees-runners/android/app/.cxx/RelWithDebInfo/1ot102j5/x86_64/CMakeFiles/edit_cache.dir
+/Volumes/SSD 1/StudioProjects/135-degrees-runners/android/app/.cxx/RelWithDebInfo/1ot102j5/x86_64/CMakeFiles/rebuild_cache.dir
