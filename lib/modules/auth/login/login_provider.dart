@@ -56,13 +56,14 @@ class LoginProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
+      final fcmToken = sharedPrefsService.getString(SharedPrefsKeys.fcmToken);
+      final deviceId = sharedPrefsService.getString(SharedPrefsKeys.deviceId);
       final Map<String, dynamic> body = {
         'contact': int.parse('91${phoneController.text}'),
         'role': '4',
-        'fcmToken': 'xyzwefghhfdsdfffffffffftgfdfcdfds', //Todo add dynamic data
-        'deviceId': sharedPrefsService.getString(SharedPrefsKeys.deviceId),
+        'fcmToken': fcmToken,
+        'deviceId': deviceId,
       };
-      debugPrint('--Request body: $body');
       final LoginModel response = await apiService.userLogin(
         body: body,
       );

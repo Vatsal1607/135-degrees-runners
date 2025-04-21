@@ -14,6 +14,7 @@ import 'modules/bottom_bar/accepted/controllers/timer_provider.dart';
 import 'modules/bottom_bar/bottom_bar_provider.dart';
 import 'modules/bottom_bar/history/history_provider.dart';
 import 'modules/bottom_bar/orders/order_provider.dart';
+import 'modules/notifications/notification_service.dart';
 import 'modules/order_details/order_details_provider.dart';
 import 'modules/profile/edit_profile/edit_profile_provider.dart';
 import 'routes/routes.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await sharedPrefsService.init(); // * local storage init
+  await NotificationService.initialize();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
