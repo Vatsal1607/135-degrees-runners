@@ -80,12 +80,6 @@ class OrderProvider extends ChangeNotifier {
     });
   }
 
-  // @override
-  // void dispose() {
-  //   socketService.disconnect();
-  //   super.dispose();
-  // }
-
   double dragPosition = 10.w; // Track the drag position
   final double maxDrag = 280.w; // Maximum drag length
   final minDrag = 10.w;
