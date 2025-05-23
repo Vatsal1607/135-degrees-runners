@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../models/api_global_model.dart';
+import '../../models/get_user_details_model.dart';
 import '../../models/order_history_model.dart';
 import '../../models/user_login_model.dart';
 import 'api/api_constants.dart';
@@ -50,5 +53,28 @@ abstract class ApiClient {
   @GET('${ApiEndpoints.orderHistory}/{userId}')
   Future<OrderHistoryModel> orderHistory(
     @Path('userId') String userId,
+  );
+
+  //* Invoice main generate
+  @POST(ApiEndpoints.orderInvoiceGenerate)
+  Future<ApiGlobalModel> orderInvoiceGenerate(
+    @Field("orderId") String orderId,
+  );
+
+  @GET('${ApiEndpoints.getUserDetails}/{userId}')
+  Future<GetUserDetailsModel> getUserDetails(
+    @Path('userId') String userId,
+  );
+
+  //* Edit profile
+  @PUT('${ApiEndpoints.updateUserDetails}/{userId}')
+  @MultiPart()
+  Future<ApiGlobalModel> editProfile(
+    @Path('userId') String userId,
+    @Part(name: 'username') String username,
+    @Part(name: 'email') String email,
+    @Part(name: 'address') String address,
+    @Part(name: 'contact') String contact,
+    @Part(name: "profileImage") File? profileImage,
   );
 }

@@ -30,12 +30,15 @@ class LoginProvider extends ChangeNotifier {
     return null;
   }
 
-  // @override
-  // void dispose() {
-  //   // phoneController.clear();
-  //   // phoneController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    // phoneController.clear();
+    // phoneController.dispose();
+    mobilenumberFocusNode.dispose();
+    super.dispose();
+  }
+
+  final FocusNode mobilenumberFocusNode = FocusNode();
 
   onChangePersonalNumber(value) {
     if (value.length != 10) {
@@ -43,6 +46,7 @@ class LoginProvider extends ChangeNotifier {
       notifyListeners();
     } else {
       mobileErrorText = null;
+      mobilenumberFocusNode.unfocus();
       notifyListeners();
     }
   }

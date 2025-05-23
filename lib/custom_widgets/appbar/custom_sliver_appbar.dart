@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../core/app_colors.dart';
 import '../../core/constants/constants.dart';
 import '../../core/constants/strings.dart';
+import '../../modules/profile/edit_profile/edit_profile_provider.dart';
 import '../../routes/routes.dart';
 
 class CustomSliverAppbar extends StatelessWidget {
@@ -43,9 +44,14 @@ class CustomSliverAppbar extends StatelessWidget {
                   ),
                 ),
                 child: ClipOval(
-                  child: Image.asset(
-                    ImageStrings.personalPic,
-                    fit: BoxFit.cover,
+                  child: Consumer<EditProfileProvider>(
+                    builder: (context, provider, child) {
+                      return CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        radius: 50,
+                        backgroundImage: provider.getProfileImage(),
+                      );
+                    },
                   ),
                 ),
               ),
