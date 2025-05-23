@@ -1,5 +1,5 @@
+import 'dart:developer' as dev;
 import 'dart:math';
-
 import 'package:degrees_runners/custom_widgets/custom_button.dart';
 import 'package:degrees_runners/custom_widgets/custom_snackbar.dart';
 import 'package:degrees_runners/modules/bottom_bar/accepted/accepted_order_provider.dart';
@@ -206,11 +206,23 @@ class AcceptedOrderCardWidget extends StatelessWidget {
                               onTapCancel: () => Navigator.pop(context),
                               onTapYes: () async {
                                 //* API delivery-time 'end'
-                                await provider.deliveryTime(
+                                await provider
+                                    .deliveryTime(
                                   context: context,
                                   orderId: acceptedOrder?.orderId ?? '',
                                   type: 'end',
-                                );
+                                )
+                                    .then((isSuccess) {
+                                  if (isSuccess) {
+                                    //* API call
+                                    provider.orderInvoiceGenerate(
+                                      acceptedOrder?.orderId ?? '',
+                                    );
+                                  } else {
+                                    dev.log(
+                                        'Deliverytime api success: $isSuccess');
+                                  }
+                                });
                               },
                             ),
                           ),

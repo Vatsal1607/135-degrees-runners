@@ -1,4 +1,4 @@
-package com.example.degrees_runners
+package com.nexora.runners
 
 import io.flutter.embedding.android.FlutterActivity
 

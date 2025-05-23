@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:degrees_runners/custom_widgets/appbar/custom_sliver_appbar.dart';
 import 'package:degrees_runners/custom_widgets/bottom_blur_on_page.dart';
 import 'package:degrees_runners/custom_widgets/loader/custom_loader.dart';
@@ -16,6 +15,7 @@ import '../../../core/constants/keys.dart';
 import '../../../core/constants/strings.dart';
 import '../../../custom_widgets/custom_confirm_dialog.dart';
 import '../../../routes/routes.dart';
+import '../../../services/local/shared_preferences_service.dart';
 import 'widgets/order_card_widget.dart';
 
 class OrdersPage extends StatelessWidget {
@@ -23,6 +23,8 @@ class OrdersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('log userId: ${sharedPrefsService.getString(SharedPrefsKeys.userId)}');
+    log('log userToken: ${sharedPrefsService.getString(SharedPrefsKeys.userToken)}');
     final provider = Provider.of<OrderProvider>(context, listen: false);
     //* Remove listener of accepted order
     // provider.socketService
@@ -41,7 +43,7 @@ class OrdersPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // * Active Status with Switch
                           Container(
@@ -88,44 +90,44 @@ class OrdersPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Consumer<OrderProvider>(
-                            builder: (context, _, child) => GestureDetector(
-                              onTap: provider.isActive
-                                  ? () {
-                                      newOrderBottomSheeet(context: context);
-                                      // cashPayBottomSheeet(context: context);
-                                    }
-                                  : null,
-                              child: Container(
-                                width: 115.w,
-                                height: 50.h,
-                                decoration: BoxDecoration(
-                                  color: provider.isActive
-                                      ? AppColors.green
-                                      : AppColors.green.withOpacity(.5),
-                                  borderRadius: BorderRadius.circular(100.r),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'NEW',
-                                      style: GoogleFonts.publicSans(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.seaShell,
-                                      ),
-                                    ),
-                                    SizedBox(width: 8.w),
-                                    const SvgIcon(
-                                      icon: IconStrings.add,
-                                      color: AppColors.seaShell,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                          //* NEW order button // Not in use
+                          // Consumer<OrderProvider>(
+                          //   builder: (context, _, child) => GestureDetector(
+                          //     onTap: provider.isActive
+                          //         ? () {
+                          //             newOrderBottomSheeet(context: context);
+                          //           }
+                          //         : null,
+                          //     child: Container(
+                          //       width: 115.w,
+                          //       height: 50.h,
+                          //       decoration: BoxDecoration(
+                          //         color: provider.isActive
+                          //             ? AppColors.green
+                          //             : AppColors.green.withOpacity(.5),
+                          //         borderRadius: BorderRadius.circular(100.r),
+                          //       ),
+                          //       child: Row(
+                          //         mainAxisAlignment: MainAxisAlignment.center,
+                          //         children: [
+                          //           Text(
+                          //             'NEW',
+                          //             style: GoogleFonts.publicSans(
+                          //               fontSize: 16.sp,
+                          //               fontWeight: FontWeight.bold,
+                          //               color: AppColors.seaShell,
+                          //             ),
+                          //           ),
+                          //           SizedBox(width: 8.w),
+                          //           const SvgIcon(
+                          //             icon: IconStrings.add,
+                          //             color: AppColors.seaShell,
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       SizedBox(height: 20.h),

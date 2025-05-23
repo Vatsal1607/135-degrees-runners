@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:degrees_runners/models/order_history_model.dart';
 import 'package:dio/dio.dart';
 import '../../models/api_global_model.dart';
+import '../../models/get_user_details_model.dart';
 import '../../models/user_login_model.dart';
 import 'api_client.dart';
 import 'interceptor/dio_interceptor.dart';
@@ -62,5 +65,35 @@ class ApiService {
     required String userId,
   }) async {
     return await apiClient.orderHistory(userId);
+  }
+
+  Future<ApiGlobalModel> orderInvoiceGenerate({
+    required String orderId,
+  }) async {
+    return await apiClient.orderInvoiceGenerate(orderId);
+  }
+
+  Future<GetUserDetailsModel> getUserDetails({
+    required String userId,
+  }) async {
+    return await apiClient.getUserDetails(userId);
+  }
+
+  Future<ApiGlobalModel> editProfile({
+    required String userId,
+    required String username,
+    required String email,
+    required String address,
+    required String contact,
+    File? profileImage,
+  }) async {
+    return await apiClient.editProfile(
+      userId,
+      username,
+      email,
+      address,
+      contact,
+      profileImage,
+    );
   }
 }

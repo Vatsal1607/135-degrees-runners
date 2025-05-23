@@ -132,37 +132,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
         log('Stack trace: $stack'); // Optional but useful for deep debugging
       }
     });
-
-    // socketService.listenToEvent(SocketEvents.acceptedListResponse, (data) {
-    //   try {
-    //     log('Raw socket acceptedListResponse data: $data');
-    //     Map<String, dynamic> response = data;
-    //     var acceptedOrderListData = response['data'] as List;
-    //     // var acceptedOrderListData = response['data'];
-    //     // if (acceptedOrderListData != null && acceptedOrderListData is List) {
-    //     //   if (acceptedOrderListData.isNotEmpty) {
-    //     //     acceptedOrderList = acceptedOrderListData
-    //     //         .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
-    //     //         .toList();
-    //     //   } else {
-    //     //     acceptedOrderList?.clear();
-    //     //   }
-    //     // } else {
-    //     //   log("Warning: 'data' is null or not a List");
-    //     //   acceptedOrderList?.clear();
-    //     // }
-    //     if (acceptedOrderListData.isNotEmpty) {
-    //       acceptedOrderList = acceptedOrderListData
-    //           .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
-    //           .toList();
-    //     } else {
-    //       acceptedOrderList?.clear();
-    //     }
-    //     notifyListeners();
-    //   } catch (e) {
-    //     log('Error parsing socket data acceptedOrderList: $e');
-    //   }
-    // });
   }
 
   bool _isLoading = false;
@@ -245,37 +214,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
     }
   }
 
-  // late Timer _timer;
-  // int pickUpRemainingSeconds = 600; //* 10 minutes in seconds
-  // bool _isCountingUp = false;
-
-  //* Start timer while pickupStartTime is not null
-  // void startPickupTimer() {
-  //   _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     if (!_isCountingUp) {
-  //       // Countdown logic
-  //       if (pickUpRemainingSeconds > 0) {
-  //         pickUpRemainingSeconds--;
-  //       } else {
-  //         _isCountingUp = true;
-  //         // pickUpRemainingSeconds = 0; // Reset to 0 for counting up
-  //         pickUpRemainingSeconds = 600; // Reset to 600 for counting up
-  //       }
-  //     } else {
-  //       // Count-up logic
-  //       pickUpRemainingSeconds++;
-  //     }
-  //     debugPrint('pickUpRemainingSeconds: $pickUpRemainingSeconds');
-  //     notifyListeners();
-  //   });
-  // }
-
-  // String formatTime(int seconds) {
-  //   final int minutes = seconds ~/ 60;
-  //   final int secs = seconds % 60;
-  //   return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
-  // }
-
   int infinitySeconds = 0;
   late Timer _infinityTimer;
 
@@ -321,4 +259,34 @@ class AcceptedOrderProvider extends ChangeNotifier {
   //     });
   //   }
   // }
+
+  bool isLoadingInvoiceGenerate = false;
+
+  //* orderInvoiceGenerate API
+  Future orderInvoiceGenerate(
+    String orderId,
+  ) async {
+    isLoadingInvoiceGenerate = true;
+    notifyListeners();
+    try {
+      ApiGlobalModel response = await apiService.orderInvoiceGenerate(
+        orderId: orderId,
+      );
+      log('orderInvoiceGenerate: $response');
+      if (response.success == true) {
+        //* Success
+        log('orderInvoiceGenerate: ${response.message}');
+      } else {
+        debugPrint('orderInvoiceGenerate Message: ${response.message}');
+      }
+    } catch (error) {
+      log("orderInvoiceGenerate Response: $error");
+      if (error is DioException) {
+        final apiError = ApiGlobalModel.fromJson(error.response?.data ?? {});
+      }
+    } finally {
+      isLoadingInvoiceGenerate = false;
+      notifyListeners();
+    }
+  }
 }

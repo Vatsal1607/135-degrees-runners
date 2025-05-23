@@ -10,6 +10,7 @@ import '../../custom_widgets/custom_confirm_dialog.dart';
 import '../../custom_widgets/svg_icons.dart';
 import '../../routes/routes.dart';
 import '../../services/local/shared_preferences_service.dart';
+import 'edit_profile/edit_profile_provider.dart';
 import 'profile_provider.dart';
 import 'widgets/profile_tile.dart';
 
@@ -94,9 +95,14 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     child: ClipOval(
-                      child: Image.asset(
-                        ImageStrings.personalPic,
-                        fit: BoxFit.cover,
+                      child: Consumer<EditProfileProvider>(
+                        builder: (context, provider, child) {
+                          return CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            radius: 50,
+                            backgroundImage: provider.getProfileImage(),
+                          );
+                        },
                       ),
                     ),
                   ),

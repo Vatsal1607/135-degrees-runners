@@ -117,6 +117,7 @@ class LoginPage extends StatelessWidget {
                           child: Consumer<LoginProvider>(
                             builder: (context, provider, child) =>
                                 TextFormField(
+                              focusNode: provider.mobilenumberFocusNode,
                               controller: provider.phoneController,
                               keyboardType: TextInputType.phone,
                               inputFormatters: [

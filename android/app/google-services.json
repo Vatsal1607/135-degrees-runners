@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:768156680566:android:4409f29fc0faaccacfba57",
+        "mobilesdk_app_id": "1:768156680566:android:817e3a9c9ac1b467cfba57",
         "android_client_info": {
-          "package_name": "com.amtechdesign.degrees135"
+          "package_name": "com.nexora.app.degrees135"
         }
       },
       "oauth_client": [],
@@ -26,9 +26,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:768156680566:android:71e6edbbf2ded885cfba57",
+        "mobilesdk_app_id": "1:768156680566:android:26b907e1d4750fd6cfba57",
         "android_client_info": {
-          "package_name": "com.amtechdesign.degrees_runners"
+          "package_name": "com.nexora.runners"
         }
       },
       "oauth_client": [],

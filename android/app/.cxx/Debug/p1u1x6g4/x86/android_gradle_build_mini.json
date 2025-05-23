@@ -4,14 +4,14 @@
   ],
   "cleanCommandsComponents": [
     [
-      "/Users/anupparekh/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "/Volumes/SSD 1/Android/sdk/cmake/3.22.1/bin/ninja",
       "-C",
       "/Volumes/SSD 1/StudioProjects/135-degrees-runners/android/app/.cxx/Debug/p1u1x6g4/x86",
       "clean"
     ]
   ],
   "buildTargetsCommandComponents": [
-    "/Users/anupparekh/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "/Volumes/SSD 1/Android/sdk/cmake/3.22.1/bin/ninja",
     "-C",
     "/Volumes/SSD 1/StudioProjects/135-degrees-runners/android/app/.cxx/Debug/p1u1x6g4/x86",
     "{LIST_OF_TARGETS_TO_BUILD}"

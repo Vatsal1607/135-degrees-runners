@@ -347,6 +347,12 @@ class OrderDetailsPage extends StatelessWidget {
                                               )
                                                   .then((isSuccess) {
                                                 if (isSuccess == true) {
+                                                  //* API call
+                                                  acceptedOrderProvider
+                                                      .orderInvoiceGenerate(
+                                                    acceptedOrder?.orderId ??
+                                                        '',
+                                                  );
                                                   Navigator.popUntil(context,
                                                       (route) {
                                                     // Keep popping until the condition is met
