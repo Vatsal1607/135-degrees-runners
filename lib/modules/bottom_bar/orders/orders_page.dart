@@ -2,33 +2,33 @@ import 'dart:developer';
 import 'package:degrees_runners/custom_widgets/appbar/custom_sliver_appbar.dart';
 import 'package:degrees_runners/custom_widgets/bottom_blur_on_page.dart';
 import 'package:degrees_runners/custom_widgets/loader/custom_loader.dart';
-import 'package:degrees_runners/custom_widgets/svg_icons.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
-import 'package:degrees_runners/modules/bottom_bar/orders/widgets/bottomsheets/new_order_bottom_sheet.dart';
 import 'package:degrees_runners/modules/bottom_bar/orders/widgets/offline_widget.dart';
+import 'package:degrees_runners/services/socket/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/constants/keys.dart';
-import '../../../core/constants/strings.dart';
 import '../../../custom_widgets/custom_confirm_dialog.dart';
 import '../../../routes/routes.dart';
-import '../../../services/local/shared_preferences_service.dart';
 import 'widgets/order_card_widget.dart';
 
-class OrdersPage extends StatelessWidget {
+class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
 
   @override
+  State<OrdersPage> createState() => _OrdersPageState();
+}
+
+class _OrdersPageState extends State<OrdersPage> {
+  @override
   Widget build(BuildContext context) {
-    log('log userId: ${sharedPrefsService.getString(SharedPrefsKeys.userId)}');
-    log('log userToken: ${sharedPrefsService.getString(SharedPrefsKeys.userToken)}');
+    // log('log userId: ${sharedPrefsService.getString(SharedPrefsKeys.userId)}');
     final provider = Provider.of<OrderProvider>(context, listen: false);
-    //* Remove listener of accepted order
-    // provider.socketService
-    //     .removeSpecificEventListener(SocketEvents.acceptedListResponse);
+    // provider.emitAndListenOrderList();
+
     return Scaffold(
       body: Stack(
         children: [

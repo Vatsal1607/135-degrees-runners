@@ -43,7 +43,7 @@ class TimerProvider extends ChangeNotifier {
         if (!timerModel.isCountingUp) {
           if (timerModel.remainingSeconds > 0) {
             timerModel.remainingSeconds--;
-            debugPrint("Notify UI: ${timerModel.remainingSeconds}");
+            // debugPrint("Notify UI: ${timerModel.remainingSeconds}");
           } else {
             timerModel.isCountingUp = true;
             timerModel.remainingSeconds = 600; // Reset to count-up
@@ -51,7 +51,7 @@ class TimerProvider extends ChangeNotifier {
         } else {
           timerModel.remainingSeconds++;
         }
-        debugPrint("Notify UI: ${timerModel.remainingSeconds}");
+        // debugPrint("Notify UI: ${timerModel.remainingSeconds}");
         notifyListeners();
       });
       notifyListeners(); // Notify listeners about the initial change
