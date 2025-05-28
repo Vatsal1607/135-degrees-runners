@@ -48,36 +48,77 @@ class OrderProvider extends ChangeNotifier {
   List<SocketOrderModel>? orderList;
 
   // bool isLoading = false;
+  Timer? _orderListTimer;
   void onSocketConnected() {
-    // Timer to emit the event every second
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      // Emit the 'order-list' event
+    // _orderListTimer?.cancel();
+    // // Timer to emit the event every second
+    // _orderListTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    //   // Emit the 'order-list' event
+    //   socketService.emitEvent(SocketEvents.orderList, {});
+    // });
+
+    // /// Listen for the 'order-list-response' event
+    // socketService.listenToEvent(SocketEvents.orderListResponse, (data) {
+    //   try {
+    //     log('Raw socket data: $data');
+    //     Map<String, dynamic> response = data;
+    //     var orderListData = response['data'] as List;
+    //     if (orderListData.isNotEmpty) {
+    //       // Clear and reinitialize the list to ensure data is fresh
+    //       orderList?.clear();
+    //       List<SocketOrderModel> orders = orderListData
+    //           .map((orderJson) => SocketOrderModel.fromJson(orderJson))
+    //           .toList();
+    //       // Update your UI or state with the parsed data
+    //       orderList = orders;
+    //     } else {
+    //       // If no items, ensure the list is cleared
+    //       orderList?.clear();
+    //     }
+    //     notifyListeners();
+    //   } catch (e) {
+    //     log('Error parsing socket data orderList: $e');
+    //   }
+    // });
+    emitAndListenOrderList();
+  }
+
+  bool _isOrderListListenerActive = false;
+
+  void emitAndListenOrderList() {
+    // Cancel any existing timer
+    _orderListTimer?.cancel();
+
+    // Start emitting 'order-list' event every 1 second
+    _orderListTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       socketService.emitEvent(SocketEvents.orderList, {});
     });
 
-    /// Listen for the 'order-list-response' event
-    socketService.listenToEvent(SocketEvents.orderListResponse, (data) {
-      try {
-        log('Raw socket data: $data');
-        Map<String, dynamic> response = data;
-        var orderListData = response['data'] as List;
-        if (orderListData.isNotEmpty) {
-          // Clear and reinitialize the list to ensure data is fresh
-          orderList?.clear();
-          List<SocketOrderModel> orders = orderListData
-              .map((orderJson) => SocketOrderModel.fromJson(orderJson))
-              .toList();
-          // Update your UI or state with the parsed data
-          orderList = orders;
-        } else {
-          // If no items, ensure the list is cleared
-          orderList?.clear();
+    // Start listening to 'order-list-response' only once
+    if (!_isOrderListListenerActive) {
+      socketService.listenToEvent(SocketEvents.orderListResponse, (data) {
+        try {
+          log('Raw order list data: $data');
+          Map<String, dynamic> response = data;
+          var orderListData = response['data'] as List;
+
+          if (orderListData.isNotEmpty) {
+            orderList?.clear();
+            List<SocketOrderModel> orders = orderListData
+                .map((orderJson) => SocketOrderModel.fromJson(orderJson))
+                .toList();
+            orderList = orders;
+          } else {
+            orderList?.clear();
+          }
+
+          notifyListeners();
+        } catch (e) {
+          log('Error parsing socket data orderList: $e');
         }
-        notifyListeners();
-      } catch (e) {
-        log('Error parsing socket data orderList: $e');
-      }
-    });
+      });
+      _isOrderListListenerActive = true;
+    }
   }
 
   double dragPosition = 10.w; // Track the drag position
@@ -147,5 +188,13 @@ class OrderProvider extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  void disposeOrderListener() {
+    // Cancel periodic timer
+    _orderListTimer?.cancel();
+    _orderListTimer = null;
+    // Remove socket listener
+    socketService.offEvent(SocketEvents.orderListResponse);
   }
 }

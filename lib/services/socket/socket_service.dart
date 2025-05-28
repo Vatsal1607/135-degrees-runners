@@ -4,9 +4,16 @@ import '../network/api/api_constants.dart';
 
 //! Note: Use connected socket instance from OrderProvider
 class SocketService {
-  late IO.Socket _socket;
+  // late IO.Socket _socket;
+  IO.Socket? _socket;
 
-  IO.Socket get socket => _socket;
+  // IO.Socket get socket => _socket;
+  IO.Socket get socket {
+    if (_socket == null) {
+      connectToSocket();
+    }
+    return _socket!;
+  }
 
   void connectToSocket() {
     _socket = IO.io(
@@ -18,37 +25,41 @@ class SocketService {
           .build(),
     );
 
-    _socket.onConnect((_) {
+    _socket?.onConnect((_) {
       log('Connected to the server');
     });
 
-    _socket.onDisconnect((_) {
+    _socket?.onDisconnect((_) {
       log('Disconnected from the server');
     });
 
-    _socket.onError((data) {
+    _socket?.onError((data) {
       log('Socket error: $data');
     });
   }
 
   void removeSpecificEventListener(String eventName) {
-    _socket.off(eventName); // Remove specific event listener
+    _socket?.off(eventName); // Remove specific event listener
   }
 
   void emitEvent(String event, dynamic data) {
-    if (_socket.connected) {
-      _socket.emit(event, data);
+    if (_socket != null && _socket!.connected) {
+      _socket!.emit(event, data);
     } else {
-      throw Exception("Socket is not connected!");
+      connectToSocket();
     }
   }
 
   void listenToEvent(String event, Function(dynamic) callback) {
-    _socket.on(event, callback);
+    _socket?.on(event, callback);
+  }
+
+  void offEvent(String eventName) {
+    socket.off(eventName);
   }
 
   void disconnect() {
-    _socket.dispose();
+    _socket?.dispose();
     log('Socket disconnected');
   }
 }

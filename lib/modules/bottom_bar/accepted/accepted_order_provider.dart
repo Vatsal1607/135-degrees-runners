@@ -4,16 +4,17 @@ import 'package:degrees_runners/core/constants/keys.dart';
 import 'package:degrees_runners/services/local/shared_preferences_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../models/api_global_model.dart';
 import '../../../models/socket_accepted_order_model.dart';
 import '../../../models/timer_model.dart';
 import '../../../services/network/api_service.dart';
 import '../../../services/socket/socket_service.dart';
+import '../orders/order_provider.dart';
 import 'controllers/timer_provider.dart';
 
 class AcceptedOrderProvider extends ChangeNotifier {
   bool isActive = false;
-  // final SocketService socketService = SocketService();
 
   AcceptedOrderProvider() {
     initializeControllers(acceptedOrderList ?? []);
@@ -41,55 +42,20 @@ class AcceptedOrderProvider extends ChangeNotifier {
 
   List<TimerModel> pickUpItems = [];
   Timer? timer;
-  // bool isLoading = false;
-  // void emitAndListenAcceptedOrderList(SocketService socketService) {
-  //   // Timer to emit the event every second
-  //   timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     // Emit the 'acceptedOrderList' event
-  //     socketService.emitEvent(SocketEvents.acceptedOrderList, {
-  //       'deliveryBoyId': sharedPrefsService.getString(SharedPrefsKeys.userId),
-  //       "socketId": socketService.socket.id,
-  //       "role": "4",
-  //     });
-  //   });
 
-  //   /// Listen for the 'acceptedListResponse' event
-  //   socketService.listenToEvent(SocketEvents.acceptedListResponse, (data) {
-  //     try {
-  //       log('Raw socket acceptedListResponse data: $data');
-  //       Map<String, dynamic> response = data;
-  //       var acceptedOrderListData = response['data'] as List;
-  //       if (acceptedOrderListData.isNotEmpty) {
-  //         // Clear and reinitialize the list to ensure data is fresh
-  //         acceptedOrderList?.clear();
-  //         List<AcceptedOrderModel> acceptedOrders = acceptedOrderListData
-  //             .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
-  //             .toList();
-  //         // Update your UI or state with the parsed data
-  //         acceptedOrderList = acceptedOrders;
-  //       } else {
-  //         // If no items, ensure the list is cleared
-  //         acceptedOrderList?.clear();
-  //       }
-  //       notifyListeners();
-  //     } catch (e) {
-  //       log('Error parsing socket data: $e');
-  //     }
-  //   });
-  // }
-
-  void emitAndListenAcceptedOrderList(SocketService socketService) async {
+  SocketService socketService = SocketService();
+  void emitAndListenAcceptedOrderList({
+    SocketService? socketService,
+  }
+      // SocketService socketService,//Prev comes from orderProvider.socketService where its called
+      ) async {
+    // final orderProvider = Provider.of<OrderProvider>(context, listen: false);
     final deliveryBoyId = sharedPrefsService.getString(SharedPrefsKeys.userId);
     final deviceId = sharedPrefsService
         .getString(SharedPrefsKeys.deviceId); // Fetch unique device ID
 
-    // if (deliveryBoyId.isEmpty) {
-    //   log("DeliveryBoyId is missing, cannot proceed.");
-    //   return;
-    // }
-
     // Send deliveryBoyId & deviceId once during initialization
-    socketService.emitEvent(SocketEvents.acceptedOrderList, {
+    socketService?.emitEvent(SocketEvents.acceptedOrderList, {
       'deliveryBoyId': deliveryBoyId,
       'deviceId': deviceId, // Pass unique device identifier
       "socketId": socketService.socket.id,
@@ -98,7 +64,7 @@ class AcceptedOrderProvider extends ChangeNotifier {
 
     // Set up periodic listener for updates
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      socketService.emitEvent(SocketEvents.acceptedOrderList, {
+      socketService?.emitEvent(SocketEvents.acceptedOrderList, {
         'deliveryBoyId': deliveryBoyId,
         'deviceId': deviceId, // Include deviceId in every request
         "socketId": socketService.socket.id,
@@ -107,7 +73,7 @@ class AcceptedOrderProvider extends ChangeNotifier {
     });
 
     //* Listen for the 'acceptedListResponse' event
-    socketService.listenToEvent(SocketEvents.acceptedListResponse, (data) {
+    socketService?.listenToEvent(SocketEvents.acceptedListResponse, (data) {
       try {
         log('Raw socket acceptedListResponse data: $data');
 
@@ -226,40 +192,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
     });
   }
 
-  //* REF:
-  // Timer? _timer;
-  // int pickUpRemainingSeconds = 0; // Default for the infinite timer
-  // bool isCountingDown = false;
-  // bool isCountingUp = false;
-
-  // void startTimer({bool isPickupTimeNull = true}) {
-  //   if (isPickupTimeNull) {
-  //     // Infinite timer logic
-  //     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //       pickUpRemainingSeconds++;
-  //       notifyListeners();
-  //     });
-  //   } else {
-  //     // Countdown timer logic
-  //     pickUpRemainingSeconds = 600; // 10 minutes in seconds
-  //     isCountingDown = true;
-
-  //     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //       if (isCountingDown) {
-  //         if (pickUpRemainingSeconds > 0) {
-  //           pickUpRemainingSeconds--;
-  //         } else {
-  //           isCountingDown = false;
-  //           isCountingUp = true;
-  //         }
-  //       } else if (isCountingUp) {
-  //         pickUpRemainingSeconds++;
-  //       }
-  //       notifyListeners();
-  //     });
-  //   }
-  // }
-
   bool isLoadingInvoiceGenerate = false;
 
   //* orderInvoiceGenerate API
@@ -288,5 +220,13 @@ class AcceptedOrderProvider extends ChangeNotifier {
       isLoadingInvoiceGenerate = false;
       notifyListeners();
     }
+  }
+
+  void disposeAcceptedOrderListener() {
+    // Cancel periodic timer
+    timer?.cancel();
+    timer = null;
+    // Remove socket listener
+    socketService.offEvent(SocketEvents.acceptedListResponse);
   }
 }

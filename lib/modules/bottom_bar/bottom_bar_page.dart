@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import '../../core/app_colors.dart';
 
 class BottomBarPage extends StatelessWidget {
@@ -23,7 +22,10 @@ class BottomBarPage extends StatelessWidget {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: provider.myPage,
-        onPageChanged: provider.onPageChanged,
+        // onPageChanged: provider.onPageChanged,
+        onPageChanged: (index) {
+          provider.onPageChanged(index, context);
+        },
         children: const [
           OrdersPage(),
           AcceptedOrderPage(),
@@ -111,9 +113,4 @@ class BottomBarPage extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _buildNavItem(
-  //     {required IconData icon, required String label, VoidCallback? onTap}) {
-  //   return NavItem();
-  // }
 }
