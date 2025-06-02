@@ -50,36 +50,6 @@ class OrderProvider extends ChangeNotifier {
   // bool isLoading = false;
   Timer? _orderListTimer;
   void onSocketConnected() {
-    // _orderListTimer?.cancel();
-    // // Timer to emit the event every second
-    // _orderListTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    //   // Emit the 'order-list' event
-    //   socketService.emitEvent(SocketEvents.orderList, {});
-    // });
-
-    // /// Listen for the 'order-list-response' event
-    // socketService.listenToEvent(SocketEvents.orderListResponse, (data) {
-    //   try {
-    //     log('Raw socket data: $data');
-    //     Map<String, dynamic> response = data;
-    //     var orderListData = response['data'] as List;
-    //     if (orderListData.isNotEmpty) {
-    //       // Clear and reinitialize the list to ensure data is fresh
-    //       orderList?.clear();
-    //       List<SocketOrderModel> orders = orderListData
-    //           .map((orderJson) => SocketOrderModel.fromJson(orderJson))
-    //           .toList();
-    //       // Update your UI or state with the parsed data
-    //       orderList = orders;
-    //     } else {
-    //       // If no items, ensure the list is cleared
-    //       orderList?.clear();
-    //     }
-    //     notifyListeners();
-    //   } catch (e) {
-    //     log('Error parsing socket data orderList: $e');
-    //   }
-    // });
     emitAndListenOrderList();
   }
 
