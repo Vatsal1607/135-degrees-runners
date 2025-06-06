@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:degrees_runners/custom_widgets/custom_confirm_dialog.dart';
 import 'package:degrees_runners/services/local/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +22,6 @@ class OrderCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final acceptedOrderProvider =
-    //     Provider.of<AcceptedOrderProvider>(context, listen: false);
     return Container(
       margin: EdgeInsets.only(bottom: 20.h),
       decoration: BoxDecoration(
@@ -62,7 +59,6 @@ class OrderCardWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  // '9:51 AM',
                   Utils.formatTime(order!.createdAt.toString()),
                   style: GoogleFonts.publicSans(
                     fontSize: 12.sp,
@@ -81,7 +77,7 @@ class OrderCardWidget extends StatelessWidget {
               itemCount: min(order?.items.length ?? 0, 2),
               itemBuilder: (context, index) {
                 return Text(
-                  '${order?.items[index].quantity} × ${order?.items[index].itemName} | Size: ${order?.items[index].size?.sizeName?.substring(0, 1)}',
+                  '${order?.items[index].quantity} x ${order?.items[index].itemName} | Size: ${order?.items[index].size?.sizeName?.substring(0, 1)}',
                   style: GoogleFonts.publicSans(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,

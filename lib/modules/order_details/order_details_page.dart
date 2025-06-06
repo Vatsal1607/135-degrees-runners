@@ -109,7 +109,6 @@ class OrderDetailsPage extends StatelessWidget {
                               ),
                               Consumer<OrderDetailsProvider>(
                                 builder: (context, _, child) => Text(
-                                  // '9:51 AM',
                                   Utils.formatTime(provider
                                           .orderDetailsData?.createdAt
                                           .toString() ??
@@ -258,7 +257,6 @@ class OrderDetailsPage extends StatelessWidget {
                                             });
                                             Navigator.popUntil(context,
                                                 (route) {
-                                              // Keep popping until the condition is met
                                               return route.settings.name ==
                                                   Routes.bottomBar;
                                             });
@@ -306,7 +304,7 @@ class OrderDetailsPage extends StatelessWidget {
                                                     if (isSuccess == true) {
                                                       Navigator.popUntil(
                                                           context, (route) {
-                                                        // Keep popping until the condition is met
+                                                        //* Pop till bottombar
                                                         return route.settings
                                                                 .name ==
                                                             Routes.bottomBar;
@@ -355,7 +353,7 @@ class OrderDetailsPage extends StatelessWidget {
                                                   );
                                                   Navigator.popUntil(context,
                                                       (route) {
-                                                    // Keep popping until the condition is met
+                                                    //* Pop till bottombar
                                                     return route
                                                             .settings.name ==
                                                         Routes.bottomBar;
@@ -377,12 +375,6 @@ class OrderDetailsPage extends StatelessWidget {
                                       : orderType == 'accepted'
                                           ? AppColors.green
                                           : AppColors.black,
-                                  // bgColor: getColorOrderDetails(
-                                  //   orderType: orderType,
-                                  //   ordersColor: AppColors.black,
-                                  //   acceptedOrderColor: AppColors.seaShell,
-                                  //   historyOrderColor: AppColors.green,
-                                  // ),
                                   text: orderType == 'accepted' &&
                                           (acceptedOrder?.deliveryStartTime ==
                                               null)
@@ -395,17 +387,6 @@ class OrderDetailsPage extends StatelessWidget {
                                               null
                                       ? AppColors.black
                                       : AppColors.seaShell,
-                                  // textColor: getColorOrderDetails(
-                                  //   orderType: orderType,
-                                  //   ordersColor: AppColors.seaShell,
-                                  //   acceptedOrderColor: AppColors.black,
-                                  //   historyOrderColor: AppColors.seaShell,
-                                  // ),
-                                  // text: orderType == 'accepted'
-                                  //     ? 'PICKUP'
-                                  //     : orderType == 'history'
-                                  //         ? 'DELIVER'
-                                  //         : 'ACCEPT',
                                 )
                             ],
                           ),

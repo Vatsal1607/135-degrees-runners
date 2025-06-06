@@ -19,8 +19,7 @@ class OrderDetailsProvider extends ChangeNotifier {
     /// Listen for event
     socketService.listenToEvent(SocketEvents.orderDetailsResponse, (data) {
       try {
-        log('Raw socket OrderDetails data: $data');
-
+        // log('Raw socket OrderDetails data: $data');
         final List<dynamic> dataList = data['data'] ?? [];
         if (dataList.isNotEmpty) {
           final orderData = OrderDetailsModel.fromJson(

@@ -17,8 +17,6 @@ void newAccountBottomSheeet({
     context: context,
     backgroundColor: AppColors.seaShell,
     builder: (context) {
-      // final authEmpProvider =
-      //     Provider.of<AuthorizedEmpProvider>(context, listen: false);
       return Stack(
         clipBehavior: Clip.none, // Allow visible outside the bounds
         children: [

@@ -4,13 +4,11 @@ import 'package:degrees_runners/core/constants/keys.dart';
 import 'package:degrees_runners/services/local/shared_preferences_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../models/api_global_model.dart';
 import '../../../models/socket_accepted_order_model.dart';
 import '../../../models/timer_model.dart';
 import '../../../services/network/api_service.dart';
 import '../../../services/socket/socket_service.dart';
-import '../orders/order_provider.dart';
 import 'controllers/timer_provider.dart';
 
 class AcceptedOrderProvider extends ChangeNotifier {
@@ -24,7 +22,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
   void dispose() {
     timer?.cancel();
     _infinityTimer.cancel();
-    log('Accepted Timer disposed');
     super.dispose();
   }
 
@@ -49,12 +46,8 @@ class AcceptedOrderProvider extends ChangeNotifier {
   }
       // SocketService socketService,//Prev comes from orderProvider.socketService where its called
       ) async {
-    // final orderProvider = Provider.of<OrderProvider>(context, listen: false);
     final deliveryBoyId = sharedPrefsService.getString(SharedPrefsKeys.userId);
-    final deviceId = sharedPrefsService
-        .getString(SharedPrefsKeys.deviceId); // Fetch unique device ID
-
-    // Send deliveryBoyId & deviceId once during initialization
+    final deviceId = sharedPrefsService.getString(SharedPrefsKeys.deviceId);
     socketService?.emitEvent(SocketEvents.acceptedOrderList, {
       'deliveryBoyId': deliveryBoyId,
       'deviceId': deviceId, // Pass unique device identifier
@@ -62,7 +55,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
       "role": "4",
     });
 
-    // Set up periodic listener for updates
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       socketService?.emitEvent(SocketEvents.acceptedOrderList, {
         'deliveryBoyId': deliveryBoyId,
@@ -75,18 +67,15 @@ class AcceptedOrderProvider extends ChangeNotifier {
     //* Listen for the 'acceptedListResponse' event
     socketService?.listenToEvent(SocketEvents.acceptedListResponse, (data) {
       try {
-        log('Raw socket acceptedListResponse data: $data');
-
+        // log('Raw socket acceptedListResponse data: $data');
         if (data is Map<String, dynamic>) {
           final acceptedOrderListData = data['data'];
-
           if (acceptedOrderListData is List) {
             acceptedOrderList = acceptedOrderListData
                 .map((orderJson) => AcceptedOrderModel.fromJson(orderJson))
                 .toList();
-            log("Accepted orders updated: ${acceptedOrderList?.length}");
           } else {
-            log("Info: 'data' is empty or not a List.");
+            // log("Info: 'data' is empty or not a List.");
             acceptedOrderList?.clear();
           }
         } else {
@@ -95,7 +84,7 @@ class AcceptedOrderProvider extends ChangeNotifier {
         notifyListeners();
       } catch (e, stack) {
         log('Error parsing socket data acceptedOrderList: $e');
-        log('Stack trace: $stack'); // Optional but useful for deep debugging
+        log('Stack trace: $stack');
       }
     });
   }
@@ -121,7 +110,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
       final ApiGlobalModel response = await apiService.pickupTime(
         body: body,
       );
-      log('pickupTime Response: $response');
       if (response.success == true) {
         log('Success: pickupTime: ${response.message.toString()}');
       } else {
@@ -135,7 +123,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
         //
       }
     } finally {
-      // Ensure loading state is reset
       _isLoading = false;
       notifyListeners();
     }
@@ -187,7 +174,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
     infinitySeconds = 0;
     _infinityTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       infinitySeconds++;
-      debugPrint('infinitySeconds: $infinitySeconds');
       notifyListeners();
     });
   }
@@ -206,7 +192,6 @@ class AcceptedOrderProvider extends ChangeNotifier {
       );
       log('orderInvoiceGenerate: $response');
       if (response.success == true) {
-        //* Success
         log('orderInvoiceGenerate: ${response.message}');
       } else {
         debugPrint('orderInvoiceGenerate Message: ${response.message}');
@@ -223,10 +208,8 @@ class AcceptedOrderProvider extends ChangeNotifier {
   }
 
   void disposeAcceptedOrderListener() {
-    // Cancel periodic timer
     timer?.cancel();
     timer = null;
-    // Remove socket listener
     socketService.offEvent(SocketEvents.acceptedListResponse);
   }
 }

@@ -32,28 +32,29 @@ class Data {
   String? address;
   int? contact;
   String? role;
-  String? profileImage; // <-- added field
+  String? profileImage;
   bool? isActive;
   bool? isDelete;
   String? createdAt;
   String? updatedAt;
   int? iV;
-  Null? otp;
+  String? otp;
 
-  Data(
-      {this.sId,
-      this.username,
-      this.email,
-      this.address,
-      this.contact,
-      this.role,
-      this.profileImage,
-      this.isActive,
-      this.isDelete,
-      this.createdAt,
-      this.updatedAt,
-      this.iV,
-      this.otp});
+  Data({
+    this.sId,
+    this.username,
+    this.email,
+    this.address,
+    this.contact,
+    this.role,
+    this.profileImage,
+    this.isActive,
+    this.isDelete,
+    this.createdAt,
+    this.updatedAt,
+    this.iV,
+    this.otp,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -68,7 +69,7 @@ class Data {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    otp = json['otp'];
+    otp = json['otp']?.toString();
   }
 
   Map<String, dynamic> toJson() {

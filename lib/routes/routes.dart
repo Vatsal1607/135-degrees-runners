@@ -1,3 +1,4 @@
+import 'package:degrees_runners/modules/about_us/about_us_page.dart';
 import 'package:degrees_runners/modules/auth/otp/otp_page.dart';
 import 'package:degrees_runners/modules/order_details/order_details_page.dart';
 import 'package:degrees_runners/modules/profile/profile_page.dart';
@@ -23,18 +24,20 @@ class Routes {
   static const String profile = '/profile';
   static const String verifySuccess = '/verifySuccess';
   static const String editProfile = '/editProfilePage';
+  static const String aboutUs = '/aboutUs';
 
   static final Map<String, WidgetBuilder> routes = {
     initial: (context) => const SplashPage(),
     authSelection: (context) => const AuthSelectionPage(),
     login: (context) => const LoginPage(),
     register: (context) => const RegisterPage(),
-    otp: (context) => OtpPage(),
+    otp: (context) => const OtpPage(),
     underReview: (context) => const UnderReviewPage(),
     bottomBar: (context) => const BottomBarPage(),
     orderDetails: (context) => const OrderDetailsPage(),
     profile: (context) => const ProfilePage(),
     verifySuccess: (context) => const VerifySuccessPage(),
     editProfile: (context) => const EditProfilePage(),
+    aboutUs: (context) => const AboutUsPage(),
   };
 }

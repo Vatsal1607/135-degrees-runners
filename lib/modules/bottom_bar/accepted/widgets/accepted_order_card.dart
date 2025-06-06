@@ -31,7 +31,7 @@ class AcceptedOrderCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AcceptedOrderProvider>(context, listen: false);
-    final timerModel = timerProvider?.getPickedUpTimer(index);
+    // final timerModel = timerProvider?.getPickedUpTimer(index);
     return Stack(
       children: [
         // * Card widget

@@ -22,9 +22,7 @@ class ProfileProvider extends ChangeNotifier {
   final ApiService apiService = ApiService();
 
   // * Logout API
-  Future logout({
-    required BuildContext context,
-  }) async {
+  Future logout({required BuildContext context}) async {
     _isLoading = true;
     notifyListeners();
     final userId = sharedPrefsService.getString(SharedPrefsKeys.userId);
@@ -34,15 +32,10 @@ class ProfileProvider extends ChangeNotifier {
         'userId': userId,
         'deviceId': deviceId,
       };
-      debugPrint('--Request logout: $body');
-      final ApiGlobalModel response = await apiService.logout(
-        body: body,
-      );
-      log('logout Response: $response');
+      final ApiGlobalModel response = await apiService.logout(body: body);
       if (response.success == true) {
         sharedPrefsService.setBool(SharedPrefsKeys.isLoggedIn, false);
-        log('Success: logout: ${response.message.toString()}');
-
+        sharedPrefsService.clear();
         // * Navigate Replace all routes navigate to Login page after logout
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -67,7 +60,6 @@ class ProfileProvider extends ChangeNotifier {
         return false; // * Indicat failure
       }
     } catch (error) {
-      log("Error during logout Response: $error");
       if (error is DioException) {
         final apiError = ApiGlobalModel.fromJson(error.response?.data ?? {});
         customSnackBar(
@@ -85,7 +77,6 @@ class ProfileProvider extends ChangeNotifier {
         );
       }
     } finally {
-      // Ensure loading state is reset
       _isLoading = false;
       notifyListeners();
     }

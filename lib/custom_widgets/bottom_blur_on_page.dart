@@ -26,9 +26,9 @@ class BottomBlurOnPage extends StatelessWidget {
               begin: isTopBlur ? Alignment.topCenter : Alignment.bottomCenter,
               end: isTopBlur ? Alignment.bottomCenter : Alignment.topCenter,
               colors: [
-                AppColors.seaShell, // Your background color
+                AppColors.seaShell,
                 AppColors.seaShell.withOpacity(.9),
-                AppColors.seaShell.withOpacity(0), // Fades to transparent
+                AppColors.seaShell.withOpacity(0),
               ],
             ),
           ),

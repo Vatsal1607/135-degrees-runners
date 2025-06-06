@@ -1,5 +1,4 @@
 class RazorPayKeys {
-  // static const String testKey = "rzp_test_gvsZVEPcujnlQ5"; // * Test key
   static const String testKey = "rzp_test_c8K63lGAcqMeS7"; // * Test key
   // static const String liveKey = 'rzp_live_YbWaocbWfEYdCO'; // * Live key Amtech
 }
@@ -18,7 +17,7 @@ class SocketEvents {
   static const String orderList = 'order-list';
   static const String orderListResponse = 'order-list-response';
   static const String orderAccept = 'order-accept';
-  static const String orderAccepted = 'order-accepted'; 
+  static const String orderAccepted = 'order-accepted';
   static const String acceptedOrderList = 'accepted-order-list';
   static const String acceptedListResponse = 'accepted-list-response';
   static const String orderDetails = 'order-details';

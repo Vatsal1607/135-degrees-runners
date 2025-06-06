@@ -18,7 +18,6 @@ class OtpProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   final ApiService apiService = ApiService();
-  final TextEditingController otpController = TextEditingController();
   int remainingSeconds = 30;
   Timer? timer;
 
@@ -28,7 +27,7 @@ class OtpProvider extends ChangeNotifier {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingSeconds > 0) {
         remainingSeconds--;
-        notifyListeners(); // Notify listeners about the updated state
+        notifyListeners();
       } else {
         timer.cancel();
       }
@@ -45,6 +44,7 @@ class OtpProvider extends ChangeNotifier {
   Future<void> verifyOtp({
     required BuildContext context,
     required String mobile,
+    required TextEditingController otpController,
   }) async {
     _isLoading = true;
     notifyListeners();
@@ -54,13 +54,10 @@ class OtpProvider extends ChangeNotifier {
         'otp': int.parse(otpController.text),
         'role': '4',
       };
-      debugPrint('--Request body OTP verify: $body');
       final ApiGlobalModel response = await apiService.verifyOtp(
         body: body,
       );
-      log('send OTP Response: $response');
       if (response.success == true) {
-        log('Success: verify otp: ${response.message.toString()}');
         // * isLogged in user - true
         sharedPrefsService.setBool(SharedPrefsKeys.isLoggedIn, true);
         Navigator.pushNamed(context, Routes.verifySuccess);
@@ -68,10 +65,7 @@ class OtpProvider extends ChangeNotifier {
         debugPrint('verify otp: ${response.message}');
       }
     } catch (error) {
-      log("Error during verify otp: $error");
-
       if (error is DioException) {
-        // Parse API error response
         final apiError = ApiGlobalModel.fromJson(error.response?.data ?? {});
         customSnackBar(
           context: context,
@@ -79,7 +73,6 @@ class OtpProvider extends ChangeNotifier {
           backgroundColor: AppColors.primaryColor,
         );
       } else {
-        // Handle unexpected errors
         customSnackBar(
           context: context,
           message: 'An unexpected error occurred',

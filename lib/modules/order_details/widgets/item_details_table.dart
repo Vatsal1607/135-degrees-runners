@@ -129,7 +129,6 @@ class ItemDetailsTable extends StatelessWidget {
 
         // * TOTAL
         Container(
-          // color: AppColors.black,
           color: getColorOrderDetails(
             orderType: orderType,
             ordersColor: AppColors.black,

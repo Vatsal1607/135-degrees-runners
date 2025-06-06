@@ -1,6 +1,5 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-
 import '../../core/constants/keys.dart';
 import 'shared_preferences_service.dart';
 
@@ -26,7 +25,6 @@ class DeviceInfoService {
         }
       }
     } catch (e) {
-      debugPrint('Error fetching device ID: $e');
       _deviceId = 'Error fetching device ID';
     }
   }

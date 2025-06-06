@@ -7,7 +7,6 @@ import '../../../core/app_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../custom_widgets/custom_button.dart';
 import '../../../custom_widgets/svg_icons.dart';
-import '../../../routes/routes.dart';
 import 'login_provider.dart';
 
 class LoginPage extends StatelessWidget {
@@ -15,16 +14,9 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final String accountType =
-    //     context.read<LocationSelectionProvider>().accountType ?? '';
     final provider = Provider.of<LoginProvider>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false, //image did't by the keyboard
-      // backgroundColor: accountType != '' && accountType == 'business'
-      //     ? AppColors.primaryColor
-      //     : accountType != '' && accountType == 'personal'
-      //         ? AppColors.darkGreenGrey
-      //         : AppColors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: GestureDetector(
@@ -166,7 +158,6 @@ class LoginPage extends StatelessWidget {
                     height: 50.h,
                     isLoading: provider.isLoading,
                     onTap: () {
-                      // Navigator.pushNamed(context, Routes.otp);
                       if (provider.formKey.currentState!.validate()) {
                         debugPrint('Form is valid');
                         provider.userLogin(context); // * Api call

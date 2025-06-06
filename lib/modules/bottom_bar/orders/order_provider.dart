@@ -32,14 +32,13 @@ class OrderProvider extends ChangeNotifier {
             "socketId": socketService.socket.id,
           };
           socketService.emitEvent(SocketEvents.userConnected, userConnectData);
-          log('Log of uerConnect: $userConnectData');
           onSocketConnected(); // ! EMIT & LISTEN OrderList
         });
-        deliveryStatus(isActive: true); // deliveryStatus apiCall
+        deliveryStatus(isActive: true); //* API
       } else {
         // * Disconnect from socket server
         socketService.disconnect();
-        deliveryStatus(isActive: false); // deliveryStatus apiCall
+        deliveryStatus(isActive: false); //* API
       }
       notifyListeners();
     }
@@ -47,7 +46,6 @@ class OrderProvider extends ChangeNotifier {
 
   List<SocketOrderModel>? orderList;
 
-  // bool isLoading = false;
   Timer? _orderListTimer;
   void onSocketConnected() {
     emitAndListenOrderList();
@@ -56,10 +54,8 @@ class OrderProvider extends ChangeNotifier {
   bool _isOrderListListenerActive = false;
 
   void emitAndListenOrderList() {
-    // Cancel any existing timer
     _orderListTimer?.cancel();
 
-    // Start emitting 'order-list' event every 1 second
     _orderListTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       socketService.emitEvent(SocketEvents.orderList, {});
     });
@@ -81,7 +77,6 @@ class OrderProvider extends ChangeNotifier {
           } else {
             orderList?.clear();
           }
-
           notifyListeners();
         } catch (e) {
           log('Error parsing socket data orderList: $e');
@@ -111,11 +106,9 @@ class OrderProvider extends ChangeNotifier {
 
   void onHorizontalDragEnd(details, context) {
     if (dragPosition >= maxDrag * 0.8) {
-      // Action confirmed
       isConfirmed = true;
       dragPosition = maxDrag; // Snap to the end
       debugPrint("Order Placed!");
-      // Navigator.pushNamed(context, Routes.orderStatus);
     } else {
       // Reset position
       dragPosition = 10.w;
@@ -161,10 +154,8 @@ class OrderProvider extends ChangeNotifier {
   }
 
   void disposeOrderListener() {
-    // Cancel periodic timer
     _orderListTimer?.cancel();
     _orderListTimer = null;
-    // Remove socket listener
     socketService.offEvent(SocketEvents.orderListResponse);
   }
 }

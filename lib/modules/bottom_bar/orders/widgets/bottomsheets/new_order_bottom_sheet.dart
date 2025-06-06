@@ -13,11 +13,8 @@ void newOrderBottomSheeet({
 }) {
   showModalBottomSheet(
     context: context,
-    // barrierColor: Colors.transparent,
     backgroundColor: AppColors.seaShell,
     builder: (context) {
-      // final authEmpProvider =
-      //     Provider.of<AuthorizedEmpProvider>(context, listen: false);
       return Stack(
         clipBehavior: Clip.none, // Allow visible outside the bounds
         children: [
@@ -42,7 +39,7 @@ void newOrderBottomSheeet({
                     onTap: () {
                       debugPrint('QUICK SERVE pressed');
                       Navigator.pop(context);
-                      // ! Dev Reached here...
+                      // ! Dev Reached here... (but not in Flow)
                       quickServeBottomSheeet(context: context);
                     },
                     text: 'QUICK SERVE',
@@ -51,7 +48,6 @@ void newOrderBottomSheeet({
                   CustomButtonWithArrow(
                     isMargin: false,
                     onTap: () {
-                      debugPrint('ONBOARD NEW ACCOUNT pressed');
                       Navigator.pop(context);
                       newAccountBottomSheeet(context: context);
                     },

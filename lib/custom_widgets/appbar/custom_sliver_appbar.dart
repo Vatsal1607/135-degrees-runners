@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../core/app_colors.dart';
 import '../../core/constants/constants.dart';
-import '../../core/constants/strings.dart';
 import '../../modules/profile/edit_profile/edit_profile_provider.dart';
 import '../../routes/routes.dart';
 
@@ -138,9 +137,6 @@ class CustomSliverAppbar extends StatelessWidget {
         ),
       ),
       automaticallyImplyLeading: false,
-      // expandedHeight: 150.h,
-      /// Bottom content of appbar
-      // bottom: PreferredSize(
     );
   }
 }

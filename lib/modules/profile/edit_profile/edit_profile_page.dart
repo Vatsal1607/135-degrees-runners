@@ -31,9 +31,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final provider = Provider.of<EditProfileProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: const CustomAppbarWithCenterTitle(
-        title: 'Edit Profile',
-      ),
+      appBar: const CustomAppbarWithCenterTitle(title: 'Edit Profile'),
       body: Consumer<EditProfileProvider>(
         builder: (context, _, child) => provider.isLoadingProfile
             ? const Center(

@@ -34,7 +34,6 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<OrderProvider>(context, listen: false);
-    // log('log userId: ${sharedPrefsService.getString(SharedPrefsKeys.userId)}');
     log('isActive: ${provider.isActive}');
     return Scaffold(
       body: Stack(
