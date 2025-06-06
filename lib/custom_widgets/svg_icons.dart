@@ -23,7 +23,7 @@ class SvgIcon extends StatelessWidget {
       width: width,
       colorFilter: ColorFilter.mode(
         color,
-        BlendMode.srcIn, // Use srcIn to apply color
+        BlendMode.srcIn,
       ),
       fit: BoxFit.scaleDown,
     );

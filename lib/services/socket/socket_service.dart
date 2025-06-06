@@ -4,10 +4,8 @@ import '../network/api/api_constants.dart';
 
 //! Note: Use connected socket instance from OrderProvider
 class SocketService {
-  // late IO.Socket _socket;
   IO.Socket? _socket;
 
-  // IO.Socket get socket => _socket;
   IO.Socket get socket {
     if (_socket == null) {
       connectToSocket();

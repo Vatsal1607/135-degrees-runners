@@ -118,16 +118,6 @@ class CustomAppbarWithCenterTitle extends StatelessWidget
                                   timeColor: AppColors.black,
                                 )
                               : const SizedBox(),
-                  //
-                  // child: CircularProgressWithTimer(
-                  //   bgColor: orderType != null && orderType == 'history'
-                  //       ? AppColors.green
-                  //       : AppColors.black,
-                  //   valueColor: orderType != null && orderType == 'history'
-                  //       ? AppColors.green
-                  //       : AppColors.black,
-                  //   timeColor: AppColors.black,
-                  // ),
                 ),
               ),
             ),

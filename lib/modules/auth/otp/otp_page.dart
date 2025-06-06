@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import '../../../core/app_colors.dart';
 import '../../../core/constants/strings.dart';
 import '../login/login_provider.dart';
@@ -12,16 +11,20 @@ import 'otp_provider.dart';
 import 'widgets/otp_fields.dart';
 
 class OtpPage extends StatefulWidget {
+  const OtpPage({super.key});
+
   @override
-  _OtpPageState createState() => _OtpPageState();
+  OtpPageState createState() => OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> {
+class OtpPageState extends State<OtpPage> {
   int _resendSeconds = 30;
+  late TextEditingController otpController;
 
   @override
   void initState() {
     super.initState();
+    otpController = TextEditingController();
     _startResendTimer();
   }
 
@@ -90,8 +93,11 @@ class _OtpPageState extends State<OtpPage> {
                     ],
                   ),
                   SizedBox(height: 18.h),
-                  // OTP fields
-                  OtpFields(),
+                  //* OTP fields
+                  OtpFields(
+                    otpController: otpController,
+                  ),
+
                   Consumer<OtpProvider>(
                     builder: (context, _, child) =>
                         provider.remainingSeconds == 0
@@ -154,9 +160,10 @@ class _OtpPageState extends State<OtpPage> {
                   height: 48.h,
                   isLoading: provider.isLoading,
                   onTap: () {
-                    if (provider.otpController.text.isNotEmpty) {
+                    if (otpController.text.isNotEmpty) {
                       provider.verifyOtp(
                         context: context,
+                        otpController: otpController,
                         mobile: arguments['mobile'],
                       );
                     }

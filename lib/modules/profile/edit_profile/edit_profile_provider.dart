@@ -26,7 +26,6 @@ class EditProfileProvider extends ChangeNotifier {
       final res = await apiService.getUserDetails(
         userId: sharedPrefsService.getString(SharedPrefsKeys.userId) ?? '',
       );
-      log('getUserDetails: ${res.data}');
       if (res.success == true) {
         final data = res.data;
         userNameController.text = data?.username ?? '';

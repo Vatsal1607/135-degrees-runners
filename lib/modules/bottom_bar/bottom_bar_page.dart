@@ -22,7 +22,6 @@ class BottomBarPage extends StatelessWidget {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: provider.myPage,
-        // onPageChanged: provider.onPageChanged,
         onPageChanged: (index) {
           provider.onPageChanged(index, context);
         },

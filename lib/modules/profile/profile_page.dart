@@ -163,38 +163,38 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  Consumer<ProfileProvider>(
-                    builder: (context, _, child) => ProfileTile(
-                      // * Consider tile Index 1
-                      onTap: () {
-                        provider.updateTileIndex(1);
-                        // Navigator.pushNamed(context, Routes.aboutUs);
-                      },
-                      isSelected: provider.selectedTileIndex == 1,
-                      title: 'Earnings',
-                      icon: IconStrings.earnings,
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  Consumer<ProfileProvider>(
-                    builder: (context, _, child) => ProfileTile(
-                      // * Consider tile Index 2
-                      onTap: () {
-                        provider.updateTileIndex(2);
-                        // Navigator.pushNamed(context, Routes.aboutUs);
-                      },
-                      isSelected: provider.selectedTileIndex == 2,
-                      title: 'Report',
-                      icon: IconStrings.report,
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
+                  // Consumer<ProfileProvider>(
+                  //   builder: (context, _, child) => ProfileTile(
+                  //     // * Consider tile Index 1
+                  //     onTap: () {
+                  //       provider.updateTileIndex(1);
+                  //       // Navigator.pushNamed(context, Routes.aboutUs);
+                  //     },
+                  //     isSelected: provider.selectedTileIndex == 1,
+                  //     title: 'Earnings',
+                  //     icon: IconStrings.earnings,
+                  //   ),
+                  // ),
+                  // SizedBox(height: 20.h),
+                  // Consumer<ProfileProvider>(
+                  //   builder: (context, _, child) => ProfileTile(
+                  //     // * Consider tile Index 2
+                  //     onTap: () {
+                  //       provider.updateTileIndex(2);
+                  //       // Navigator.pushNamed(context, Routes.aboutUs);
+                  //     },
+                  //     isSelected: provider.selectedTileIndex == 2,
+                  //     title: 'Report',
+                  //     icon: IconStrings.report,
+                  //   ),
+                  // ),
+                  // SizedBox(height: 20.h),
                   Consumer<ProfileProvider>(
                     builder: (context, _, child) => ProfileTile(
                       // * Consider tile Index 3
                       onTap: () {
                         provider.updateTileIndex(3);
-                        // Navigator.pushNamed(context, Routes.aboutUs);
+                        Navigator.pushNamed(context, Routes.aboutUs);
                       },
                       isSelected: provider.selectedTileIndex == 3,
                       title: 'About Us',

@@ -12,14 +12,11 @@ InputBorder? kTextfieldBorderStyle = OutlineInputBorder(
 
 List<BoxShadow>? kDropShadow = [
   const BoxShadow(
-    color: Color(0x40000000), // #00000040 in ARGB format
+    color: Color(0x40000000),
     blurRadius: 4.0,
-    offset: Offset(0, 4), // x: 0, y: 4
+    offset: Offset(0, 4),
   ),
 ];
-
-// * Note: order details type
-// enum OrderType { orders, accepted, history }
 
 Color getColorOrderDetails({
   required String orderType,

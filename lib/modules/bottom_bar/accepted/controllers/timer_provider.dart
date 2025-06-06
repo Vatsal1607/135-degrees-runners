@@ -43,7 +43,6 @@ class TimerProvider extends ChangeNotifier {
         if (!timerModel.isCountingUp) {
           if (timerModel.remainingSeconds > 0) {
             timerModel.remainingSeconds--;
-            // debugPrint("Notify UI: ${timerModel.remainingSeconds}");
           } else {
             timerModel.isCountingUp = true;
             timerModel.remainingSeconds = 600; // Reset to count-up
@@ -51,31 +50,12 @@ class TimerProvider extends ChangeNotifier {
         } else {
           timerModel.remainingSeconds++;
         }
-        // debugPrint("Notify UI: ${timerModel.remainingSeconds}");
         notifyListeners();
       });
       notifyListeners(); // Notify listeners about the initial change
     }
   }
 
-  // void startPickedUpTimer(int index) {
-  //   final timerModel = getPickedUpTimer(index);
-  //   Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     if (!timerModel.isCountingUp) {
-  //       if (timerModel.remainingSeconds > 0) {
-  //         timerModel.remainingSeconds--;
-  //       } else {
-  //         timerModel.isCountingUp = true;
-  //         timerModel.remainingSeconds = 600; // Reset to count-up
-  //       }
-  //     } else {
-  //       timerModel.remainingSeconds++;
-  //     }
-  //     notifyListeners();
-  //   });
-  // }
-
-  // int deliveryRemainingSeconds = 900; //* 15 minutes in seconds
   final Map<int, TimerModel> deliveryTimers = {};
 
   TimerModel getDeliveryTimer(int index) {
@@ -85,8 +65,6 @@ class TimerProvider extends ChangeNotifier {
     }
     return deliveryTimers[index]!;
   }
-
-  // final List<TimerModel> _timers = [];
 
   //* Start Delivery Timer
   void startDeliveryTimer(int index) {
@@ -110,33 +88,9 @@ class TimerProvider extends ChangeNotifier {
     }
   }
 
-  // void startDeliveryTimer(int index) {
-  //   final timerModel = getDeliveryTimer(index);
-  //   TimerModel timer = _timers[index];
-  //   Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     if (!timerModel.isCountingUp) {
-  //       if (timerModel.remainingSeconds > 0) {
-  //         timerModel.remainingSeconds--;
-  //       } else {
-  //         timerModel.isCountingUp = true;
-  //         timerModel.remainingSeconds = 900; // Reset to count-up
-  //       }
-  //     } else {
-  //       timerModel.remainingSeconds++;
-  //     }
-  //     notifyListeners();
-  //   });
-  // }
-
   String formatTime(int seconds) {
     final int minutes = seconds ~/ 60;
     final int secs = seconds % 60;
     return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
   }
-
-  // @override
-  // void dispose() {
-  //   _timer?.cancel();
-  //   super.dispose();
-  // }
 }

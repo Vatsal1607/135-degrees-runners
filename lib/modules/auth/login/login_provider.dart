@@ -32,8 +32,6 @@ class LoginProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    // phoneController.clear();
-    // phoneController.dispose();
     mobilenumberFocusNode.dispose();
     super.dispose();
   }
@@ -100,7 +98,6 @@ class LoginProvider extends ChangeNotifier {
       log("Error during User login Response: $error");
 
       if (error is DioException) {
-        // Parse API error response
         final apiError = ApiGlobalModel.fromJson(error.response?.data ?? {});
         customSnackBar(
           context: context,
@@ -108,7 +105,6 @@ class LoginProvider extends ChangeNotifier {
           backgroundColor: AppColors.primaryColor,
         );
       } else {
-        // Handle unexpected errors
         customSnackBar(
           context: context,
           message: 'An unexpected error occurred',
@@ -116,7 +112,6 @@ class LoginProvider extends ChangeNotifier {
         );
       }
     } finally {
-      // Ensure loading state is reset
       _isLoading = false;
       notifyListeners();
     }
@@ -135,14 +130,10 @@ class LoginProvider extends ChangeNotifier {
         'contact': int.parse('91$mobile'),
         'role': '4',
       };
-      debugPrint('--Request body OTP: $body');
-      // Make the API call
       final ApiGlobalModel response = await apiService.sendOtp(
         body: body,
       );
-      log('send OTP Response: $response');
       if (response.success == true) {
-        log('Success: sendotp: ${response.message.toString()}');
         if (isNavigateToOtpPage) {
           Navigator.pushNamed(context, Routes.otp, arguments: {
             'mobile': phoneController.text,
@@ -152,8 +143,6 @@ class LoginProvider extends ChangeNotifier {
         debugPrint('User sendotp Message: ${response.message}');
       }
     } catch (error) {
-      log("Error during sendotp Response: $error");
-
       if (error is DioException) {
         // Parse API error response
         final apiError = ApiGlobalModel.fromJson(error.response?.data ?? {});
@@ -163,7 +152,6 @@ class LoginProvider extends ChangeNotifier {
           backgroundColor: AppColors.primaryColor,
         );
       } else {
-        // Handle unexpected errors
         customSnackBar(
           context: context,
           message: 'An unexpected error occurred',
@@ -171,7 +159,6 @@ class LoginProvider extends ChangeNotifier {
         );
       }
     } finally {
-      // Ensure loading state is reset
       _isLoading = false;
       notifyListeners();
     }

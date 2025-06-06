@@ -39,7 +39,6 @@ class RegisterPage extends StatelessWidget {
               child: Form(
                 key: provider.formKey,
                 child: SingleChildScrollView(
-                  // physics: const ClampingScrollPhysics(),
                   child: Padding(
                     padding: EdgeInsets.only(top: 30.h),
                     child: Column(
@@ -68,7 +67,6 @@ class RegisterPage extends StatelessWidget {
                           controller: provider.lastNameController,
                         ),
                         SizedBox(height: 20.h),
-                        // SizedBox(height: 20.h),
                         Consumer<RegisterProvider>(
                           builder: (context, _, child) => CustomTextField(
                             hint: 'Enter Mobile Number',
@@ -103,7 +101,6 @@ class RegisterPage extends StatelessWidget {
               child: Consumer<RegisterProvider>(
                 builder: (context, rProvider, child) => CustomButton(
                   height: 48.h,
-                  // isLoading: rProvider.isLoading,
                   onTap: () {},
                   bgColor: AppColors.black,
                   text: 'submit',

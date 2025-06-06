@@ -1,5 +1,4 @@
 import 'package:degrees_runners/modules/auth/otp/otp_provider.dart';
-import 'package:degrees_runners/modules/order_delivered/order_delivered_page.dart';
 import 'package:degrees_runners/modules/profile/profile_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +60,6 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             scaffoldBackgroundColor: AppColors.seaShell,
           ),
-          // home: const OrderDeliveredPage(),
           initialRoute: Routes.initial,
           routes: Routes.routes,
         ),

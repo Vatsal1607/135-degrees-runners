@@ -13,8 +13,6 @@ void cashPayBottomSheeet({
     context: context,
     backgroundColor: AppColors.seaShell,
     builder: (context) {
-      // final authEmpProvider =
-      //     Provider.of<AuthorizedEmpProvider>(context, listen: false);
       return Stack(
         clipBehavior: Clip.none, // Allow visible outside the bounds
         children: [
@@ -49,8 +47,8 @@ void cashPayBottomSheeet({
                   ),
                   SizedBox(height: 30.h),
 
-                  /// Slidable button
-                  CustomSlidableButton(),
+                  //* Slidable button
+                  const CustomSlidableButton(),
                   SizedBox(height: 40.h),
                 ],
               ),
@@ -65,7 +63,6 @@ void cashPayBottomSheeet({
               child: GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
-                  debugPrint('Close pressed');
                 },
                 child: Container(
                   height: 30.h,

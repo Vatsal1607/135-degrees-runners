@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../core/app_colors.dart';
 import '../../../core/constants/constants.dart';
 
@@ -27,7 +26,6 @@ class ItemDetailsValue extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              // color: Colors.amber,
               padding: EdgeInsets.only(right: 10.w),
               child: Text(
                 items,
@@ -63,7 +61,7 @@ class ItemDetailsValue extends StatelessWidget {
             ),
           ),
         ),
-        // Perks Column: Align Right
+        //* Perks Column: Align Right
         Expanded(
           flex: 1,
           child: Align(

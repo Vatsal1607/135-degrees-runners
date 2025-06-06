@@ -13,11 +13,8 @@ void paymentMethodBottomSheeet({
 }) {
   showModalBottomSheet(
     context: context,
-    // barrierColor: Colors.transparent,
     backgroundColor: AppColors.seaShell,
     builder: (context) {
-      // final authEmpProvider =
-      //     Provider.of<AuthorizedEmpProvider>(context, listen: false);
       return Stack(
         clipBehavior: Clip.none, // Allow visible outside the bounds
         children: [
@@ -57,7 +54,6 @@ void paymentMethodBottomSheeet({
                   CustomButtonWithArrow(
                     isMargin: false,
                     onTap: () {
-                      debugPrint('pay via upi pressed');
                       Navigator.pop(context);
                       upiPayBottomSheeet(context: context);
                     },
@@ -86,7 +82,6 @@ void paymentMethodBottomSheeet({
               child: GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
-                  debugPrint('Close pressed');
                 },
                 child: Container(
                   height: 30.h,

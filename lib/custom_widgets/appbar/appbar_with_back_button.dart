@@ -17,7 +17,7 @@ class AppBarWithBackButton extends StatelessWidget
       leading: GestureDetector(
         onTap: onBackPressed ?? () => Navigator.pop(context),
         child: Icon(
-          Icons.arrow_back, // Replace with your SvgIcon widget
+          Icons.arrow_back,
           color: Colors.black,
           size: 25.w,
         ),

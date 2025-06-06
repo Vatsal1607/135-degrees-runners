@@ -8,7 +8,6 @@ class SharedPreferencesService {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  // Save data
   Future<void> setString(String key, String value) async {
     await _prefs?.setString(key, value);
   }
@@ -21,7 +20,6 @@ class SharedPreferencesService {
     await _prefs?.setBool(key, value);
   }
 
-  // Retrieve data
   String? getString(String key) => _prefs?.getString(key);
   int? getInt(String key) => _prefs?.getInt(key);
   bool? getBool(String key) => _prefs?.getBool(key);
@@ -31,7 +29,7 @@ class SharedPreferencesService {
     await _prefs?.remove(key);
   }
 
-  // Clear all data // Todo call clear local data method on logout
+  // Clear all data
   Future<void> clear() async {
     await _prefs?.clear();
   }

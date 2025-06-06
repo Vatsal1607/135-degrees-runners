@@ -48,7 +48,6 @@ class ProductWidget extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        // height: 55.h,
                         height: 58.h,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -82,7 +81,6 @@ class ProductWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                // SizedBox(height: 8.h),
               ],
             ),
           ),

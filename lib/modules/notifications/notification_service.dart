@@ -46,13 +46,11 @@ class NotificationService {
           sharedPrefsService.setString(SharedPrefsKeys.fcmToken, newToken);
           debugPrint("FCM Token refreshed: $newToken");
         });
-
         initLocalNotifications();
 
         // * Handle foreground notifications
         FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-          log("Foreground NOTIFICATION RECEIVED: ${message.notification?.title}");
-          // Handle foreground notification (e.g., show an in-app alert)
+          // log("Foreground NOTIFICATION RECEIVED: ${message.notification?.title}");
           showNotification(
             id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
             title: message.notification?.title ?? 'No Title',
@@ -74,7 +72,6 @@ class NotificationService {
   // * Background message handler
   static Future<void> backgroundMessageHandler(RemoteMessage message) async {
     log("Background NOTIFICATION RECEIVED: ${message.notification?.title}");
-    // Handle background notification (e.g., store data locally)
   }
 
   static Future<void> initLocalNotifications() async {

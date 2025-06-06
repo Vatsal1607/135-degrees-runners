@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:degrees_runners/modules/bottom_bar/orders/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,14 +20,6 @@ class AcceptedOrderPage extends StatefulWidget {
 
 class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!mounted) {
-      Provider.of<AcceptedOrderProvider>(context, listen: false).dispose();
-    }
-  }
-
-  @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final orderProvider = Provider.of<OrderProvider>(context, listen: false);
@@ -45,14 +35,12 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final orderProvider = Provider.of<OrderProvider>(context, listen: false);
     final acceptedProvider =
         Provider.of<AcceptedOrderProvider>(context, listen: false);
     // ! Emit & listen AcceptedOrderList
     // acceptedProvider.emitAndListenAcceptedOrderList(
     //   socketService: orderProvider.socketService,
     // );
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -85,14 +73,14 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                             String timerType = 'infinity'; // Default timer type
 
                             if (acceptedOrder!.pickupStartTime != null &&
-                                acceptedOrder!.deliveryStartTime == null) {
+                                acceptedOrder.deliveryStartTime == null) {
                               timerModel =
-                                  timerProvider?.getPickedUpTimer(index);
+                                  timerProvider.getPickedUpTimer(index);
                               timerType = 'picked_up';
-                            } else if (acceptedOrder!.deliveryStartTime !=
+                            } else if (acceptedOrder.deliveryStartTime !=
                                 null) {
                               timerModel =
-                                  timerProvider?.getDeliveryTimer(index);
+                                  timerProvider.getDeliveryTimer(index);
                               timerType = 'delivery';
                             }
 
@@ -101,12 +89,12 @@ class _AcceptedOrderPageState extends State<AcceptedOrderPage> {
                               Routes.orderDetails,
                               arguments: {
                                 'orderType': 'accepted',
-                                'orderId': acceptedOrder?.orderId ?? '',
+                                'orderId': acceptedOrder.orderId,
                                 'acceptedOrder': acceptedOrder,
                                 'timerType':
                                     timerType, // Pass which timer to show
                                 'time': timerModel != null
-                                    ? timerProvider!
+                                    ? timerProvider
                                         .formatTime(timerModel.remainingSeconds)
                                     : '00:00',
                                 'progress': timerModel?.progress ?? 0.0,
